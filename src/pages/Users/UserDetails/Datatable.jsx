@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import { GridToolbar } from '@mui/x-data-grid';
 import axios from "axios";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 
 const Datatable = () => {
 
@@ -108,7 +110,7 @@ const userColumns = [
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-          <img className="cellImg" src={params.row.avatar} alt="avatar" style={{width:'50px'}} />
+          <img className="cellImg" src={params.row.avatar} alt="avatar" style={{width:'40px',objectFit:'cover',borderRadius:'50%'}} />
           </div>
         );
       },
@@ -142,7 +144,7 @@ const userColumns = [
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
-            {params.row.status}
+           {params.row.status ? <span style={{color:'green'}}>{<ToggleOnIcon/>}</span> : <span style={{color:'red'}}>{<ToggleOffIcon/>}</span>}
           </div>
         );
       },

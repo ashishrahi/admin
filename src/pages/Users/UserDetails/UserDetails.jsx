@@ -6,24 +6,23 @@ import Table from '../../../Components/Table/Table'
 import {Stack,Box} from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useState,useEffect } from 'react'
-import axios from 'axios'
+import api from '../../../fetchApi/fetchApi'
 
 const UserDetails = () => {
 
-  const [user,setUser]=useState('')
+  const [user,setUser]=useState({})
   const {id} = useParams()
   console.log(id)
   console.log(user)
 
 
   useEffect(() => {
-    fetchUser();
-  })
+    fetchUser(id);
+  },[])
     const fetchUser = async (id) => {
-    const response = await axios.get(`http://localhost:5100/api/users/${id}`);
-    const data = await response.json();
-    setUser(data);
-    console.log(data);
+    const response = await api.get(`http://localhost:5100/api/users/${id}`);
+    setUser(response.data);
+    console.log(response);
   }
 
   return (
@@ -33,10 +32,10 @@ const UserDetails = () => {
         <Navbar/>
           <Box className="top"> 
           <Box className="left">
-           <Link to={`/${id} /update`}> <Box className="editButton">Edit</Box></Link>
+           <Link to={`/${id}`}> <Box className="editButton">Edit</Box></Link>
             <h1 className="title">Information</h1>
             <Box className="item">
-              <img  alt="" className='itemImg'    />
+              <img  src={user.avatar}   className='itemImg'/>
               <Box className="details">
                 <h1 className='itemTitle'>{user.username}</h1>
                 <Box className="detailItem">
@@ -46,6 +45,14 @@ const UserDetails = () => {
                 <Box className="detailItem">
                   <span className='itemKey'>Phone:</span>
                   <span className='itemValue'>{user.phone}</span>
+                </Box>
+                <Box className="detailItem">
+                  <span className='itemKey'>City:</span>
+                  <span className='itemValue'>{user.city}</span>
+                </Box>
+                <Box className="detailItem">
+                  <span className='itemKey'>Country:</span>
+                  <span className='itemValue'>{user.country}</span>
                 </Box>
                 </Box>
             </Box>

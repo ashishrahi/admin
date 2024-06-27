@@ -1,4 +1,4 @@
-import '../CategoryDetails/list.scss'
+import './list.scss'
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
@@ -77,21 +77,29 @@ const Datatable = () => {
   const userColumns = [
     { field: "key", headerName: "Serial No.", width: 180 },
     {
-      field: "categoryname",
-      headerName: "Category Name",
+      field: "subscriptionname",
+      headerName: "Subscription Name",
       width: 180,
       valueGetter:(params)=>{
-        return params.row.status? params.row.categoryname:'';
+        return params.row.status? params.row.subscriptionname:'';
       }
     },
     {
-      field: "categoryimage",
-      headerName: "Category Image",
+      field: "username",
+      headerName: "User Name",
+      width: 180,
+      valueGetter:(params)=>{
+        return params.row.status? params.row.subscriptionname:'';
+      }
+    },
+    {
+      field: "subscriptionimage",
+      headerName: "Subscription Image",
       width: 180,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-          <img className="cellImg" src={params.row.categoryimage} alt="avatar" style={{width:'40px',objectFit:'cover',borderRadius:'50%'}} />
+          <img className="cellImg" src={params.row.subscriptionimage} alt="avatar" style={{width:'80px',borderRadius:'50%'}} />
           </div>
         );
       },

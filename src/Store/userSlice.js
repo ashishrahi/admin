@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../fetchApi/fetchApi';
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  user: localStorage.getItem('user'),
   isAuthenticated: localStorage.getItem('token') ? true : false,
   status: 'idle',
   error: null,
@@ -14,13 +14,17 @@ const initialState = {
 
 export const signupUser = createAsyncThunk(
   'user/signupUser',
-  async ({data,file}, { rejectWithValue }) => {
+  async (formData, { rejectWithValue }) => {
     try {
-      console.log(data)
-      console.log(file)
-      const response = await api.post(`/users/signup`, data,file);
+     console.log(formData);
+      const response = await api.post(`/users/signup`,formData,{
+        headers: {
+          'Content-Type':'multipart/form-data'
+        }
+      });
 
-      // Handle successful signup:
+      window.location.replace('/users')
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

@@ -9,17 +9,36 @@ import { addsubCategories } from '../../../Store/subcategorySlice';
 import { useSelector } from 'react-redux';
 import { fetchCategories } from '../../../Store/categorySlice';
 import {Autocomplete} from '@mui/material';
+import Camera from '../../../Components/assets/camera.jpg'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'; 
+import { styled } from '@mui/material/styles';
+
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 
 const NewSubcategory = () => {
 
 const dispatch = useDispatch()
-const[subcategoryname,setSubcategoryname] = useState('')
-const[categoryname,setCategoryname] = useState('')
+const[file,setFile]=useState(null)
+const[subcategoryname,setSubcategoryname] = useState({})
+const[categoryname,setCategoryname] = useState({})
 const options = useSelector(state=>state.categories.categories.map(category=>category.categoryname))
 
 console.log(options)
 console.log(categoryname)
 console.log(subcategoryname);
+
 
 useEffect(() => {
 dispatch(fetchCategories())
@@ -27,8 +46,12 @@ dispatch(fetchCategories())
 
 const handleSubmit = async(e) => {
    e.preventDefault();
-   
-   dispatch(addsubCategories({categoryname,subcategoryname}));
+   const formData = new FormData()
+   formData.append('file',file)
+   formData.append('subcategoryname',subcategoryname)
+   formData.append('categoryname',categoryname)
+   console.log(formData)
+   dispatch(addsubCategories(formData))
   };
 
   return (
@@ -49,9 +72,23 @@ const handleSubmit = async(e) => {
             }}
             renderInput={(params)=><TextField{...params} label='Category Name'/>}
             />
+             <div >
+            <img src={file ? URL.createObjectURL(file):{Camera}} alt="" style={{width:'100px',height:'100px', borderRadius:'50%',objectFit:'cover'}} />
+           </div>
+           <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<CloudUploadIcon />}
+          sx={{backgroundColor:'teal'}}
+    >
+      Upload file
+      <VisuallyHiddenInput type="file" onChange={(e)=>setFile(e.target.files[0])} />
+    </Button>
          
-            <TextField
-            label="NewCategory"
+              <TextField
+              label="New Sub Category"
               variant="outlined"
               sx={{width:'200px'}}
               onChange={(e)=>setSubcategoryname(e.target.value)}
@@ -68,6 +105,7 @@ const handleSubmit = async(e) => {
           </Button>
           </div>
         </form>
+       
         </Box>
       </div>
     </div>

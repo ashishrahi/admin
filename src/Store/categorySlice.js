@@ -9,9 +9,10 @@ const initialState = {
 console.log(initialState.categories)
 
 // Added Categories
-export const addedCategories = createAsyncThunk('categories/addedcategories',async(categoryname)=>{
+export const addedCategories = createAsyncThunk('categories/addedcategories',async(formData)=>{
     try {
-        const response = await api.post(`/category/`,{categoryname})
+        console.log(formData);
+        const response = await api.post(`/category/`,formData)
         console.log(response.data);
       window.location.replace('/category')
         

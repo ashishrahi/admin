@@ -13,6 +13,7 @@ import { useState,useEffect } from 'react';
 import TitleIcon from '@mui/icons-material/Title';
 import { useParams } from 'react-router-dom';
 import QuizIcon from '@mui/icons-material/Quiz';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 
 const Sidebar = () => {
@@ -86,6 +87,10 @@ const Sidebar = () => {
         <ListItem sx={{gap:'10px'}} button component={Link} to="/quiz">
         <QuizIcon/>
           <ListItemText primary="Quiz" />
+        </ListItem>
+        <ListItem sx={{gap:'10px'}} button component={Link} to="/subscription">
+        <LoyaltyIcon/>
+          <ListItemText primary="Subscription" />
         </ListItem>
 
         {subjectSubcategory.map((subject, index) => (

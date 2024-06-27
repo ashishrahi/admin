@@ -36,12 +36,15 @@ const value = e.target.value;
 setData({...data,[id]:value})
 }
 
+const formData = new FormData();
+formData.append('data',JSON.stringify(data))
+formData.append('file',file)
 
 const handleAdd = (e)=>{
 e.preventDefault();
-dispatch(signupUser({data,file}))
-
+dispatch(signupUser(formData));
 }
+
   return (
     <div className='new' style={{display:'flex'}}>
       <Sidebar/>

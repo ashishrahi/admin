@@ -70,7 +70,7 @@ const userColumns = [
   {
     field: "categoryname",
     headerName: "Category Name",
-    width: 280,
+    width: 180,
   },
   {
     field: "subcategoryname",
@@ -81,6 +81,18 @@ const userColumns = [
     field: "subjectname",
     headerName: "Subject Name",
     width: 180,
+  },
+  {
+    field: "subjectimage",
+    headerName: "Subject Image",
+    width: 180,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+        <img className="cellImg" src={params.row.avatar} alt="avatar" style={{width:'40px',borderRadius:'50%'}} />
+        </div>
+      );
+    },
   },
   {
     field: "status",
@@ -108,6 +120,7 @@ const userColumns = [
     categoryname:list.categoryname,
     subcategoryname:list.subcategoryname,
     subjectname:list.subjectname,
+    subjectimage:list.subjectimage,
     status:list.status,
     }
   })

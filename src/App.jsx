@@ -25,6 +25,9 @@ import UpdateSubject from './pages/Subject/UpdateSubject/Update'
 import SubjectQuiz from './pages/SubjectQuiz/SubjectQuiz'
 import AddQuiz from './pages/SubjectQuiz/AddQuiz'
 
+import Subscription from './pages/Subscription/SubscriptionDetails/Subscription'
+import NewSubscription from './pages/Subscription/NewSubscription/NewSubscription'
+
 import { useSelector } from "react-redux"
 import './App.css'
 
@@ -83,6 +86,13 @@ const App = () => {
           <Route path=":id" element={<UpdateSubject/>} />
           <Route path=":id/status" element={<UpdateCategory/>}/>
           <Route path="new" element={<AddQuiz />} />
+          </Route>
+          
+          {/* Subscription Router */}
+          <Route path="subscription">
+          <Route index element={isAuthenticated?<Subscription/>:<Login/>} />
+          
+          <Route path="new" element={<NewSubscription />} />
           </Route>
         
         

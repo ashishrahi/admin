@@ -6,9 +6,10 @@ const initialState = {
     error:null,
 }
 //Add Subcategory
-export const addsubCategories = createAsyncThunk('subcategories/addsubcategories',async({subcategoryname,categoryname})=>{
+export const addsubCategories = createAsyncThunk('subcategories/addsubcategories',async(formData)=>{
 try {
-      const response = await api.post(`/subcategory`,{subcategoryname,categoryname})
+    console.log(formData)
+      const response = await api.post(`/subcategory`,formData)
       console.log(response.data)
       window.location.replace('/subcategory')
       return response.data;
@@ -73,7 +74,7 @@ const subcategorySlice = createSlice({
     extraReducers:(builder)=>{
         builder
         .addCase(addsubCategories.fulfilled,(state,action)=>{
-          return state.subcategories.push(action.payload);
+          state.subcategories.push(action.payload);
             })
         .addCase(fetchsubCategories.pending,(state)=>{
             state.status ='loading';
@@ -81,6 +82,7 @@ const subcategorySlice = createSlice({
         .addCase(fetchsubCategories.fulfilled,(state,action)=>{
             state.status ='succeeded';
             state.subcategories = action.payload;
+            console.log(action.payload)
         })
         .addCase(fetchsubCategories.rejected,(state,action)=>{
             state.status ='failed';
