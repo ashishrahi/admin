@@ -6,7 +6,7 @@ import Table from '../../../Components/Table/Table'
 import {Stack,Box} from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useState,useEffect } from 'react'
-import api from '../../../fetchApi/fetchApi'
+import api from '../../../fetchApi/Api'
 
 const UserDetails = () => {
 

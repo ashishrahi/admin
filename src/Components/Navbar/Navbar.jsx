@@ -16,14 +16,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {logoutAdmin} from '../../Store/authSlice';
-import {toggleThemeMode } from '../../Store/themeSlice';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
-  const themeMode = useSelector(state => state.theme.mode);
   const admin = useSelector((state)=>state)
   console.log(admin)
   console.log(admin)
@@ -44,9 +41,7 @@ const Navbar = () => {
   };
 //Theme 
 
-const handleTheme = () => {
-dispatch(toggleThemeMode ())
-}
+
 const handleFullScreen =()=>{
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen().catch((err) => {
@@ -71,10 +66,8 @@ return (
     <Box className="item">
     <Tooltip title='Language'><LanguageIcon className='icon'/> English</Tooltip></Box>
     <Box className="item">
-      <Button onClick={handleTheme}>
-    {themeMode==='light'?
-    'dark'
-    :'light'}
+      <Button >
+  
     </Button>
     </Box>
     <Box className="item">

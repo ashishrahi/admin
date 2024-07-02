@@ -2,7 +2,6 @@ import { Stack,Box, TextField,Button, Typography, Paper, Modal } from "@mui/mate
 import { useState } from "react";
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 import { useDispatch } from "react-redux";
-import {resetPassword} from "../../../Store/userSlice";
 import { useParams } from "react-router-dom";
 const Register = () => {
 const {token}= useParams();

@@ -1,8 +1,6 @@
 import { Stack,Box, TextField,Button, Typography, Paper, Modal } from "@mui/material"
 import { useState} from "react";
 import FoodBankIcon from '@mui/icons-material/FoodBank';
-import { useDispatch} from "react-redux";
-import { forgetPassword } from "../../../Store/userSlice";
 
 const Login = () => {
 
