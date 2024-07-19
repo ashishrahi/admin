@@ -10,6 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
+import {useVenderMutation} from '../../../Services/fetchApi/fetchVender/mutationVender.api'
 
 import {
   GridRowModes,
@@ -19,53 +20,11 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import {
-  randomCreatedDate,
-  randomTraderName,
   randomId,
-  randomArrayItem,
 } from '@mui/x-data-grid-generator';
-import { red } from '@mui/material/colors';
 
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => randomArrayItem(roles);
 
-const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
+
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -89,7 +48,8 @@ function EditToolbar(props) {
 }
 
 export default function FullFeaturedCrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
+  const{data}= useVenderMutation()
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
@@ -99,10 +59,13 @@ export default function FullFeaturedCrudGrid() {
 
   React.useEffect(() => {
     // Simulate a data fetch
+    if(data){
+      setRows(data)
+    }
     setTimeout(() => {
       setInitialLoading(false);
     }, 2000);
-  }, []);
+  }, [data]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -159,16 +122,10 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 180, editable: true, color:red},
     { field: 'name', headerName: 'Name', width: 180, editable: true },
-    { field: 'email', headerName: 'Email', width: 180, editable: true },
-    { field: 'phone', headerName: 'Phone', width: 180, editable: true },
-    { field: 'address', headerName: 'Address', width: 180, editable: true },
-
-
-
-
-
+    { field: 'email', headerName: 'Email', width: 180, editable: true},
+    { field: 'phone', headerName: 'Phone', width: 180, editable: true},
+    { field: 'address', headerName: 'Address', width: 180, editable: true},
     { field: 'status', headerName: 'Status', width: 180, editable: true },
     {
       field: 'actions',
@@ -246,6 +203,7 @@ export default function FullFeaturedCrudGrid() {
                 marginRight:'10px',
                 top: '50%',
                 left: '50%',
+                width:'97%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: 1,
               }}
@@ -255,6 +213,7 @@ export default function FullFeaturedCrudGrid() {
           )}
           <DataGrid
             rows={rows}
+            getRowId={(row) => row._id}
             columns={columns}
             editMode="row"
             rowModesModel={rowModesModel}

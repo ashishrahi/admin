@@ -1,4 +1,3 @@
-import './single.scss'
 import Sidebar from '../../../Components/Sidebar/Sidebar'
 import Navbar from '../../../Components/Navbar/Navbar'
 import Chart from '../../../Components/Chart/Chart'

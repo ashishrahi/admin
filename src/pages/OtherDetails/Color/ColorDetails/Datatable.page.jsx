@@ -3,11 +3,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import { useColors,useAddColors } from '../../../../fetchApi/fetchVariantDetails/fetchColor.api';
-
+import { useColor, useAddColor,useDeleteColor,useStatusColor } from '../../../../Services/fetchApi/fetchVariantDetails/mutationColor.api';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Chip, Container } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import {
   GridRowModes,
   DataGrid,
@@ -15,103 +16,45 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-} from '@mui/x-data-grid-generator';
-
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => {
-  return randomArrayItem(roles);
-};
 
 const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
+  
 ];
 
-function EditToolbar(props) {
-
-const { setRows, setRowModesModel } = props;
-
-const{addColor}=useAddColors()
+function EditToolbar({ setRows, setRowModesModel }) {
   const handleClick = () => {
-    const id = randomId();
-    addColor({color: ''}) //add color here to your backend API
-    setRows((oldRows) => [...oldRows, { id,name: '',age: '',isNew: true }]);
+    const newId = new Date().getTime().toString();
+    setRows((oldRows) => [...oldRows, { id: newId, color: '', isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+      [newId]: { mode: GridRowModes.Edit, fieldToFocus: 'color' },
     }));
   };
 
   return (
     <GridToolbarContainer>
-      <Button variant='outlined' color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+      <Link to='/Color/new'>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Color
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
 
-  export default function FullFeaturedCrudGrid() {
-    const {data, error, isLoading } = useColors();
-  console.log(data);
-  
-  const initialData = data.map((item)=>{
-  return{
-    id: item._id,
-    color: item.color,
-    
-  }
-})
-
-  const [rows, setRows] = React.useState(initialData);
+export default function FullFeaturedCrudGrid() {
+  const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
-  
+  const { data } = useColor();
+  const addColorMutation = useAddColor();
+  const deleteColorMutation = useDeleteColor();
+  const statusColorMutation = useStatusColor();
 
-if(isLoading){
-  return <p>Loading...</p>
-}
-
-  if(error){
-    return <p>Error</p>
-  }
+  useEffect(() => {
+    if (data) {
+      setRows(data.map(row => ({ id: row._id, color: row.color })));
+    }
+  }, [data]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -123,13 +66,37 @@ if(isLoading){
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
-  const handleSaveClick = (id) => () => {
+  const handleSaveClick = (id) => async () => {
+    const rowToSave = rows.find((row) => row.id === id);
+
+    if (!rowToSave.color) {
+      console.error("Color is empty or undefined.");
+      return;
+    }
+
+    if (rowToSave.isNew) {
+      try {
+        const newColor = await addColorMutation.mutateAsync({ color: rowToSave.color });
+        setRows((prevRows) =>
+          prevRows.map((row) =>
+            row.id === id ? { ...row, isNew: false, id: newColor._id } : row
+          )
+        );
+      } catch (error) {
+        console.error("Failed to save color:", error);
+      }
+    } else {
+      const updatedRow = { ...rowToSave, isNew: false };
+      setRows(rows.map((row) => (row.id === id ? updatedRow : row)));
+    }
+
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  // const handleDeleteClick = (id) => () => {
-  //   setRows(rows.filter((row) => row.id !== id));
-  // };
+  const handleDeleteClick = (id) => () => {
+    deleteColorMutation.mutateAsync(id)
+    setRows(rows.filter((row) => row.id !== id));
+  };
 
   const handleCancelClick = (id) => () => {
     setRowModesModel({
@@ -153,93 +120,99 @@ if(isLoading){
     setRowModesModel(newRowModesModel);
   };
 
+  const handleCellEditCommit = (params) => {
+    const updatedRow = { ...rows.find(row => row.id === params.id), color: params.value };
+    setRows((prevRows) => prevRows.map(row => (row.id === params.id ? updatedRow : row)));
+  };
+
+//--------------- Toggle Status
+const handleStatusToggle = async (id) => {
+  console.log(id)
+  try {
+    const row = rows.find((row) => row._id === id);
+    console.log(row)
+    const updatedStatus = !row.status;
+    statusColorMutation.mutateAsync(id)
+     setRows((prevRows) =>
+      prevRows.map((row) =>
+        row._id === id ? { ...row, status: updatedStatus } : row
+      )
+    );
+  } catch (error) {
+    console.error('Error updating status', error);
+  }
+};
+
   const columns = [
-    { field: 'id', headerName: 'ID', width: 180 },
-    { field: 'color', headerName: 'Color', width: 180, editable: true },
-    { field: 'status', headerName: 'Status', width: 180, editable: true },
+    {
+      field: 'color',
+      headerName: 'Color',
+      width: 180,
+     
+    },
+    { field: 'status', headerName: 'Status', width: 180,
+      renderCell: (params) => {
+        return (
+          <Box className={`cellWithStatus ${params.row.status}`}>
+           
+            {params.row.status ? (
+        <Chip
+          value={params.value}
+          icon={<CheckCircleIcon style={{ color: 'green' }} />}
+          label="Active"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
 
-   
+        />
+      ) :  <Chip
+           value={params.value}
+          icon={<CancelIcon style={{ color: 'red' }} />}
+          label="inActive"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
 
+          />}
+          </Box>
+        );
+      },
+    },
 
-
-
-    // {
-    //   field: 'age',
-    //   headerName: 'Age',
-    //   type: 'number',
-    //   width: 80,
-    //   align: 'left',
-    //   headerAlign: 'left',
-    //   editable: true,
-    // },
-    // {
-    //   field: 'joinDate',
-    //   headerName: 'Join date',
-    //   type: 'date',
-    //   width: 180,
-    //   editable: true,
-    // },
-    // {
-    //   field: 'role',
-    //   headerName: 'Department',
-    //   width: 220,
-    //   editable: true,
-    //   type: 'singleSelect',
-    //   valueOptions: ['Market', 'Finance', 'Development'],
-    // },
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
       width: 100,
       cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
+      getActions: ({ id, row }) => {
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          <Link to={`/Color/${row.id}`} key={`edit-${id}`}>
+            <GridActionsCellItem
+              icon={<EditIcon />}
+              label="Edit"
+              className="textPrimary"
+              onClick={(event) => event.stopPropagation()} // Stop propagation to prevent row click
+              color="inherit"
+            />
+          </Link>,
+          // <GridActionsCellItem
+          //   icon={<DeleteIcon />}
+          //   label="Delete"
+          //   onClick={() => handleDeleteClick(id)}
+          //   color="inherit"
+          //   key={`delete-${id}`}
+          // />,
         ];
       },
     },
   ];
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
-        width: '100%',
+        marginLeft:'20px',
+        marginTop:'20px',
+        width: '97%',
         '& .actions': {
           color: 'text.secondary',
         },
@@ -251,18 +224,20 @@ if(isLoading){
       <DataGrid
         rows={rows}
         columns={columns}
+        getRowId={(row) => row.id}
         editMode="row"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
+        onCellEditCommit={handleCellEditCommit}
         processRowUpdate={processRowUpdate}
-        slots={{
-          toolbar: EditToolbar,
+        components={{
+          Toolbar: EditToolbar,
         }}
-        slotProps={{
+        componentsProps={{
           toolbar: { setRows, setRowModesModel },
         }}
       />
-    </Box>
+    </Container>
   );
 }

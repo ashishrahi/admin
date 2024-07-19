@@ -1,8 +1,8 @@
-import '../Widgets/Widgets.scss'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { Box } from '@mui/material';
 const Widgets = ({type}) => {
  let data;
 
@@ -12,7 +12,7 @@ switch (type) {
             title:'users',
             isMoney:false,
             link:'see all users',
-            icon:<PersonOutlineIcon className='icon' sx={{color:'crimson',backgroundColor:'rbga(255,0,0,0.2)'}}/>
+            icon:<PersonOutlineIcon className='icon' sx={{fontSize:'10px',color:'crimson',}}/>
         };
         break;
         case 'order':
@@ -47,21 +47,39 @@ switch (type) {
 
 
   return (
-    <div className="widget">
-        <div className="left">
-            <span className='title'>{data.title}</span>
-            <span className="counter">{data.isMoney && '$'}</span>
-            <span className="link">{data.link}</span>
-         </div>
-        <div className="right">
-            <div className='percentage positive'>
-            <KeyboardArrowDownIcon/>
+    <Box className="widget" sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        flex: 1,
+        p: 2,
+        boxShadow: '2px 4px 10px 1px rgba(201,201,201,0.47)',
+        borderRadius: 2,
+        height: 100,
+      }}>
+        <Box className="left" sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+               }}>
+            <span className='title' style={{fontWeight:'bold',fontSize:'14px',color:'gray'}}>{data.title}</span>
+            <span className="counter" style={{fontSize:'18px',fontWeight:300}}>{data.isMoney && '$'}</span>
+            <span className="link" style={{width:'max-content',fontSize:'28px',
+                borderBottom:'1px solid gray'
+            }}>{data.link}</span>
+         </Box>
+        <Box className="right" sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+               }}>
+            <Box className='percentage positive' sx={{display:'flex',alignItems:'center',fontSize:'10px'}}>
+            <KeyboardArrowDownIcon style={{padding:'5px',backgroundColor:'rgba(128,0,128,0.541)',borderRadius:'5px'}}/>
                 20%
-                </div>
+                </Box>
                 {data.icon}
-        </div>
+        </Box>
 
-    </div>
+    </Box>
   )
 }
 

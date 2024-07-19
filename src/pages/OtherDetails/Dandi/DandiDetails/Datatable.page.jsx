@@ -5,13 +5,15 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
-import { useQuery } from '@tanstack/react-query';
-import api from '../../../../fetchApi/Api'
+import {useDandis,useStatusdandi} from '../../../../Services/fetchApi/fetchVariantDetails/mutationDandi.api'
+import { Chip, Container } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Link } from 'react-router-dom';
 
 import {
   GridRowModes,
@@ -21,61 +23,19 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import {
-  randomCreatedDate,
-  randomTraderName,
   randomId,
-  randomArrayItem,
 } from '@mui/x-data-grid-generator';
-import { red } from '@mui/material/colors';
 
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => randomArrayItem(roles);
 
-const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
 
-function EditToolbar(props) 
-{
+
+
+function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+    setRows((oldRows) => [...oldRows, { id, dandi: '',isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
@@ -84,45 +44,36 @@ function EditToolbar(props)
 
   return (
     <GridToolbarContainer>
+      <Link to='/Dandi/new'>
+      
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Dandi
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
 
-
-  //fetch Dandi
-  const fetchDandi = async()=>{
-    try{
-      const response = await api.get(`/dandis`)
-      console.log(response.data)
-      return response.data
-    }catch(error){
-      throw new Error('Failed to fetch dandi')
-    }
-  }
-
-export default function FullFeaturedCrudGrid() 
-{
-const{data,isLoading,error}= useQuery('dandi',fetchDandi)
-console.log(data)
-
-
+export default function FullFeaturedCrudGrid() {
+  const {data} = useDandis();
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
   const [initialLoading, setInitialLoading] = React.useState(true);
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(0);
-
+  const {mutateAsync:statusMutation} = useStatusdandi();
 
   React.useEffect(() => {
     // Simulate a data fetch
+    if(data){
+      setRows(data);
+    }
     setTimeout(() => {
       setInitialLoading(false);
     }, 2000);
-  }, []);
+  }, [data]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -178,10 +129,59 @@ console.log(data)
     setSnackbar({ ...snackbar, open: false });
   };
 
+//--------------- Toggle Status
+const handleStatusToggle = async (id) => {
+  console.log(id)
+  try {
+    const row = rows.find((row) => row._id === id);
+    console.log(row)
+    const updatedStatus = !row.status;
+    statusMutation(id)
+     setRows((prevRows) =>
+      prevRows.map((row) =>
+        row._id === id ? { ...row, status: updatedStatus } : row
+      )
+    );
+  } catch (error) {
+    console.error('Error updating status', error);
+  }
+};
+
+
+
+
   const columns = [
-    { field: 'id', headerName: 'ID', width: 180, editable: true, color:red},
-    { field: 'dandi', headerName: 'Dandi', width: 180, editable: true },
-    { field: 'status', headerName: 'Status', width: 180, editable: true },
+    { field: 'dandi', headerName: 'Dandi', width: 180,
+      valueGetter:(params)=>{
+        return params.row.dandi ? params.row.dandi:'';
+      }
+     },
+    { field: 'status', headerName: 'Status', width: 180,
+      renderCell: (params) => {
+        return (
+          <Box className={`cellWithStatus ${params.row.status}`}>
+           
+            {params.row.status ? (
+        <Chip
+          value={params.value}
+          icon={<CheckCircleIcon style={{ color: 'green' }} />}
+          label="Active"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
+
+        />
+      ) :  <Chip
+           value={params.value}
+          icon={<CancelIcon style={{ color: 'red' }} />}
+          label="inActive"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
+
+          />}
+          </Box>
+        );
+      },
+    },
     {
       field: 'actions',
       type: 'actions',
@@ -193,56 +193,40 @@ console.log(data)
 
         if (isInEditMode) {
           return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
+            // <GridActionsCellItem
+            //   icon={<SaveIcon />}
+            //   label="Save"
+            //   sx={{
+            //     color: 'primary.main',
+            //   }}
+            //   onClick={handleSaveClick(id)}
+            // />,
+            // <GridActionsCellItem
+            //   icon={<CancelIcon />}
+            //   label="Cancel"
+            //   className="textPrimary"
+            //   onClick={handleCancelClick(id)}
+            //   color="inherit"
+            // />,
           ];
         }
-
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          return [
+            <Link to={`/Dandi/${id}`}>
+              <EditIcon />
+          </Link>,
+          // <GridActionsCellItem
+          //   icon={<DeleteIcon />}
+          //   label="Delete"
+          //   onClick={handleDeleteClick(id)}
+          //   color="inherit"
+          // />,
         ];
       },
     },
   ];
 
-const rows = data.map((item) =>{
-  return {
-    id:item._id,
-    color:item.dandi,
-    status:item.status,
-  }
-})
-
-
-
-
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
@@ -269,6 +253,7 @@ const rows = data.map((item) =>{
                 marginRight:'10px',
                 top: '50%',
                 left: '50%',
+                width:'97%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: 1,
               }}
@@ -280,6 +265,7 @@ const rows = data.map((item) =>{
             rows={rows}
             columns={columns}
             editMode="row"
+            getRowId={(row) => row._id }
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
@@ -308,6 +294,6 @@ const rows = data.map((item) =>{
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );
 }

@@ -1,16 +1,18 @@
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import Navbar from '../../../../Components/Navbar/Navbar'
-import './list.scss'
 import Datatable from './Datatable.page'
+import { Box } from '@mui/material'
+import Gaugesizecrumb from './gaugesizebreadcrubs.page'
 const GaugeSize = () => {
   return (
-    <div className='list' style={{display:'flex'}}>
+    <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <div className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer" sx={{flex:6}}>
       <Navbar/>
+     <Box className='breadcrumb' marginLeft={3} marginTop={2}><Gaugesizecrumb/></Box> 
      <Datatable/>
-        </div>
-      </div>
+        </Box>
+      </Box>
   )
 }
 

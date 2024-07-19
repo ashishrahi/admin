@@ -1,33 +1,36 @@
-import '../Home/home.scss'
 import Sidebar from '../../Components/Sidebar/Sidebar'
 import Navbar from '../../Components/Navbar/Navbar'
 import Widgets from '../../Components/Widgets/Widgets'
 import Featured from '../../Components/Featured/Featured'
 import Chart from '../../Components/Chart/Chart'
-import Table from '../../Components/Table/Table'
+import { Box } from '@mui/material'
 const Home = () => {
   return (
-    <div className='home'>
+    <Box className='home' sx={{display:'flex'}}>
      <Sidebar/>
-    <div className="homeContainer">
+    <Box className="homeContainer" sx={{flex:7}}>
      <Navbar/>
-     <div className="widgets">
+     <Box className="widgets" sx={{display:'flex',padding:'20px',gap:'20px'}}>
      <Widgets type="user"/>
 
      <Widgets type='order'/>
      <Widgets type='earning'/>
      <Widgets type='balance'/>
-     </div>
-     <div className="charts">
+     </Box>
+     <Box className="charts" sx={{display:'flex',padding:'20px 5px'}}>
       <Featured/>
-      <Chart title='Last 6 Months (Revenue)' aspect={2/1} />
-     </div>
-     <div className='listContainer'>
-      <div className='listTitle'>Latest Transactions  </div>
-     <Table/>
-     </div>
-     </div>
-      </div>
+      <Chart title='Last 6 Months (Revenue)' aspect={2/1}  />
+     </Box>
+     <Box className='listContainer' sx={{
+    boxShadow: '2px 4px 10px 1px rgba(201,201,201,0.47)',
+    padding: '20px',
+    margin: '20px',
+  }}>
+      <Box className='listTitle' sx={{font:' weight 500',
+  color:'gray','margin-bottom':'15px'}}>Latest Transactions </Box>
+     </Box>
+     </Box>
+      </Box>
   )
 }
 

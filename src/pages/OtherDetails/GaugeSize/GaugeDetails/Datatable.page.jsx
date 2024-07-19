@@ -5,12 +5,15 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
-
+import {useGaugesize,useStatusGaugesize} from '../../../../Services/fetchApi/fetchVariantDetails/mutationGaugesize.api'
+import { Chip, Container } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Link } from 'react-router-dom';
 import {
   GridRowModes,
   DataGrid,
@@ -19,53 +22,10 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import {
-  randomCreatedDate,
-  randomTraderName,
   randomId,
-  randomArrayItem,
 } from '@mui/x-data-grid-generator';
-import { red } from '@mui/material/colors';
 
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => randomArrayItem(roles);
 
-const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -81,28 +41,35 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
+      <Link to='/GaugeSize/new'>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Gaugesize
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
 
 export default function FullFeaturedCrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
+  const{data} = useGaugesize()
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
   const [initialLoading, setInitialLoading] = React.useState(true);
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(0);
+  const {mutateAsync:mutationStatus}=useStatusGaugesize();
 
   React.useEffect(() => {
     // Simulate a data fetch
+    if(data){
+      setRows(data);
+    }
     setTimeout(() => {
       setInitialLoading(false);
     }, 2000);
-  }, []);
+  }, [data]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -158,10 +125,64 @@ export default function FullFeaturedCrudGrid() {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  //--------------- Toggle Status
+  const handleStatusToggle = async (id) => {
+   console.log(id)
+   try {
+     const row = rows.find((row) => row._id === id);
+     console.log(row)
+     const updatedStatus = !row.status;
+     mutationStatus(id)
+      setRows((prevRows) =>
+       prevRows.map((row) =>
+         row._id === id ? { ...row, status: updatedStatus } : row
+       )
+     );
+   } catch (error) {
+     console.error('Error updating status', error);
+   }
+ };
+
+
+
+
+
+
+
+
+
   const columns = [
-    { field: 'id', headerName: 'ID', width: 180, editable: true, color:red},
-    { field: 'gaugesize', headerName: 'Gaugesize', width: 180, editable: true },
-    { field: 'status', headerName: 'Status', width: 180, editable: true },
+    { field: 'gaugesize', headerName: 'Gaugesize', width: 180, editable: true,
+      valueGetter:(params)=>{
+        return params.row.gaugesize ? params.row.gaugesize:'';
+      }
+     },
+    { field: 'status', headerName: 'Status', width: 180,
+      renderCell: (params) => {
+        return (
+          <Box className={`cellWithStatus ${params.row.status}`}>
+           
+            {params.row.status ? (
+        <Chip
+          value={params.value}
+          icon={<CheckCircleIcon style={{ color: 'green' }} />}
+          label="Active"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
+
+        />
+      ) :  <Chip
+           value={params.value}
+          icon={<CancelIcon style={{ color: 'green' }} />}
+          label="inActive"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
+
+          />}
+          </Box>
+        );
+      },
+     },
     {
       field: 'actions',
       type: 'actions',
@@ -173,51 +194,52 @@ export default function FullFeaturedCrudGrid() {
 
         if (isInEditMode) {
           return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
+            // <GridActionsCellItem
+            //   icon={<SaveIcon />}
+            //   label="Save"
+            //   sx={{
+            //     color: 'primary.main',
+            //   }}
+            //   onClick={handleSaveClick(id)}
+            // />,
+            // <GridActionsCellItem
+            //   icon={<CancelIcon />}
+            //   label="Cancel"
+            //   className="textPrimary"
+            //   onClick={handleCancelClick(id)}
+            //   color="inherit"
+            // />,
           ];
         }
 
         return [
+          <Link to={`/GaugeSize/${id}`}>
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
             color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          /></Link>,
+          // <GridActionsCellItem
+          //   icon={<DeleteIcon />}
+          //   label="Delete"
+          //   onClick={handleDeleteClick(id)}
+          //   color="inherit"
+          // />,
         ];
       },
     },
   ];
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
         marginRight:'40px',
         marginTop:'20px',
-        width: '600%',
+        width: '97%',
         position: 'relative',
         '& .actions': {
           color: 'text.secondary',
@@ -238,6 +260,7 @@ export default function FullFeaturedCrudGrid() {
                 marginRight:'10px',
                 top: '50%',
                 left: '50%',
+                width:'97%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: 1,
               }}
@@ -249,6 +272,7 @@ export default function FullFeaturedCrudGrid() {
             rows={rows}
             columns={columns}
             editMode="row"
+            getRowId={(row) => row._id}
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
@@ -277,6 +301,6 @@ export default function FullFeaturedCrudGrid() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );
 }

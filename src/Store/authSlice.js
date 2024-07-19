@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../fetchApi/Api';
+import api from '../utilities/Api'
 const initialState = {
   admin: JSON.parse(localStorage.getItem('admin')) || null,
   isAuthenticated: localStorage.getItem('token') ? true : false,

@@ -1,74 +1,85 @@
 import Home from "./pages/Home/Home"
 import {BrowserRouter,Routes,Route} from "react-router-dom"
+import { Box } from "@mui/material"
 
 import Register from './pages/Auth/Register/Register'
 import Login from './pages/Auth/Login/Login'
 
-// Users
+//-------------------Users
 import Users from './pages/Users/UserDetails/Users'
-import UserDetails from './pages/Users/UserDetails/UserDetails'
-import NewUser from './pages/Users/NewUser/NewUser'
-import {userInputs,karigarInputs,colorInputs,genderInputs,parityInputs,gaugeSizeInputs,
-  dandiInputs,kundaInputs,sizeInputs,
-  weightInputs,
+import ActiveUser from "./pages/Users/ActiveUser/ActiveUser.page"
+import InactiveUser from "./pages/Users/InActiveUser/InactiveUser.page"
 
-} from './formSource'
-import ForgetPassword from './pages/Users/ForgetPassword/forgetpassword'
-import ResetPassword from './pages/Users/ResetPassword/resetpassword'
+//-------------------Category
+import Category from './pages/Category/CategoryDetails/Category.page'
+import ActiveCategory from './pages/Category/ActiveCategory/ActiveCategory.page'
+import InActiveCategory from './pages/Category/InactiveCategory/InactiveCategory.page'
 
-//Gender
+
+
+//-------------------Gender
 import Gender from './pages/OtherDetails/Gender/GenderDetails/Gender.page'
-import UpdateGender from './pages/OtherDetails/Gender/UpdateGender/UpdateGender.page'
-import NewGender from './pages/OtherDetails/Gender/NewGender/NewGender.page'
+import NewGender from './pages/OtherDetails/Gender/newGender/newGender.page'
+import UpdateGender from './pages/OtherDetails/Gender/updateGender/updateGender.page'
 
-//Parity
-import Parity from './pages/OtherDetails/Parity/ParityDetails/Parity.page'
-import UpdateParity from './pages/OtherDetails/Parity/UpdateParity/UpdateParity.page'
-import NewParity from './pages/OtherDetails/Parity/NewParity/NewParity.page'
 
-//Color
+//---------------------Parity
+import Purity from './pages/OtherDetails/Parity/ParityDetails/Purity.page'
+import NewPurity from './pages/OtherDetails/Parity/newPurity/newPurity.page'
+import UpdatePurity from './pages/OtherDetails/Parity/updatePurity/updatePurity.page'
+
+//----------------------Color
 import Color from './pages/OtherDetails/Color/ColorDetails/Color.page'
-import UpdateColor from './pages/OtherDetails/Color/UpdateColor/UpdateColor.page'
-import NewColor from './pages/OtherDetails/Color/NewColor/NewColor.page'
+import NewColor from './pages/OtherDetails/Color/addColor/newcolor.page'
+import UpdateColor from './pages/OtherDetails/Color/updateColor/updateColor.page'
 
-//Dandi
+//----------------------Dandi
 import Dandi from './pages/OtherDetails/Dandi/DandiDetails/Dandi.page'
-import UpdateDandi from './pages/OtherDetails/Dandi/UpdateDandi/UpdateDandi.page'
-import NewDandi from './pages/OtherDetails/Dandi/NewDandi/NewDandi.page'
+import NewDandi from './pages/OtherDetails/Dandi/newDandi/newDandi.page'
+import UpdateDandi from './pages/OtherDetails/Dandi/updateDandi/updateDandi.page'
 
-//Kunda
+//----------------------Kunda
 import Kunda from './pages/OtherDetails/Kunda/KundaDetails/Kunda.page'
-import UpdateKunda from './pages/OtherDetails/Kunda/UpdateKunda/UpdateKunda.page'
-import NewKunda from './pages/OtherDetails/Kunda/NewKunda/NewKunda.page'
+import NewKunda from './pages/OtherDetails/Kunda/newKunda/newKunda.page'
+import UpdateKunda from './pages/OtherDetails/Kunda/updateKunda/updateKunda.page'
 
-//Size
+//----------------------Size
 import Size from './pages/OtherDetails/Size/SizeDetails/Size.page'
-import UpdateSize from './pages/OtherDetails/Size/UpdateSize/UpdateSize.page'
-import NewSize from './pages/OtherDetails/Size/NewSize/NewSize.page'
+import NewSize from './pages/OtherDetails/Size/newSize/newSize.page'
+import UpdateSize from './pages/OtherDetails/Size/updateSize/updateSize.page'
 
-//Gauge Size
+//---------------------Gauge Size
 import GaugeSize from './pages/OtherDetails/GaugeSize/GaugeDetails/GaugeSize.page'
-import UpdateGaugeSize from './pages/OtherDetails/GaugeSize/UpdateGaugeSize/UpdateGaugeSize.page'
-import NewGaugeSize from './pages/OtherDetails/GaugeSize/GaugeSize/NewGaugeSize.page'
+import NewGaugeSize from './pages/OtherDetails/GaugeSize/newGauge/newGaugeSize.page'
+import UpdateGaugeSize from './pages/OtherDetails/GaugeSize/updateGauge/updateGaugeSize.page'
 
-//Weight
+//-----------------------Weight
 import Weight from './pages/OtherDetails/Weight/WeightDetails/Weight.page'
-import UpdateWeight from './pages/OtherDetails/Weight/UpdateWeight/UpdateWeight.page'
-import NewWeight from './pages/OtherDetails/Weight/NewWeight/NewWeight.page'
+import NewWeight from './pages/OtherDetails/Weight/newWeight/newWeight.page'
+import UpdateWeight from './pages/OtherDetails/Weight/updateWeight/updateWeight.page'
 
-//Description
-import Description from './pages/OtherDetails/Description/DescriptionDetails/Description.page'
-import UpdateDescription from './pages/OtherDetails/Description/UpdateDescription/UpdateDescription.page'
-import NewDescription from './pages/OtherDetails/Description/NewDescription/NewDescription.page'
+//----------------------Description
 
-//Karigar
+//-------------------------Karigar
 import Karigar from './pages/Karigar/KarigarDetails/Karigar.page'
-import UpdateKarigar from './pages/Karigar/UpdateKarigar/UpdateKarigar.page'
-import NewKarigar from './pages/Karigar/NewKarigar/NewKarigar.page'
+import ActiveKarigar from './pages/Karigar/ActiveKarigar/ActiveKarigar.page'
+import InactiveKarigar from './pages/Karigar/InactiveKarigar/InactiveUser.page'
 
-//Vender
+//---------------------------Vender
 import Vender from './pages/Vender/VenderDetails/Vender.page'
 
+//---------------------------Order
+import Order from './pages/Orders/OrderDetails/Order.page'
+
+//---------------------------About
+ import About from './pages/About/AboutDetails/About'
+ import NewAbout from './pages/About/newAbout/newAbout.page'
+ import UpdateAbout from './pages/About/updateAbout/updateAbout.page'
+
+ //---------------------------Private Policy
+ import PrivacyPolicy from './pages/PrivacyPolicy/policyDetails/Policy.page'
+ import NewPolicy from './pages/PrivacyPolicy/newPolicy/newPolicy.page'
+ import UpdatePolicy from './pages/PrivacyPolicy/updatePolicy/updatePolicy.page'
 
 import { useSelector } from "react-redux"
 import './App.css'
@@ -78,7 +89,7 @@ const App = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   console.log(isAuthenticated)
   return (
-    <div >
+    <Box sx={{color:'silver'}}>
       <BrowserRouter>
         <Routes>
 
@@ -87,84 +98,115 @@ const App = () => {
         <Route index element={isAuthenticated?<Home/>:<Login/>}/>
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<Register/>}/>
-        <Route path="forgetpassword" element={<ForgetPassword/>} />
-        <Route path="/resetpassword/:token" element={<ResetPassword/>} />
 
-          {/* User Router */}
+          {/* User-List Router */}
           <Route path="/User-List">
           <Route index element={isAuthenticated?<Users/>:<Login/>} />
-          <Route path=":id" element={<UserDetails inputs={userInputs} title='View' />}  />
-          <Route path="new" element={<NewUser inputs={userInputs} title='Add New User'/>}/>
+          </Route>
+
+          
+          {/* Active User Router */}
+          <Route path="/Active_User">
+          <Route index element={isAuthenticated?<ActiveUser/>:<Login/>} />
           </Route>
           
-          {/* OtherDetails Router */}
+          {/* InActive User Router */}
+           
+          <Route path="/Inactive_User">
+          <Route index element={isAuthenticated?<InactiveUser/>:<Login/>} />
+          </Route>
+
+        {/* Category Router */}
+           <Route path="/Category-List">
+           <Route index element={isAuthenticated?<Category/>:<Login/>} />
+           </Route>
+
+        {/* Active Category Router */}
+           <Route path="/Active_Category">
+           <Route index element={isAuthenticated?<ActiveCategory/>:<Login/>} />
+           </Route>
+           {/* InActive Category Router */}
+           <Route path="/Inactive_Category">
+           <Route index element={isAuthenticated?<InActiveCategory/>:<Login/>} />
+           </Route>
+          
+          {/*---------- OtherDetails Router */}
+
           <Route path="/Gender">
           <Route index element={isAuthenticated?<Gender/>:<Login/>} />
-          <Route path=":id" element={<UpdateGender inputs={genderInputs} title='View' />}  />
-          <Route path="new" element={<NewGender inputs={genderInputs} title='Add New Gender'/>}/>
+          <Route path="new" element={isAuthenticated?<NewGender/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateGender/>:<Login/>}/>
+
           </Route>
 
           {/* Parity */}
-          <Route path="/Parity">
-          <Route index element={isAuthenticated?<Parity/>:<Login/>} />
-          <Route path=":id" element={<UpdateParity inputs={parityInputs} title='View' />}/>
-          <Route path="new" element={<NewParity inputs={parityInputs} title='Add New Parity'/>}/>
+          <Route path="/Purity">
+          <Route index element={isAuthenticated?<Purity/>:<Login/>} />
+          <Route path="new" element={isAuthenticated?<NewPurity/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdatePurity/>:<Login/>}/>
+
           </Route>
 
           {/* Color */}
           <Route path="/Color">
           <Route index element={isAuthenticated?<Color/>:<Login/>}/>
-          <Route path=":id" element={<UpdateColor inputs={colorInputs} title='View' />}/>
-          <Route path="new" element={<NewColor inputs={colorInputs} title='Add New Color'/>}/>
+          <Route path="new" element={isAuthenticated?<NewColor/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateColor/>:<Login/>}/>
+
+
           </Route>
 
           {/* Dandi */}
+         
           <Route path="/Dandi">
           <Route index element={isAuthenticated?<Dandi/>:<Login/>} />
-          <Route path=":id" element={<UpdateDandi inputs={dandiInputs} title='View' />}/>
-          <Route path="new" element={<NewDandi inputs={dandiInputs} title='Add New Dandi'/>}/>
-          </Route>
+          <Route path="new" element={isAuthenticated?<NewDandi/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateDandi/>:<Login/>}/>
+         </Route>
 
           {/* Kunda */}
           <Route path="/Kunda">
           <Route index element={isAuthenticated?<Kunda/>:<Login/>} />
-          <Route path=":id" element={<UpdateKunda inputs={kundaInputs} title='View' />}/>
-          <Route path="new" element={<NewKunda inputs={kundaInputs} title='Add New Kunda'/>}/>
+          <Route path="new" element={isAuthenticated?<NewKunda/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateKunda/>:<Login/>}/>
           </Route>
 
            {/* Size */}
            <Route path="/Size">
-          <Route index element={isAuthenticated?<Size/>:<Login/>} />
-          <Route path=":id" element={<UpdateSize inputs={sizeInputs} title='View' />}/>
-          <Route path="new" element={<NewSize inputs={sizeInputs} title='Add New Kunda'/>}/>
+          <Route index element={isAuthenticated?<Size/>:<Login/>}/>
+          <Route path="new" element={isAuthenticated?<NewSize/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateSize/>:<Login/>}/>
           </Route>
 
           {/* GaugeSize */}
           <Route path="/GaugeSize">
           <Route index element={isAuthenticated?<GaugeSize/>:<Login/>} />
-          <Route path=":id" element={<UpdateGaugeSize inputs={gaugeSizeInputs} title='View' />}/>
-          <Route path="new" element={<NewGaugeSize inputs={gaugeSizeInputs} title='Add New GaugeSize'/>}/>
+          <Route path="new" element={isAuthenticated?<NewGaugeSize/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateGaugeSize/>:<Login/>}/>
           </Route>
 
           {/* Weight */}
           <Route path="/Weight">
-          <Route index element={isAuthenticated?<Weight/>:<Login/>} />
-          <Route path=":id" element={<UpdateWeight inputs={userInputs} title='View' />}/>
-          <Route path="new" element={<NewWeight inputs={weightInputs} title='Add New Weight'/>}/>
+          <Route index element={isAuthenticated?<Weight/>:<Login/>}/>
+          <Route path="new" element={isAuthenticated?<NewWeight/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateWeight/>:<Login/>}/>
           </Route>
 
-          {/* Description */}
-          <Route path="/Description">
-          <Route index element={isAuthenticated?<Description/>:<Login/>} />
-          <Route path=":id" element={<UpdateDescription inputs={userInputs} title='View' />}/>
-          <Route path="new" element={<NewDescription inputs={userInputs} title='Add New Description'/>}/>
-          </Route>
+        
              
               {/* Karigar */}
           <Route path="/Karigar-List">
           <Route index element={isAuthenticated?<Karigar/>:<Login/>} />
-          <Route path=":id" element={<UpdateKarigar inputs={karigarInputs} title='View' />}/>
-          <Route path="new" element={<NewKarigar inputs={karigarInputs} title='Add New Karigar-List'/>}/>
+          </Route>
+
+          {/* Active Karigar */}
+          <Route path="/Active_Karigar">
+          <Route index element={isAuthenticated?<ActiveKarigar/>:<Login/>} />
+          </Route>
+
+            {/* InActive Karigar */}
+            <Route path="/Inactive_Karigar">
+          <Route index element={isAuthenticated?<InactiveKarigar/>:<Login/>} />
           </Route>
 
           {/* Vender */}
@@ -172,25 +214,32 @@ const App = () => {
           <Route index element={isAuthenticated?<Vender/>:<Login/>} />
           </Route>
 
+           {/* Order */}
+           <Route path="/All_Order">
+           <Route index element={isAuthenticated?<Order/>:<Login/>} />
+           </Route>
+          {/* About */}
+          <Route path="/About">
+          <Route index element={isAuthenticated?<About/>:<Login/>} />
+          <Route path="new" element={isAuthenticated?<NewAbout/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateAbout/>:<Login/>}/>
+
+          </Route>
+          {/* Privacy Policy */}
+          <Route path="/Privacy-Policy">
+          <Route index element={isAuthenticated?<PrivacyPolicy/>:<Login/>} />
+          <Route path="new" element={isAuthenticated?<NewPolicy/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdatePolicy/>:<Login/>}/>
+          </Route>
+          
 
           {/* Error Page */}
           <Route path="*" element={() => <h1>Page not found</h1>} />
-           
 
-
-         
-
-          
-          
-          
-          
-         
-        
-        
         </Route>
       </Routes>
       </BrowserRouter>
-    </div>
+    </Box>
   )
 }
 

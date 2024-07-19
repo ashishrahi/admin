@@ -1,137 +1,203 @@
-import { Drawer, List, ListItem, ListItemText, Collapse, ListSubheader, Divider } from '@mui/material';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
+  ListSubheader,
+  Divider,
+  Box,
+} from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import SubjectIcon from '@mui/icons-material/Subject';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import GridViewIcon from '@mui/icons-material/GridView';
-import DiamondIcon from '@mui/icons-material/Diamond';
-import axios from 'axios';
-import { useState,useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
-import GroupIcon from '@mui/icons-material/Group';
-import PeopleIcon from '@mui/icons-material/People';
-import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import LocalMallIcon from '@mui/icons-material/LocalMall';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import PersonIcon from '@mui/icons-material/Person';
-
-
+import { useState } from 'react';
+import {
+  Description as DescriptionIcon ,
+  AdminPanelSettings as AdminPanelSettingsIcon,
+  People as PeopleIcon,
+  ArrowRightOutlined as ArrowRightOutlinedIcon,
+  CategoryOutlined as CategoryOutlinedIcon,
+  LocalMall as LocalMallIcon,
+  Engineering as EngineeringIcon,
+  Person as PersonIcon,
+  Details as DetailsIcon,
+  Policy as PolicyIcon,
+  AdminPanelSettingsOutlined as AdminPanelSettingsOutlinedIcon,
+  InfoOutlined as InfoOutlinedIcon,
+} from '@mui/icons-material';
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
-  const [subjectSubcategory,setSubjectSubcategory] = useState([])
+  const [open, setOpen] = useState({});
 
-  const handleToggle = () => {
-    setOpen(!open);
-  };
-  console.log(subjectSubcategory.subcategoryId)
-  const {id} = useParams()
-  console.log(id)
-
-  useEffect(()=>{
-    axios.get('http://localhost:5100/api/subject/${id}/subjectwithsubcategory').then(res=>{
-      setSubjectSubcategory(res.data)
-      console.log(res.data)
-    }).catch(err=>{
-      console.log(err)
-    })
-  },[])
-
-   const handleClick = (category) => {
-    setOpen(prevOpen => ({
+  const handleClick = (category) => {
+    setOpen((prevOpen) => ({
       ...prevOpen,
-      [category]: !prevOpen[category]
+      [category]: !prevOpen[category],
     }));
   };
 
+  const iconColor = 'red';
+  const sidebarCategories = [
+    {
+      category: 'Admin',
+      items: [
+        {
+          subcategoryname: 'Admin',
+          subjectnames: ['admin'],
+          icon: <AdminPanelSettingsIcon sx={{ color: iconColor }} />,
+        },
+      ],
+    },
+    {
+      category: 'Users',
+      items: [
+        {
+          subcategoryname: 'Users',
+          subjectnames: ['User List', 'Active_User', 'Inactive_User'],
+          icon: <PeopleIcon sx={{ color: iconColor }} />,
+        },
+      
+      ],
+    },
 
-  const Sidebar =[{
-    subcategoryname: 'Admin',
-    subjectnames: ['admin'],
-    icon:<AdminPanelSettingsIcon/>
-    
-  },{
-    subcategoryname: 'Users',
-    subjectnames: ['User List', 'Active', 'Inactive'],
-    icon:<PeopleIcon/>
-  },
-  {
-    subcategoryname: 'Vender',
-    subjectnames: ['Vender List', 'Active', 'Inactive'],
-    icon:<PersonIcon/>
-  },
-  {
-    subcategoryname: 'Karigar',
-    subjectnames: ['Karigar List', 'Active', 'Inactive'],
-    icon:<EngineeringIcon/>
-  },
-  {
-    subcategoryname: 'Category',
-    subjectnames: ['All', 'Active', 'Inactive'],
-    icon:<CategoryOutlinedIcon/>
-  },
-  {
-    subcategoryname: 'Other Details',
-    subjectnames: ['Gender', 'Parity', 'Color','Dandi','Kunda','Size','GaugeSize','Weight','Description','Latkan'],
-    icon:<CategoryOutlinedIcon/>
-  },
-  {
-    subcategoryname: 'Order',
-    subjectnames: ['All', 'Pending', 'Rejected','Cancel'],
-    icon:<LocalMallIcon/>
-  }
-]
-
-
-  return (
+    {
+      category: 'Producer',
+      items: [
+        {
+          subcategoryname: 'Vendor',
+          subjectnames: ['Vendor List'],
+          icon: <PersonIcon sx={{ color: iconColor }} />,
+        },
+        {
+          subcategoryname: 'Karigar',
+          subjectnames: ['Karigar List', 'Active_Karigar', 'Inactive_Karigar'],
+          icon: <EngineeringIcon sx={{ color: iconColor }} />,
+        },
+      ],
+    },{
+      category: 'Product',
+      items: [
+        {
+          subcategoryname: 'Category',
+          subjectnames: ['Category List', 'Active_Category', 'Inactive_Category'],
+          icon: <CategoryOutlinedIcon sx={{ color: iconColor }} />,
+        },
+        {
+          subcategoryname: 'Variations',
+          subjectnames: ['Gender', 'Purity', 'Color', 'Dandi', 'Kunda', 'Size', 'GaugeSize', 'Weight', 'Latkan'],
+          icon: <DescriptionIcon sx={{ color: iconColor }} />,
+        },
+        {
+          subcategoryname: 'Products',
+          subjectnames: ['products'],
+          icon: <DetailsIcon sx={{ color: iconColor }} />,
+        },
+],
+    },
+    {
+      category: 'Purchase',
+      items: [
+        {
+          subcategoryname: 'Order',
+          subjectnames: ['All_Order'],
+          icon: <LocalMallIcon sx={{ color: iconColor }} />,
+        },],
+    },
+    {
+      category: 'Other Details',
+      items: [
+        {
+          subcategoryname: 'About',
+          subjectnames: ['About'],
+          icon: <InfoOutlinedIcon sx={{ color: iconColor }} />,
+        },
+        {
+          subcategoryname: 'Privacy Policy',
+          subjectnames: ['Privacy Policy'],
+          icon: <PolicyIcon sx={{ color: iconColor }} />,
+        },
+        
+      ],
+    },
+];
+return (
     <Drawer
       variant="permanent"
       sx={{
         width: 240,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: 240,
+          width: '16%',
           boxSizing: 'border-box',
+          color: '#3C3B3F',
+          height: '92%',
         },
       }}
     >
       <List
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader" style={{gap:'10px',marginBottom:'30px',fontWeight:'bold',fontSize:'30px'}}>
-            <DiamondIcon style={{height:'50%',color:'red'}}/>
-           <span>Admin</span> 
+          <ListSubheader
+            component="div"
+            id="nested-list-subheader"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1px',
+              fontWeight: 'bold',
+              fontSize: '30px',
+            }}
+          >
+            <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+              <span>Admin</span>
+            </Link>
+            <AdminPanelSettingsOutlinedIcon
+              style={{ width: '10%', height: '100%', marginTop: '20px' }}
+            />
           </ListSubheader>
         }
-      >  
-      
-        {Sidebar.map((subject, index) => (
-          <div key={index}>
-            <ListItem button onClick={() => handleClick(subject.subcategoryname)}>
-              {subject.icon}
-              <ListItemText primary={subject.subcategoryname} />
-              {open[subject.subjectnames] ? <ExpandLess /> : <ExpandMore />}
-
-            </ListItem>
-             <Divider/>
-             <Collapse in={open[subject.subcategoryname]} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {subject.subjectnames.map((subjectname, subIndex) => (
-                  <ListItem 
-                    key={subIndex} 
-                    button 
-                    sx={{ pl: 4 }} 
-                    component={Link} 
-                    to={`/${subjectname.replace(/\s+/g, '-')}`}
-                  >
-                   <ArrowRightOutlinedIcon/> <ListItemText primary={subjectname} />
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-            {index < subjectSubcategory.length - 1 && <Divider sx={{backgroundColor:'green'}}/>}
-          </div>
+      >
+        <Divider />
+        {sidebarCategories.map((category, index) => (
+          <Box key={index} sx={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+            <ListSubheader component="div">{<span style={{fontWeight:'bold'}}>{category.category}</span>}</ListSubheader>
+            {category.items.map((subject, subIndex) => (
+              <Box key={subIndex} sx={{ display: 'flex', flexDirection: 'column', gap: '1px',fontSize:'15px'}}>
+                <ListItem
+                  sx={{ gap: '1px' }}
+                  button
+                  onClick={() => handleClick(subject.subcategoryname)}
+                  aria-controls={`${subject.subcategoryname}-list`}
+                  aria-expanded={open[subject.subcategoryname]}
+                >
+                  {subject.icon}
+                  <ListItemText primary={subject.subcategoryname} />
+                  {open[subject.subcategoryname] ? (
+                    <ExpandLess sx={{ color: iconColor }} />
+                  ) : (
+                    <ExpandMore sx={{ color: iconColor }} />
+                  )}
+                </ListItem>
+                <Divider />
+                <Collapse in={open[subject.subcategoryname]} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding id={`${subject.subcategoryname}-list`}>
+                    {subject.subjectnames.map((subjectname, subSubIndex) => (
+                      <ListItem
+                        key={subSubIndex}
+                        button
+                        sx={{ pl: 1 }}
+                        component={Link}
+                        to={`/${subjectname.replace(/\s+/g, '-')}`}
+                      >
+                        <ArrowRightOutlinedIcon style={{ color: 'green' }} />
+                        <ListItemText primary={subjectname} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+                {subIndex < category.items.length - 1 && <Divider sx={{ backgroundColor: 'green' }} />}
+              </Box>
+            ))}
+          </Box>
         ))}
       </List>
     </Drawer>

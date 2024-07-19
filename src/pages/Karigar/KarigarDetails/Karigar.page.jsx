@@ -1,17 +1,18 @@
 import Sidebar from '../../../Components/Sidebar/Sidebar'
 import Navbar from '../../../Components/Navbar/Navbar'
-import './list.scss'
 import Datatable from './Datatable.page'
-const Color = () => {
+import { Box } from '@mui/material'
+import Karigarbreadcrubs from './karigarbreadcrubs.page'
+const Karigar = () => {
   return (
-    <div className='list' style={{display:'flex'}}>
+    <Box className='list' style={{display:'flex'}}>
     <Sidebar />
-    <div className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer" style={{flex:'6'}}>
       <Navbar/>
+     <Box marginLeft={2.5} marginTop={1}> <Karigarbreadcrubs/></Box>
      <Datatable/>
-        </div>
-      </div>
-  )
-}
+        </Box>
+      </Box>
+  )}
 
-export default Color
+export default Karigar

@@ -5,12 +5,14 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
-
+import {useKarigar,useStatusMutationKarigar} from '../../../Services/fetchApi/fetchKarigar/mutationKarigar.api'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import Chip from '@mui/material/Chip';
 
 import {
   GridRowModes,
@@ -26,6 +28,7 @@ import {
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
 import { red } from '@mui/material/colors';
+import { Container } from '@mui/material';
 
 const roles = ['Market', 'Finance', 'Development'];
 const randomRole = () => randomArrayItem(roles);
@@ -90,21 +93,25 @@ function EditToolbar(props) {
 }
 
 export default function FullFeaturedCrudGrid() {
-
-  const [rows, setRows] = React.useState(initialRows);
+  const {data} = useKarigar();
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
   const [initialLoading, setInitialLoading] = React.useState(true);
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(0);
+  const{mutateAsync:mutationStatus} = useStatusMutationKarigar()
 
   React.useEffect(() => {
     // Simulate a data fetch
+    if(data){
+      setRows(data);
+    }
     setTimeout(() => {
       setInitialLoading(false);
     }, 2000);
-  }, []);
+  }, [data]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -160,18 +167,55 @@ export default function FullFeaturedCrudGrid() {
     setSnackbar({ ...snackbar, open: false });
   };
 
+
+//--------------- Toggle Status
+const handleStatusToggle = async (id) => {
+  console.log(id)
+  try {
+    const row = rows.find((row) => row._id === id);
+    console.log(row)
+    const updatedStatus = !row.status;
+    mutationStatus(id)
+     setRows((prevRows) =>
+      prevRows.map((row) =>
+        row._id === id ? { ...row, status: updatedStatus } : row
+      )
+    );
+  } catch (error) {
+    console.error('Error updating status', error);
+  }
+};
+
   const columns = [
-    { field: 'id', headerName: 'ID', width: 180, editable: true, color:red},
-    { field: 'username', headerName: 'User Name', width: 180, editable: true },
-    { field: 'email', headerName: 'Email', width: 180, editable: true },
+    { field: 'name', headerName: 'Karigar Name', width: 180, editable: true },
     { field: 'phone', headerName: 'Phone', width: 180, editable: true },
-    { field: 'address', headerName: 'Address', width: 180, editable: true },
+    { field: 'city', headerName: 'City', width: 180, editable: true },
+    { field: 'status', headerName: 'Status', width: 180,
+      renderCell: (params) => {
+        return (
+          <div className={`cellWithStatus ${params.row.status}`}>
+            {params.row.status ? (
+        <Chip
+          value={params.value}
+          icon={<CheckCircleIcon style={{ color: 'green' }} />}
+          label="Active"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
+
+        />
+      ) :  <Chip
+           value={params.value}
+          icon={<CancelIcon style={{ color: 'red' }} />}
+          label="inActive"
+          variant="outlined"
+          onClick={() => handleStatusToggle(params.row._id)}
 
 
-
-
-
-    { field: 'status', headerName: 'Status', width: 180, editable: true },
+      />}
+        </div>
+        );
+      },
+     },
     {
       field: 'actions',
       type: 'actions',
@@ -181,25 +225,25 @@ export default function FullFeaturedCrudGrid() {
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
+        // if (isInEditMode) {
+        //   return [
+        //     <GridActionsCellItem
+        //       icon={<SaveIcon />}
+        //       label="Save"
+        //       sx={{
+        //         color: 'primary.main',
+        //       }}
+        //       onClick={handleSaveClick(id)}
+        //     />,
+        //     <GridActionsCellItem
+        //       icon={<CancelIcon />}
+        //       label="Cancel"
+        //       className="textPrimary"
+        //       onClick={handleCancelClick(id)}
+        //       color="inherit"
+        //     />,
+        //   ];
+        // }
 
         return [
           <GridActionsCellItem
@@ -209,25 +253,25 @@ export default function FullFeaturedCrudGrid() {
             onClick={handleEditClick(id)}
             color="inherit"
           />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          // <GridActionsCellItem
+          //   icon={<DeleteIcon />}
+          //   label="Delete"
+          //   onClick={handleDeleteClick(id)}
+          //   color="inherit"
+          // />,
         ];
       },
     },
   ];
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
         marginRight:'40px',
         marginTop:'20px',
-        width: '600%',
+        width: '97%',
         position: 'relative',
         '& .actions': {
           color: 'text.secondary',
@@ -259,6 +303,7 @@ export default function FullFeaturedCrudGrid() {
             rows={rows}
             columns={columns}
             editMode="row"
+            getRowId={(row) => row._id}
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
@@ -287,6 +332,6 @@ export default function FullFeaturedCrudGrid() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );
 }
