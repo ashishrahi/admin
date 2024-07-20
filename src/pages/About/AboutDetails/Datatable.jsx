@@ -10,7 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
-import { Chip } from '@mui/material';
+import { Chip, Container } from '@mui/material';
 import {useAbout} from '../../../Services/fetchApi/fetchAbout/mutationAbout.api'
 
 import {
@@ -27,6 +27,7 @@ import {
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
 import { red } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
 
 const roles = ['Market', 'Finance', 'Development'];
 const randomRole = () => randomArrayItem(roles);
@@ -92,9 +93,11 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Create About Page
+      <Link to={`/About/new`}>
+      <Button color="primary" startIcon={<AddIcon />} >
+         About
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
@@ -190,19 +193,19 @@ export default function FullFeaturedCrudGrid() {
   const columns = [
     { field: 'title', headerName: 'Title', width: 180, editable: true,},
     { field: 'description', headerName: 'Description', width: 180, editable: true,},
-    { field: 'status', headerName: 'Status', width: 180,
-      renderCell: (params) => (
-        <Chip
-          label={params.value}
-          sx={{
-            backgroundColor: params.value === 'Active' ? 'green' : 'red',
-            color: 'white',
-            cursor: 'pointer',
-          }}
-          onClick={() => handleStatusToggle(params.id)}
-        />
-      ),
-     },
+    // { field: 'status', headerName: 'Status', width: 180,
+    //   renderCell: (params) => (
+    //     <Chip
+    //       label={params.value}
+    //       sx={{
+    //         backgroundColor: params.value === 'Active' ? 'green' : 'red',
+    //         color: 'white',
+    //         cursor: 'pointer',
+    //       }}
+    //       onClick={() => handleStatusToggle(params.id)}
+    //     />
+    //   ),
+    //  },
     {
       field: 'actions',
       type: 'actions',
@@ -214,21 +217,21 @@ export default function FullFeaturedCrudGrid() {
 
         if (isInEditMode) {
           return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
+            // <GridActionsCellItem
+            //   icon={<SaveIcon />}
+            //   label="Save"
+            //   sx={{
+            //     color: 'primary.main',
+            //   }}
+            //   onClick={handleSaveClick(id)}
+            // />,
+            // <GridActionsCellItem
+            //   icon={<CancelIcon />}
+            //   label="Cancel"
+            //   className="textPrimary"
+            //   onClick={handleCancelClick(id)}
+            //   color="inherit"
+            // />,
           ];
         }
 
@@ -237,22 +240,21 @@ export default function FullFeaturedCrudGrid() {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={handleEditClick(id)}
             color="inherit"
           />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          // <GridActionsCellItem
+          //   icon={<DeleteIcon />}
+          //   label="Delete"
+          //   onClick={handleDeleteClick(id)}
+          //   color="inherit"
+          // />,
         ];
       },
     },
   ];
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
@@ -320,6 +322,6 @@ export default function FullFeaturedCrudGrid() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );
 }

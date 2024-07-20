@@ -2,7 +2,7 @@ import Home from "./pages/Home/Home"
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import { Box } from "@mui/material"
 
-import Register from './pages/Auth/Register/Register'
+
 import Login from './pages/Auth/Login/Login'
 
 //-------------------Users
@@ -95,9 +95,8 @@ const App = () => {
 
         {/* Auth Router */}
         <Route path="/">
-        <Route index element={isAuthenticated?<Home/>:<Login/>}/>
+        <Route path='/admin' element={isAuthenticated?<Home/>:<Login/>}/>
         <Route path="login" element={<Login/>} />
-        <Route path="register" element={<Register/>}/>
 
           {/* User-List Router */}
           <Route path="/User-List">

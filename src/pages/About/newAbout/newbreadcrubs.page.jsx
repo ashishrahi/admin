@@ -4,7 +4,7 @@ import TableViewIcon from '@mui/icons-material/TableView';
 import { Link } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-function handleClick(event) {
+  function handleClick(event) {
   event.preventDefault();
   console.info('You clicked a breadcrumb.');
 }
@@ -13,26 +13,31 @@ export default function IconBreadcrumbs() {
   return (
     <Box role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
-        
         {/* Dashboard */}
         <Link to={`/`}
-          underline="hover"
+          underline="none"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
           color="inherit"
         >
           <HomeIcon sx={{ mr: 0.5 ,color:'black'}} fontSize="inherit" />
          <span style={{color:'black'}}>Dashboard</span> 
         </Link>
-        {/* new */}
-        <Link
+        {/* About */}
+        <Link to={`/About`}
+          underline="none"
+          style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
+          color="inherit">
+          <TableViewIcon sx={{ mr: 0.5,color:'black' }} fontSize="inherit" />
+          <span style={{color:'black'}}>About</span> 
+          </Link>
+           {/* new */}
+          <Link
           underline="hover"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
-          color="inherit"
-        >
+          color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'blue'}}>Weight</span> 
-         
-        </Link>
+          <span style={{color:'black'}}>About</span> 
+          </Link>
         
       </Breadcrumbs>
     </Box>

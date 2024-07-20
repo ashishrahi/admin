@@ -24,16 +24,23 @@ export default function IconBreadcrumbs() {
          <span style={{color:'black'}}>Dashboard</span> 
         </Link>
         {/* new */}
+          <Link to={`/Privacy-Policy`}
+          underline="hover"
+          style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
+          color="inherit">
+          <TableViewIcon sx={{ mr: 0.5,color:'black' }} fontSize="inherit" />
+          <span style={{color:'black'}}>Policies</span> 
+         </Link>
+        {/* new */}
         <Link
           underline="hover"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
-          color="inherit"
-        >
+          color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'blue'}}>Weight</span> 
-         
-        </Link>
+          <span style={{color:'black'}}>Policy</span> 
+         </Link>
         
+
       </Breadcrumbs>
     </Box>
   );

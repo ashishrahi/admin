@@ -187,9 +187,9 @@ const handleStatusToggle = async (id) => {
 };
 
   const columns = [
-    { field: 'name', headerName: 'Karigar Name', width: 180, editable: true },
-    { field: 'phone', headerName: 'Phone', width: 180, editable: true },
-    { field: 'city', headerName: 'City', width: 180, editable: true },
+    { field: 'name', headerName: 'Karigar Name', width: 180, },
+    { field: 'phone', headerName: 'Phone', width: 180,  },
+    { field: 'city', headerName: 'City', width: 180,  },
     { field: 'status', headerName: 'Status', width: 180,
       renderCell: (params) => {
         return (
@@ -250,7 +250,6 @@ const handleStatusToggle = async (id) => {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={handleEditClick(id)}
             color="inherit"
           />,
           // <GridActionsCellItem
