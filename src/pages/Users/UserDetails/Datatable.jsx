@@ -11,6 +11,9 @@ import Skeleton from '@mui/material/Skeleton';
 import { Chip, Container } from '@mui/material';
 import {useUser,useUpdateMutationUserStatus} from '../../../Services/fetchApi/fetchUsers/mutationUsers.api'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Avatar from '@mui/material/Avatar';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Link } from 'react-router-dom';
 
 import {
   GridRowModes,
@@ -107,7 +110,6 @@ export default function FullFeaturedCrudGrid() {
     console.log(id)
     try {
       const row = rows.find((row) => row._id === id);
-      console.log(row)
       const updatedStatus = !row.status;
        updateUserStatus(id)
        setRows((prevRows) =>
@@ -124,14 +126,22 @@ export default function FullFeaturedCrudGrid() {
 
 
   const columns = [
+    {
+      field: 'avatar',
+      headerName: 'Avatar',
+      width: 90,
+      renderCell: (params) => (
+        <Avatar src={params.value} alt={params.row.name} />
+      ),
+    },
     { field: 'username', headerName: 'User Name', width: 180,
       valueGetter:(params)=>{
         return params.row.username ? params.row.username:'';
       }
      },
-    { field: 'email', headerName: 'Email', width: 180,  },
-    { field: 'phone', headerName: 'Phone', width: 180, },
-    { field: 'city', headerName: 'city', width: 180, },
+    { field: 'email', headerName: 'Email', width: 180,},
+    { field: 'phone', headerName: 'Phone', width: 180,},
+    { field: 'address', headerName: 'Address', width: 180, },
      { field: 'status', headerName: 'Status', width: 180,
       renderCell: (params) => {
         return (
@@ -190,15 +200,15 @@ export default function FullFeaturedCrudGrid() {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={handleEditClick(id)}
             color="inherit"
           />,
-          // <GridActionsCellItem
-          //   icon={<DeleteIcon />}
-          //   label="Delete"
-          //   onClick={handleDeleteClick(id)}
-          //   color="inherit"
-          // />,
+          <Link to={`/User-List/${id}`}>
+          <GridActionsCellItem
+            icon={<VisibilityIcon />}
+            label="view"
+            color="inherit"
+          />
+          </Link>,
         ];
       },
     },

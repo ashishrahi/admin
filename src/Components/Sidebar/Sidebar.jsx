@@ -53,7 +53,7 @@ const Sidebar = () => {
       items: [
         {
           subcategoryname: 'Users',
-          subjectnames: ['User List', 'Active_User', 'Inactive_User'],
+          subjectnames: ['User_List', 'Active_User', 'Inactive_User'],
           icon: <PeopleIcon sx={{ color: iconColor }} />,
         },
       
@@ -65,12 +65,12 @@ const Sidebar = () => {
       items: [
         {
           subcategoryname: 'Vendor',
-          subjectnames: ['Vendor List'],
+          subjectnames: ['Vendor_List'],
           icon: <PersonIcon sx={{ color: iconColor }} />,
         },
         {
           subcategoryname: 'Karigar',
-          subjectnames: ['Karigar List', 'Active_Karigar', 'Inactive_Karigar'],
+          subjectnames: ['Karigar_List', 'Active_Karigar', 'Inactive_Karigar'],
           icon: <EngineeringIcon sx={{ color: iconColor }} />,
         },
       ],
@@ -79,7 +79,7 @@ const Sidebar = () => {
       items: [
         {
           subcategoryname: 'Category',
-          subjectnames: ['Category List', 'Active_Category', 'Inactive_Category'],
+          subjectnames: ['Category List', 'Active Category', 'Inactive Category'],
           icon: <CategoryOutlinedIcon sx={{ color: iconColor }} />,
         },
         {
@@ -99,7 +99,7 @@ const Sidebar = () => {
       items: [
         {
           subcategoryname: 'Order',
-          subjectnames: ['All_Order'],
+          subjectnames: ['All Order'],
           icon: <LocalMallIcon sx={{ color: iconColor }} />,
         },],
     },

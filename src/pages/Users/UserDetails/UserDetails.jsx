@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 import api from '../../../fetchApi/Api'
 
+
 const UserDetails = () => {
 
   const [user,setUser]=useState({})
@@ -17,7 +18,7 @@ const UserDetails = () => {
 
   useEffect(() => {
     fetchUser(id);
-  },[])
+  },[id])
     const fetchUser = async (id) => {
     const response = await api.get(`http://localhost:5100/api/users/${id}`);
     setUser(response.data);

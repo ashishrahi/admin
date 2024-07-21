@@ -13,6 +13,8 @@ import {Chip} from '@mui/material/';
 import {Stack} from '@mui/material';
 import {useActiveUser} from '../../../Services/fetchApi/fetchUsers/mutationActiveUser'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Avatar from '@mui/material/Avatar';
+
 
 import {
   GridRowModes,
@@ -86,6 +88,14 @@ console.log(rows)
   };
 
   const columns = [
+     {
+      field: 'avatar',
+      headerName: 'Avatar',
+      width: 90,
+      renderCell: (params) => (
+        <Avatar src={params.value} alt={params.row.name} />
+      ),
+    },
     { field: 'username', headerName: 'User Name', width: 220,  },
     { field: 'email', headerName: 'Email', width: 220,  },
     { field: 'phone', headerName: 'Phone', width: 220,  },

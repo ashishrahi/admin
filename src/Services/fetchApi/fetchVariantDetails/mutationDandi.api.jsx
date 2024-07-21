@@ -14,18 +14,16 @@ return response.data;
     console.log('Error fetching dandis:', error);
   }};
 
-//get Dandi
-const oneDandi = async (id) => {
-  
+
+// Fetch dandi by ID
+const fetchDandiById = async (id) => {
   try {
     const response = await api.get(`/dandis/${id}`);
-return response.data;
-  } 
-  catch (error) {
-    console.log('Error fetching dandis:', error);
-  }};
-
-
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching dandi by ID:', error);
+  }
+};
  
 //add dandis
   const adddandi = async (newdandi) => {
@@ -48,9 +46,10 @@ return response.data;
     }};
 
   //update <dandis>   </dandis>
-  const updatedandi = async ({id,dandi}) => {
+  const updatedandi = async ({id,updatedandi}) => {
+    console.log(updatedandi)
     try {
-      const response = await api.put(`/dandis/${id}`,{dandi});
+      const response = await api.put(`/dandis/${id}`,{updatedandi});
       return response.data;
          } 
     catch (error) {
@@ -83,16 +82,15 @@ const statusdandi = async (id) => {
   };
 
 
-  export const useOneandis = () => {
-    const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  return useMutation(oneDandi,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('dandis');
-        navigate('/Dandi');
-      },});};
+  // Hook to get dandi by ID
 
+export const useDandiById = (id) => {
+  return useQuery(['dandi', id], () => fetchDandiById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+  
   
 // Add dandi Mutations
 

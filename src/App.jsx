@@ -9,11 +9,13 @@ import Login from './pages/Auth/Login/Login'
 import Users from './pages/Users/UserDetails/Users'
 import ActiveUser from "./pages/Users/ActiveUser/ActiveUser.page"
 import InactiveUser from "./pages/Users/InActiveUser/InactiveUser.page"
+import ViewUser from './pages/Users/View/ViewUser.page'
 
 //-------------------Category
 import Category from './pages/Category/CategoryDetails/Category.page'
 import ActiveCategory from './pages/Category/ActiveCategory/ActiveCategory.page'
 import InActiveCategory from './pages/Category/InactiveCategory/InactiveCategory.page'
+import ViewCategory from './pages/Category/View/viewCategory.page'
 
 
 
@@ -21,6 +23,12 @@ import InActiveCategory from './pages/Category/InactiveCategory/InactiveCategory
 import Gender from './pages/OtherDetails/Gender/GenderDetails/Gender.page'
 import NewGender from './pages/OtherDetails/Gender/newGender/newGender.page'
 import UpdateGender from './pages/OtherDetails/Gender/updateGender/updateGender.page'
+
+
+// ------------ Product
+ 
+
+//-------------------About
 
 
 //---------------------Parity
@@ -63,7 +71,8 @@ import UpdateWeight from './pages/OtherDetails/Weight/updateWeight/updateWeight.
 //-------------------------Karigar
 import Karigar from './pages/Karigar/KarigarDetails/Karigar.page'
 import ActiveKarigar from './pages/Karigar/ActiveKarigar/ActiveKarigar.page'
-import InactiveKarigar from './pages/Karigar/InactiveKarigar/InactiveUser.page'
+import InactiveKarigar from './pages/Karigar/InactiveKarigar/InactiveKarigar.page'
+import NewKarigar from './pages/Karigar/addKarigar/addKarigar.page'
 
 //---------------------------Vender
 import Vender from './pages/Vender/VenderDetails/Vender.page'
@@ -95,12 +104,15 @@ const App = () => {
 
         {/* Auth Router */}
         <Route path="/">
-        <Route path='/admin' element={isAuthenticated?<Home/>:<Login/>}/>
+        <Route path='admin' element={isAuthenticated?<Home/>:<Login/>}/>
         <Route path="login" element={<Login/>} />
 
           {/* User-List Router */}
           <Route path="/User-List">
           <Route index element={isAuthenticated?<Users/>:<Login/>} />
+          <Route path=":id" element={isAuthenticated?<ViewUser/>:<Login/>}/>
+
+         
           </Route>
 
           
@@ -118,7 +130,8 @@ const App = () => {
         {/* Category Router */}
            <Route path="/Category-List">
            <Route index element={isAuthenticated?<Category/>:<Login/>} />
-           </Route>
+          <Route path=":id" element={isAuthenticated?<ViewCategory/>:<Login/>}/>
+          </Route>
 
         {/* Active Category Router */}
            <Route path="/Active_Category">
@@ -194,8 +207,10 @@ const App = () => {
         
              
               {/* Karigar */}
-          <Route path="/Karigar-List">
-          <Route index element={isAuthenticated?<Karigar/>:<Login/>} />
+          <Route path="/Karigar_List">
+          <Route index element={isAuthenticated?<Karigar/>:<Login/>}/>
+          <Route path="new" element={isAuthenticated?<NewKarigar/>:<Login/>}/>
+
           </Route>
 
           {/* Active Karigar */}

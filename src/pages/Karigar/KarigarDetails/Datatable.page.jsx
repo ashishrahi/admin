@@ -13,6 +13,9 @@ import {useKarigar,useStatusMutationKarigar} from '../../../Services/fetchApi/fe
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom';
+
 
 import {
   GridRowModes,
@@ -85,9 +88,11 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
+      <Link to={`/Karigar_List/new`}>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add karigar
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
@@ -187,6 +192,14 @@ const handleStatusToggle = async (id) => {
 };
 
   const columns = [
+    {
+      field: 'avatar',
+      headerName: 'Avatar',
+      width: 90,
+      renderCell: (params) => (
+        <Avatar src={params.value} alt={params.row.name} />
+      ),
+    },
     { field: 'name', headerName: 'Karigar Name', width: 180, },
     { field: 'phone', headerName: 'Phone', width: 180,  },
     { field: 'city', headerName: 'City', width: 180,  },

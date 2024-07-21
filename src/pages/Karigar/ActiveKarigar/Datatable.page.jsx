@@ -15,6 +15,8 @@ import {Chip} from '@mui/material/';
 import {Stack} from '@mui/material';
 import {useActiveKarigar} from '../../../Services/fetchApi/fetchKarigar/mutationActiveKarigar.api'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Avatar from '@mui/material/Avatar';
+
 import {
   GridRowModes,
   DataGrid,
@@ -107,7 +109,7 @@ export default function FullFeaturedCrudGrid() {
     }
     setTimeout(() => {
       setInitialLoading(false);
-    }, 2000);
+    }, 1000);
   }, [data]);
 
   const handleRowEditStop = (params, event) => {
@@ -165,6 +167,14 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const columns = [
+    {
+      field: 'avatar',
+      headerName: 'Avatar',
+      width: 90,
+      renderCell: (params) => (
+        <Avatar src={params.value} alt={params.row.name} />
+      ),
+    },
     { field: 'name', headerName: 'Karigar Name', width: 180, },
     { field: 'phone', headerName: 'Phone', width: 180,},
     { field: 'city', headerName: 'City', width: 180,  },

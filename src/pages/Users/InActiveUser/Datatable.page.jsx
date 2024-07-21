@@ -12,6 +12,7 @@ import { Container, Typography } from '@mui/material';
 import {Chip} from '@mui/material/';
 import {Stack} from '@mui/material';
 import { useInactiveUser } from '../../../Services/fetchApi/fetchUsers/mutationInactiveUser';
+import Avatar from '@mui/material/Avatar';
 
 import {
   GridRowModes,
@@ -102,6 +103,14 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const columns = [
+    {
+      field: 'avatar',
+      headerName: 'Avatar',
+      width: 90,
+      renderCell: (params) => (
+        <Avatar src={params.value} alt={params.row.name} />
+      ),
+    },
     { field: 'username', headerName: 'User Name', width: 180,},
     { field: 'email', headerName: 'Email', width: 180, },
     { field: 'phone', headerName: 'Phone', width: 180, },

@@ -10,6 +10,15 @@ console.log(response.data)
 return response.data;
 };
  
+//--------------- Profile
+const profileUser = async (id) => {
+  const response = await api.get(`/users/${id}`);
+  console.log(response.data)
+  return response.data;
+  };
+   
+
+
 /////////////////////////////add Users////////////////////////////////
 
 
@@ -55,10 +64,31 @@ const updateUserStatus = async (id) => {
  return useQuery('users', fetchUsers);
  };
 
+// Profile
+ export const useProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation(profileUser,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('users');
+      },
+    },
+    {
+      onError:(err) => {
+        console.error('Error adding user:', err);
+        alert('Failed to add user. Please try again later.');
+      }
+    }
+    );
+ 
+};
+
+
+
+
+
  ///////////////////////// Add user Mutations ////////////////////////////////////////////////
 
- 
- 
  export const useAddUserMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(addUser,
