@@ -17,12 +17,12 @@ const Home = () => {
      <Widgets type='earning'/>
      <Widgets type='balance'/>
      </Box>
-     <Box className="charts" sx={{display:'flex',padding:'20px 5px'}}>
+     <Box className="charts" sx={{display:'flex',padding:'20px 5px',marginLeft:'20px'}}>
       <Featured/>
       <Chart title='Last 6 Months (Revenue)' aspect={2/1}  />
      </Box>
      <Box className='listContainer' sx={{
-    boxShadow: '2px 4px 10px 1px rgba(201,201,201,0.47)',
+    boxShadow: 3,
     padding: '20px',
     margin: '20px',
   }}>

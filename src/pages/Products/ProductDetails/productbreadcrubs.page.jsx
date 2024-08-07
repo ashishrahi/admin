@@ -23,12 +23,12 @@ export default function IconBreadcrumbs() {
           <HomeIcon sx={{ mr: 0.5 ,color:'black'}} fontSize="inherit" />
          <span style={{color:'black'}}>Dashboard</span> 
         </Link>
-        <Link 
+        <Link to={`/Product-List`}
           underline="none"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
         >
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'blue'}}>Category</span> 
+          <span style={{color:'blue'}}>Products</span> 
          
         </Link>
         {/* <Typography

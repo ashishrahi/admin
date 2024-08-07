@@ -28,7 +28,7 @@ export default function IconBreadcrumbs() {
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
         >
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'blue'}}>Category</span> 
+          <span style={{color:'black'}}>Categories</span> 
          
         </Link>
         {/* <Typography

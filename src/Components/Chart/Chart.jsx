@@ -1,3 +1,4 @@
+import { Card } from '@mui/material';
 import '../Chart/Chart.scss'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 const data = [
@@ -63,7 +64,7 @@ const off = gradientOffset();
 
 const Chart = ({aspect,title}) => {
   return (
-    <div className='chart'>
+    <Card className='chart' sx={{marginLeft:'10px',boxShadow:3}}>
       <div className='title'>{title}</div>
          <ResponsiveContainer width="100%" height="100%" aspect={aspect}>
         <AreaChart
@@ -90,7 +91,7 @@ const Chart = ({aspect,title}) => {
           <Area type="monotone" dataKey="uv" stroke="#000" fill="url(#splitColor)" />
         </AreaChart>
       </ResponsiveContainer>
-        </div>
+        </Card>
   )
 }
 

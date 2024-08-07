@@ -5,17 +5,23 @@ import api from '../../../utilities/Api'
 ////////////////////////////fetch Users//////////////////
 
 const fetchUsers = async () => {
-const response = await api.get(`/users`);
-console.log(response.data)
-return response.data;
-};
+  try {
+    const response = await api.get(`/users`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching users:', error);
+  }};
  
 //--------------- Profile
-const profileUser = async (id) => {
-  const response = await api.get(`/users/${id}`);
-  console.log(response.data)
-  return response.data;
-  };
+const profileId = async (id) => {
+  console.log(id)
+  try {
+    const response = await api.get(`/users/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching user profile:', error);
+  }};
    
 
 
@@ -23,51 +29,64 @@ const profileUser = async (id) => {
 
 
   const addUser = async (newUser) => {
-  const response = await api.post(`/users/user`,newUser);
-  console.log(response.data)
-  return response.data;
-  };
+    try {
+      const response = await api.post(`/users/user`,newUser);
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.error('Error adding user:', error);
+  }};
 
 //////////////////////// delete Users /////////////////////////////////
 
 
 
   const deleteUser = async (id) => {
-  const response = await api.delete(`/users/${id}`);
-  console.log(response.data)
-  return response.data;
-  };
+    try {
+      const response = await api.delete(`/users/${id}`);
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+  }};
 
 /////////////////////// update Users ///////////////////////////////
 
 
   const updateUser = async (userData,id) => {
-  const response = await api.patch(`/users/${id}`,userData); 
+    try {
+      const response = await api.patch(`/users/${id}`,userData); 
   console.log(response.data)
   return response.data;
-  };
+    } catch (error) {
+      console.error('Error updating user:', error);
+   }};
 
 /////////////////////// update status Users ///////////////////////////////
 
 
 const updateUserStatus = async (id) => {
-  const response = await api.put(`/users/${id}/status`); 
-  console.log(response.data)
+  try {
+    const response = await api.put(`/users/${id}/status`); 
   return response.data;
-  };
+  } catch (error) {
+    console.error('Error updating user status:', error);
+  }};
 
 
 ////////////////////////// fetching users mutations /////////////////////////////////////
 
- // 
+ //-------------- user mutations
+
  export const useUser = () => {
  return useQuery('users', fetchUsers);
  };
 
-// Profile
- export const useProfile = () => {
+//---------------------- Profile
+
+ export const useUserbyId = () => {
   const queryClient = useQueryClient();
-  return useMutation(profileUser,
+  return useMutation(profileId,
     {
       onSuccess: () => {
         queryClient.invalidateQueries('users');
@@ -82,8 +101,6 @@ const updateUserStatus = async (id) => {
     );
  
 };
-
-
 
 
 

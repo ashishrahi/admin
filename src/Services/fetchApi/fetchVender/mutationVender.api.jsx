@@ -1,52 +1,115 @@
 import { useQuery,useQueryClient,useMutation} from 'react-query';
 import api from '../../../utilities/Api'
+import { useNavigate } from 'react-router-dom';
 
 
-////////////////////////////fetch Venders//////////////////
+//--------------------------- fetch Venders
 
 const fetchVenders = async () => {
-const response = await api.get(`/venders`);
-console.log(response.data)
-return response.data;
+  try {
+    const response = await api.get(`/venders`);
+    return response.data;
+      } 
+  catch (error) {
+    console.log('Error fetching venders:', error);
+    }};
+
+//------------- Karigar by Id
+
+const fetchVenderById = async (id) => {
+  try {
+    const response = await api.get(`/venders/${id}`);
+    return response.data;
+     } 
+  catch (error) {
+    console.log('Error fetching Karigar by ID:', error);
+  }
 };
+
+
+
+
  
-/////////////////////////////add Venders////////////////////////////////
+//---------------------------- add Venders
 
 
-  const addVender = async (newVender) => {
-  const response = await api.post(`/venders/vender`,newVender);
-  console.log(response.data)
-  return response.data;
-  };
+  const addVender = async (formData) => {
+    try {
+        const response = await api.post(`/venders/vender`,formData);
+        return response.data;
+        } 
+    catch (error) {
+      console.error('Error adding Vender:', error);
+    }};
 
-//////////////////////// delete Venders /////////////////////////////////
+//--------------------------- Update Venders 
 
+    const updateVender = async ({id,formData}) => {
+      try {
+          const response = await api.put(`/venders/${id}`,formData); 
+          return response.data;
+         }
+     catch (error) {
+        console.log('Error updating vender:', error);
+         }};
+
+
+
+
+
+
+//-----------------------  delete Venders 
 
 
   const deleteVender = async (id) => {
-  const response = await api.delete(`/venders/${id}`);
-  console.log(response.data)
-  return response.data;
-  };
+    try {
+      const response = await api.delete(`/venders/${id}`);
+      return response.data;
+        } 
+    catch (error) {
+      console.error('Error deleting Vender:', error);
+       }};
 
-/////////////////////// update Users ///////////////////////////////
 
 
-  const updateVender = async (venderData,id) => {
-  const response = await api.patch(`/venders/${id}`,venderData); 
-  console.log(response.data)
-  return response.data;
-  };
-
-/////////////////////// update vender  ///////////////////////////////
+//----------------------------- Update vender  
 
 
 const updateVenderStatus = async (venderData,id) => {
-  const response = await api.put(`/venders/${id}`,venderData); 
+  try {
+     const response = await api.put(`/venders/${id}`,venderData); 
   console.log(response.data)
   return response.data;
-  };
+      } 
+  catch (error) {
+    console.log('Error updating Vender:', error);
+    }};
+//--------------- Mutation to get Vender by ID
 
+
+export const useVenderById = (id) => {
+  return useQuery(['venders', id], () => fetchVenderById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
+/////////////////////////////// update Karigar Mutations ///////////////////////////////
+  
+
+  
+export const useUpdateMutationKarigar = () => {
+  const navigate = useNavigate()
+const queryClient = useQueryClient();
+
+return useMutation(updateVender,{
+    onSuccess: () => {
+      queryClient.invalidateQueries('venders');
+      navigate('/Vender-List');
+     },
+  
+    }
+  );};
 
 
 

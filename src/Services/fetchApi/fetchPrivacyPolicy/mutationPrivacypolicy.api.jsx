@@ -11,6 +11,19 @@ console.log(response.data)
 return response.data;
 };
  
+
+
+//-------------------Fetch color by ID
+const fetchPolicyById = async (id) => {
+  try {
+    const response = await api.get(`/policies/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching policy by ID:', error);
+  }
+};
+
+
 /////////////////////////////add Policy////////////////////////////////
 
 
@@ -31,8 +44,8 @@ return response.data;
 /////////////////////// update Policies ///////////////////////////////
 
 
-  const updatePolicy = async (policyData,id) => {
-  const response = await api.patch(`/policies/${id}`,policyData); 
+  const updatePolicy = async ({id,values}) => {
+  const response = await api.put(`/policies/${id}`,values); 
   return response.data;
   };
 
@@ -43,6 +56,19 @@ return response.data;
  export const usePolicy = () => {
  return useQuery('policies', fetchPolicies);
  };
+
+
+//--------------- Mutation to get color by ID
+
+export const usePolicyById = (id) => {
+  return useQuery(['policies', id], () => fetchPolicyById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
+
+
 
  ///////////////////////// Add Policies Mutations ////////////////////////////////////////////////
 

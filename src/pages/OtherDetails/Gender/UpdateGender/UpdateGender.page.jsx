@@ -2,18 +2,34 @@ import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
-import { useUpdateMutationgender } from '../../../../Services/fetchApi/fetchVariantDetails/mutationGender.api';
+import { useState,useEffect } from 'react';
+import { useUpdateMutationgender,useGenderById } from '../../../../Services/fetchApi/fetchVariantDetails/mutationGender.api';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import UpdateCrumb from './updatebreadcrubs.page'
+import CircularProgress from '../../../../Components/Circularprogress/circularprogress.jsx'
+
 
 const Update = () => {
-
+  const { id } = useParams();
+  const {data} = useGenderById(id)
   const{mutateAsync:updateMutate} = useUpdateMutationgender();
   const[gender,setGender] = useState('')
-  const { id } = useParams();
+  const[isloading,setLoading] = useState(true)
   
+  //Fetching Data
+  useEffect(() => {
+  if(data){
+  setGender(data.gender)
+    }
+  setTimeout(() => {
+  setLoading(false)
+  }, 1000);
+  }, [data])
+
+
+//updateMutate
+
   const handleSubmit = async(e) => {
         e.preventDefault();
        await updateMutate({id,gender});
@@ -25,8 +41,8 @@ const Update = () => {
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
        <Box marginTop={1} marginLeft={2.5}><UpdateCrumb/></Box> 
-
-
+        {isloading ? <CircularProgress/>:(      
+        <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -55,6 +71,9 @@ const Update = () => {
           </Paper>
         </form>
         </Box>
+        </Container>
+        )}
+
        </Box>
     </Box>
   );

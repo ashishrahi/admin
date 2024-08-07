@@ -2,17 +2,25 @@ import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useAddGenderMutation } from '../../../../Services/fetchApi/fetchVariantDetails/mutationGender.api';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Newgenderbreadscrumb from './newbreadcrubs.page'
+import CircularProgress from '../../../../Components/Circularprogress/circularprogress';
 
 const Add = () => {
 
   const{mutateAsync:addMutateGender} = useAddGenderMutation();
   const[gender,setGender] = useState('')
   const { id } = useParams();
+  const[isloading,isLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => {
+      isLoading(false);
+    }, 1000); 
+  }, []);
   
   const handleSubmit = async(e) => {
         e.preventDefault();
@@ -25,6 +33,8 @@ const Add = () => {
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
        <Box marginTop={1} marginLeft={2.5}><Newgenderbreadscrumb/></Box> 
+{isloading ? <CircularProgress/>:(
+       <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -53,6 +63,8 @@ const Add = () => {
           </Paper>
         </form>
         </Box>
+        </Container>
+        )}
        </Box>
     </Box>
   );

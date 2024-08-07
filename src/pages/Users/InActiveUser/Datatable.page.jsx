@@ -13,6 +13,8 @@ import {Chip} from '@mui/material/';
 import {Stack} from '@mui/material';
 import { useInactiveUser } from '../../../Services/fetchApi/fetchUsers/mutationInactiveUser';
 import Avatar from '@mui/material/Avatar';
+import {Grid} from '@mui/material';
+
 
 import {
   GridRowModes,
@@ -114,18 +116,32 @@ export default function FullFeaturedCrudGrid() {
     { field: 'username', headerName: 'User Name', width: 180,},
     { field: 'email', headerName: 'Email', width: 180, },
     { field: 'phone', headerName: 'Phone', width: 180, },
-    { field: 'city', headerName: 'City', width: 180,  },
+    {
+      field: 'address',
+      headerName: 'Address',
+      width: 180,
+      renderCell: (params) => {
+        
+       const addressArray = params.value;
+       const address = addressArray[0]
+          return (
+            <Grid container rowSpacing={1} sx={{ gap: '5px', height: 'auto', overflow: 'auto',marginTop:'1px' }}>
+              <div><strong>House:</strong> {address.house}</div>
+              <div><strong>City:</strong> {address.city}</div>
+            </Grid>
+          );
+        } 
+      
+    },
     { field: 'status', headerName: 'Status', width: 180,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
             {params.row.status ? (null
        
-      ) :  <Chip
-        icon={<CancelIcon style={{ color: 'red' }} />}
-          label="inActive"
-          variant="outlined"
-        />}
+      ) :  
+        <CancelIcon style={{ color: 'red' }} variant="outlined" />
+          }
           </div>
         );
       },
@@ -222,6 +238,18 @@ export default function FullFeaturedCrudGrid() {
             getRowId={(row) => row._id}
             editMode="row"
             rowModesModel={rowModesModel}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                
+              },
+             
+              
+            }}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}

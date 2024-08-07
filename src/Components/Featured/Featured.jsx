@@ -4,9 +4,10 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Card } from '@mui/material';
 const Featured = () => {
   return (
-    <div className="featured">
+    <Card className="featured" sx={{boxShadow:3}}>
         <div className='top'>
           <h1 className='title'>Total Revenue</h1>
           <MoreVertIcon fontSize='small'/>
@@ -30,7 +31,7 @@ const Featured = () => {
           </div>
 
         </div>
-    </div>
+    </Card>
   )
 }
 

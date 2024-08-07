@@ -9,7 +9,7 @@ import {Chip} from '@mui/material/';
 import {Stack} from '@mui/material';
 import {useInActiveKarigar} from '../../../Services/fetchApi/fetchKarigar/mutationInActiveKarigar.api' 
 import Avatar from '@mui/material/Avatar';
-
+import {Grid} from '@mui/material/';
 
 
 import {
@@ -128,18 +128,31 @@ export default function FullFeaturedCrudGrid() {
     },
     { field: 'name', headerName: 'Karigar Name', width: 180,},
     { field: 'phone', headerName: 'Phone', width: 180,},
-    { field: 'city', headerName: 'City', width: 180,},
+    { field: 'address', headerName: 'Address', width: 180, 
+      renderCell:(params)=>{
+       const addressArray = params.value;
+       console.log(addressArray);
+       const address = addressArray[0]
+       const{house,city} = address;
+       return(
+        <Grid container rowSpacing={1} sx={{ gap: '5px', height: 'auto', overflow:'auto' }}>
+        <div><strong>House:</strong> {house}</div>
+        {/* <div><strong>Pincode:</strong> {pincode}</div> */}
+        <div><strong>City:</strong> {city}</div>
+        {/* <div><strong>Country:</strong> {country}</div> */}
+      </Grid>
+       )
+      }
+     },
     { field: 'status', headerName: 'Status', width: 180,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
             {params.row.status ? (null
        
-      ) :  <Chip
-        icon={<CancelIcon style={{ color: 'red' }} />}
-          label="inActive"
-          variant="outlined"
-        />}
+      ) :  
+        <CancelIcon style={{ color: 'red' }} />
+        }
           </div>
         );
       },
@@ -230,6 +243,14 @@ export default function FullFeaturedCrudGrid() {
             </Box>
           )}
           <DataGrid
+          sx={{
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: '#f0f0f0', // Light grey color for header
+               fontWeight:'bold'
+          },
+            '& .MuiDataGrid-columnHeader': {
+              color: '#000', // Text color for header
+              },}}
             rows={rows}
             columns={columns}
             editMode="row"

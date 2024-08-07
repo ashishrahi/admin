@@ -2,9 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -15,6 +12,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {Grid} from '@mui/material';
 
 
 import {
@@ -30,7 +29,6 @@ import {
   randomId,
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
-import { red } from '@mui/material/colors';
 import { Container } from '@mui/material';
 
 const roles = ['Market', 'Finance', 'Development'];
@@ -88,7 +86,7 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
-      <Link to={`/Karigar_List/new`}>
+      <Link to={`/Karigar-List/new`}>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add karigar
       </Button>
@@ -195,14 +193,37 @@ const handleStatusToggle = async (id) => {
     {
       field: 'avatar',
       headerName: 'Avatar',
-      width: 90,
+      width: 180,
       renderCell: (params) => (
         <Avatar src={params.value} alt={params.row.name} />
       ),
     },
     { field: 'name', headerName: 'Karigar Name', width: 180, },
     { field: 'phone', headerName: 'Phone', width: 180,  },
-    { field: 'city', headerName: 'City', width: 180,  },
+    {
+      field: 'address',
+      headerName: 'Address',
+      width: 180,
+      renderCell: (params) => {
+        const addressArray = params.value; // This is an array
+        if (!addressArray || !addressArray.length) {
+          return <span>No address available</span>; // Handle cases where addressArray is undefined or empty
+        }
+    
+        const address = addressArray[0]; // Access the first item in the array
+    
+        const {house = 'N/A', city = 'N/A',} = address;
+    
+        return (
+          <Grid container rowSpacing={1} sx={{ gap: '5px', height: 'auto', overflow:'auto' }}>
+            <div><strong>House:</strong> {house}</div>
+            {/* <div><strong>Pincode:</strong> {pincode}</div> */}
+            <div><strong>City:</strong> {city}</div>
+            {/* <div><strong>Country:</strong> {country}</div> */}
+          </Grid>
+        );
+      }
+    },
     { field: 'status', headerName: 'Status', width: 180,
       renderCell: (params) => {
         return (
@@ -259,18 +280,20 @@ const handleStatusToggle = async (id) => {
         // }
 
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            color="inherit"
-          />,
+          // <Link to={`/Karigar-List/${id}/update`}>
           // <GridActionsCellItem
-          //   icon={<DeleteIcon />}
-          //   label="Delete"
-          //   onClick={handleDeleteClick(id)}
+          //   icon={<EditIcon />}
+          //   label="Edit"
+          //   className="textPrimary"
           //   color="inherit"
-          // />,
+          // /></Link>,
+          <Link to={`/Karigar-List/${id}`}>
+          <GridActionsCellItem
+            icon={<VisibilityIcon />}
+            label="View"
+            color="inherit"
+          /></Link>
+          ,
         ];
       },
     },
@@ -312,6 +335,14 @@ const handleStatusToggle = async (id) => {
             </Box>
           )}
           <DataGrid
+          sx={{
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: '#f0f0f0', // Light grey color for header
+               fontWeight:'bold'
+          },
+            '& .MuiDataGrid-columnHeader': {
+              color: '#000', // Text color for header
+              },}}
             rows={rows}
             columns={columns}
             editMode="row"

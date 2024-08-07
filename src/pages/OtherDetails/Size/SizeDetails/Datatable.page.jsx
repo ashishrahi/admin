@@ -152,12 +152,12 @@ const handleStatusToggle = async (id) => {
 
 
   const columns = [
-    { field: 'size', headerName: 'Size', width: 180,
+    { field: 'size', headerName: 'Size', width: 280,
       valueGetter:(params)=>{
         return params.row.size ? params.row.size:'';
       }
     },
-    { field: 'status', headerName: 'Status', width: 180,
+    { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <Box className={`cellWithStatus ${params.row.status}`}>
@@ -187,7 +187,7 @@ const handleStatusToggle = async (id) => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 280,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -275,6 +275,14 @@ const handleStatusToggle = async (id) => {
             editMode="row"
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
             pagination

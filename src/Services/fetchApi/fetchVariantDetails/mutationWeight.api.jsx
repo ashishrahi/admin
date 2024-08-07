@@ -14,6 +14,16 @@ return response.data;
     console.log('Error fetching weights:', error.message);
   }};
  
+// Fetch dandi by ID
+const fetchWeightById = async (id) => {
+  try {
+    const response = await api.get(`/weights/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching dandi by ID:', error);
+  }
+};
+
 /////////////////////////////add Weights////////////////////////////////
 
 
@@ -79,7 +89,18 @@ catch (error) {
  return useQuery('weights', fetchWeights);
  };
 
- ///////////////////////// Add weight Mutations ////////////////////////////////////////////////
+
+  //------------------ Hook to get dandi by ID
+
+  export const useWeightById = (id) => {
+    return useQuery(['weights', id], () => fetchWeightById(id), {
+      enabled: !!id,  // Ensure the query is only enabled if there's an id
+    });
+  };
+
+
+
+ //-------------------- Add weight Mutations 
 
  
  

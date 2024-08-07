@@ -2,22 +2,45 @@ import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
-import { useUpdateWeight } from '../../../../Services/fetchApi/fetchVariantDetails/mutationWeight.api';
+import { useState,useEffect } from 'react';
+import { useUpdateWeight,useWeightById } from '../../../../Services/fetchApi/fetchVariantDetails/mutationWeight.api';
 import { useParams } from 'react-router-dom';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import UpdateCrumb from './updatebreadcrubs.page'
+import CircularProgress from '../../../../Components/Circularprogress/circularprogress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
+
 
 const Update = () => {
 
+  //State management
+  const { id } = useParams();
+  const {data} = useWeightById(id);
   const{mutateAsync:updateMutateWeight} = useUpdateWeight();
   const[weight,setWeight] = useState('')
-  const { id } = useParams();
+  const[isloading,setLoading] = useState(true)
+  const [open, setOpen] = useState(false);
+
   
-  const handleSubmit = async(e) => {
-        e.preventDefault();
-       await updateMutateWeight({id,weight});
-  };
+ //fetching Data
+  useEffect(() => {
+    if(data){
+      setWeight(data.weight)
+    }
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000);
+  }, [data])
+
+  //Update Weight 
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    await updateMutateWeight({id, weight});
+    setOpen(true);
+};
+
 
   return (
     <Box className='new' style={{ display: 'flex' }}>
@@ -25,6 +48,8 @@ const Update = () => {
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
        <Box marginTop={1} marginLeft={2.5}><UpdateCrumb /></Box> 
+       {isloading ? <CircularProgress/> :(
+       <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -53,7 +78,17 @@ const Update = () => {
           </Paper>
         </form>
         </Box>
-       </Box>
+        </Container>
+        )}
+
+       
+        </Box>
+
+       <Snackbar
+        open={open}
+        autoHideDuration={6000}
+         message="Snackbarsflsdfsdf"       
+        />
     </Box>
   );
 }

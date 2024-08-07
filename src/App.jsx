@@ -6,16 +6,19 @@ import { Box } from "@mui/material"
 import Login from './pages/Auth/Login/Login'
 
 //-------------------Users
+
 import Users from './pages/Users/UserDetails/Users'
 import ActiveUser from "./pages/Users/ActiveUser/ActiveUser.page"
 import InactiveUser from "./pages/Users/InActiveUser/InactiveUser.page"
-import ViewUser from './pages/Users/View/ViewUser.page'
+import ViewUser from './pages/Users/ViewUser/ViewUser.page.jsx'
 
 //-------------------Category
 import Category from './pages/Category/CategoryDetails/Category.page'
 import ActiveCategory from './pages/Category/ActiveCategory/ActiveCategory.page'
 import InActiveCategory from './pages/Category/InactiveCategory/InactiveCategory.page'
-import ViewCategory from './pages/Category/View/viewCategory.page'
+import NewCategory from './pages/Category/newCategory/newCategory.page.jsx'
+import UpdateCategory from './pages/Category/updateCategory/update.page'
+import ViewCategory from './pages/Category/ViewCategory/viewCategory.page.jsx'
 
 
 
@@ -38,7 +41,7 @@ import UpdatePurity from './pages/OtherDetails/Parity/updatePurity/updatePurity.
 
 //----------------------Color
 import Color from './pages/OtherDetails/Color/ColorDetails/Color.page'
-import NewColor from './pages/OtherDetails/Color/addColor/newcolor.page'
+import NewColor from './pages/OtherDetails/Color/newColor/newColor.page'
 import UpdateColor from './pages/OtherDetails/Color/updateColor/updateColor.page'
 
 //----------------------Dandi
@@ -66,29 +69,49 @@ import Weight from './pages/OtherDetails/Weight/WeightDetails/Weight.page'
 import NewWeight from './pages/OtherDetails/Weight/newWeight/newWeight.page'
 import UpdateWeight from './pages/OtherDetails/Weight/updateWeight/updateWeight.page'
 
-//----------------------Description
-
 //-------------------------Karigar
 import Karigar from './pages/Karigar/KarigarDetails/Karigar.page'
 import ActiveKarigar from './pages/Karigar/ActiveKarigar/ActiveKarigar.page'
 import InactiveKarigar from './pages/Karigar/InactiveKarigar/InactiveKarigar.page'
 import NewKarigar from './pages/Karigar/addKarigar/addKarigar.page'
+import ViewKarigar from './pages/Karigar/ViewKarigar/viewKarigar.page.jsx'
+import UpdateKarigar from './pages/Karigar/updateKarigar/update.page'
 
 //---------------------------Vender
 import Vender from './pages/Vender/VenderDetails/Vender.page'
+import NewVender from './pages/Vender/addVender/addVender.page.jsx'
+import ViewVender from './pages/Vender/ViewVender/viewVender.page.jsx'
+import UpdateVender from  './pages/Vender/updateVender/update.page'
+
+// ------------------------- Product
+ import Product from './pages/Products/ProductDetails/Product.page.jsx'
+ import NewProduct from './pages/Products/newProduct/newProduct.page.jsx'
+ import ViewProduct from './pages/Products/viewProduct/viewProduct.page.jsx'
+ import UpdateProduct from './pages/Products/updateProduct/updateProduct.page.jsx'
+
+ //---------------------------Cart
+
 
 //---------------------------Order
 import Order from './pages/Orders/OrderDetails/Order.page'
+import OrderView from './pages/Orders/viewOrder/view.page'
 
 //---------------------------About
  import About from './pages/About/AboutDetails/About'
  import NewAbout from './pages/About/newAbout/newAbout.page'
  import UpdateAbout from './pages/About/updateAbout/updateAbout.page'
+ import ViewDetails from './pages/About/viewAbout/view.page'
+
+ //---------------------HomeBanner
+ import HomeBanner from './pages/Home Banner/BannerDetails/Banner.page.jsx'  
+ import NewBanner from './pages/Home Banner/newBanner/newBanner.page'
+ import UpdateBanner from './pages/Home Banner/updateBanner/update.page.jsx'
 
  //---------------------------Private Policy
  import PrivacyPolicy from './pages/PrivacyPolicy/policyDetails/Policy.page'
  import NewPolicy from './pages/PrivacyPolicy/newPolicy/newPolicy.page'
  import UpdatePolicy from './pages/PrivacyPolicy/updatePolicy/updatePolicy.page'
+ import ViewPolicy from './pages/PrivacyPolicy/viewPolicy/view.page.jsx'
 
 import { useSelector } from "react-redux"
 import './App.css'
@@ -104,41 +127,42 @@ const App = () => {
 
         {/* Auth Router */}
         <Route path="/">
-        <Route path='admin' element={isAuthenticated?<Home/>:<Login/>}/>
+        <Route path='/' element={isAuthenticated?<Home/>:<Login/>}/>
         <Route path="login" element={<Login/>} />
 
           {/* User-List Router */}
           <Route path="/User-List">
           <Route index element={isAuthenticated?<Users/>:<Login/>} />
           <Route path=":id" element={isAuthenticated?<ViewUser/>:<Login/>}/>
-
-         
           </Route>
 
           
           {/* Active User Router */}
-          <Route path="/Active_User">
+          <Route path="/Active-User">
           <Route index element={isAuthenticated?<ActiveUser/>:<Login/>} />
           </Route>
           
           {/* InActive User Router */}
            
-          <Route path="/Inactive_User">
+          <Route path="/Inactive-User">
           <Route index element={isAuthenticated?<InactiveUser/>:<Login/>} />
           </Route>
 
         {/* Category Router */}
            <Route path="/Category-List">
            <Route index element={isAuthenticated?<Category/>:<Login/>} />
+          <Route path="new" element={isAuthenticated?<NewCategory/>:<Login/>}/>
           <Route path=":id" element={isAuthenticated?<ViewCategory/>:<Login/>}/>
+          <Route path=":id/update" element={isAuthenticated?<UpdateCategory/>:<Login/>}/>
+         
           </Route>
 
         {/* Active Category Router */}
-           <Route path="/Active_Category">
+           <Route path="/Active-Category">
            <Route index element={isAuthenticated?<ActiveCategory/>:<Login/>} />
            </Route>
            {/* InActive Category Router */}
-           <Route path="/Inactive_Category">
+           <Route path="/Inactive-Category">
            <Route index element={isAuthenticated?<InActiveCategory/>:<Login/>} />
            </Route>
           
@@ -156,7 +180,6 @@ const App = () => {
           <Route index element={isAuthenticated?<Purity/>:<Login/>} />
           <Route path="new" element={isAuthenticated?<NewPurity/>:<Login/>}/>
           <Route path=":id" element={isAuthenticated?<UpdatePurity/>:<Login/>}/>
-
           </Route>
 
           {/* Color */}
@@ -164,8 +187,6 @@ const App = () => {
           <Route index element={isAuthenticated?<Color/>:<Login/>}/>
           <Route path="new" element={isAuthenticated?<NewColor/>:<Login/>}/>
           <Route path=":id" element={isAuthenticated?<UpdateColor/>:<Login/>}/>
-
-
           </Route>
 
           {/* Dandi */}
@@ -204,46 +225,74 @@ const App = () => {
           <Route path=":id" element={isAuthenticated?<UpdateWeight/>:<Login/>}/>
           </Route>
 
-        
+             
              
               {/* Karigar */}
-          <Route path="/Karigar_List">
+          <Route path="/Karigar-List">
           <Route index element={isAuthenticated?<Karigar/>:<Login/>}/>
           <Route path="new" element={isAuthenticated?<NewKarigar/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<ViewKarigar/>:<Login/>}/>
+          <Route path=":id/update" element={isAuthenticated?<UpdateKarigar/>:<Login/>}/>
 
           </Route>
 
           {/* Active Karigar */}
-          <Route path="/Active_Karigar">
+          <Route path="/Active-Karigar">
           <Route index element={isAuthenticated?<ActiveKarigar/>:<Login/>} />
           </Route>
 
             {/* InActive Karigar */}
-            <Route path="/Inactive_Karigar">
+            <Route path="/Inactive-Karigar">
           <Route index element={isAuthenticated?<InactiveKarigar/>:<Login/>} />
           </Route>
 
           {/* Vender */}
           <Route path="/Vender-List">
           <Route index element={isAuthenticated?<Vender/>:<Login/>} />
+          <Route path="new" element={isAuthenticated?<NewVender/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<ViewVender/>:<Login/>}/>
+          <Route path=":id/update" element={isAuthenticated?<UpdateVender/>:<Login/>}/>
           </Route>
 
-           {/* Order */}
-           <Route path="/All_Order">
-           <Route index element={isAuthenticated?<Order/>:<Login/>} />
+            {/* Product  */}
+           <Route path="/Product-List">
+           <Route index element={isAuthenticated?<Product/>:<Login/>} />
+           <Route path="new" element={isAuthenticated?<NewProduct/>:<Login/>}/>
+           <Route path=":id" element={isAuthenticated?<UpdateProduct/>:<Login/>}/>
+           <Route path=":id/update" element={isAuthenticated?<ViewProduct/>:<Login/>}/>
            </Route>
+
+
+
+           {/* Order */}
+           <Route path="/Order-List">
+           <Route index element={isAuthenticated?<Order/>:<Login/>} />
+          <Route path=":id" element={isAuthenticated?<OrderView/>:<Login/>}/>
+          </Route>
+          
           {/* About */}
           <Route path="/About">
           <Route index element={isAuthenticated?<About/>:<Login/>} />
           <Route path="new" element={isAuthenticated?<NewAbout/>:<Login/>}/>
-          <Route path=":id" element={isAuthenticated?<UpdateAbout/>:<Login/>}/>
-
+          <Route path=":id" element={isAuthenticated?<ViewDetails/>:<Login/>}/>
+          <Route path=":id/update" element={isAuthenticated?<UpdateAbout/>:<Login/>}/>
           </Route>
+          
+          {/* Home Banner */}
+          <Route path="/Home-Banner">
+          <Route index element={isAuthenticated?<HomeBanner/>:<Login/>}/>
+          <Route path="new" element={isAuthenticated?<NewBanner/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<UpdateBanner/>:<Login/>}/>
+          </Route>
+          
+          
+          
           {/* Privacy Policy */}
           <Route path="/Privacy-Policy">
           <Route index element={isAuthenticated?<PrivacyPolicy/>:<Login/>} />
           <Route path="new" element={isAuthenticated?<NewPolicy/>:<Login/>}/>
-          <Route path=":id" element={isAuthenticated?<UpdatePolicy/>:<Login/>}/>
+          <Route path=":id" element={isAuthenticated?<ViewPolicy/>:<Login/>}/>
+          <Route path=":id/update" element={isAuthenticated?<UpdatePolicy/>:<Login/>}/>
           </Route>
           
 

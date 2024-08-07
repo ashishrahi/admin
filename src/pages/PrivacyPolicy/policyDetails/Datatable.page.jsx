@@ -10,10 +10,10 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
-import { Chip } from '@mui/material';
+import { Chip, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { usePolicy } from '../../../Services/fetchApi/fetchPrivacyPolicy/mutationPrivacypolicy.api';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   GridRowModes,
   DataGrid,
@@ -119,25 +119,27 @@ export default function FullFeaturedCrudGrid() {
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
    };
-
+ function stripHtmlTags(html) {
+    return html.replace(/<[^>]*>/g, '');
+  }
   
 
   const columns = [
-    { field: 'title', headerName: 'Title', width: 180, editable: true,
+    { field: 'title', headerName: 'Title', width: 280,
       valueGetter:(params)=>{
         return params.row.title ? params.row.title:'';
       }
      },
-    { field: 'description', headerName: 'Description', width: 180, editable: true,
-      valueGetter:(params)=>{
-        return params.row.description ? params.row.description:''
-      }
+    { field: 'description', headerName: 'Description', width: 280,
+      
+        valueGetter: (params) => stripHtmlTags(params.value),
+      
      },
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 280,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -162,12 +164,13 @@ export default function FullFeaturedCrudGrid() {
           ];}
 
         return [
+          <Link to={`/Privacy-Policy/${id}`}>
           <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
+            icon={<VisibilityIcon />}
+            label="View"
             className="textPrimary"
             color="inherit"
-          />,
+          /></Link>,
           // <GridActionsCellItem
           //   icon={<DeleteIcon />}
           //   label="Delete"
@@ -180,7 +183,7 @@ export default function FullFeaturedCrudGrid() {
   ];
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
@@ -218,6 +221,14 @@ export default function FullFeaturedCrudGrid() {
             rows={rows}
             getRowId={(row) => row._id}
             rowHeight={45}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             columns={columns}
             editMode="row"
             rowModesModel={rowModesModel}
@@ -248,5 +259,5 @@ export default function FullFeaturedCrudGrid() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );}

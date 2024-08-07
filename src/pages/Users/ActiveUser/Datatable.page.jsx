@@ -14,6 +14,7 @@ import {Stack} from '@mui/material';
 import {useActiveUser} from '../../../Services/fetchApi/fetchUsers/mutationActiveUser'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Avatar from '@mui/material/Avatar';
+import {Grid} from '@mui/material';
 
 
 import {
@@ -50,7 +51,6 @@ function EditToolbar(props) {
 export default function FullFeaturedCrudGrid() {
   const{data}= useActiveUser();
    const [rows, setRows] = React.useState([]);
-console.log(rows)
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
@@ -91,7 +91,7 @@ console.log(rows)
      {
       field: 'avatar',
       headerName: 'Avatar',
-      width: 90,
+      width: 150,
       renderCell: (params) => (
         <Avatar src={params.value} alt={params.row.name} />
       ),
@@ -99,17 +99,31 @@ console.log(rows)
     { field: 'username', headerName: 'User Name', width: 220,  },
     { field: 'email', headerName: 'Email', width: 220,  },
     { field: 'phone', headerName: 'Phone', width: 220,  },
-    { field: 'city', headerName: 'Address', width: 220,  },
+    {
+      field: 'address',
+      headerName: 'Address',
+      width: 180,
+      renderCell: (params) => {
+        
+       const addressArray = params.value;
+       const address = addressArray[0]
+          return (
+            <Grid container rowSpacing={1} sx={{ gap: '5px', height: 'auto', overflow: 'auto',marginTop:'1px' }}>
+              <div><strong>House:</strong> {address.house}</div>
+              <div><strong>City:</strong> {address.city}</div>
+            </Grid>
+          );
+        } 
+      
+    },
     { field: 'status', headerName: 'Status', width: 220,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
             {params.row.status ? (
-        <Chip
-          icon={<CheckCircleIcon style={{ color: 'green' }} />}
-          label="Active"
-          variant="outlined"
-        />
+        <CheckCircleIcon style={{ color: 'green' }} />
+          // label="Active"
+        
       ) : null}
           </div>
         );
@@ -208,6 +222,18 @@ console.log(rows)
             columns={columns}
             editMode="row"
             getRowId={(row) => row._id}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                
+              },
+             
+              
+            }}
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}

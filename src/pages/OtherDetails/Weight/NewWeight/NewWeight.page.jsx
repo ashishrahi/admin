@@ -2,16 +2,27 @@ import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import {useAddWeight} from '../../../../Services/fetchApi/fetchVariantDetails/mutationWeight.api'
 import AddIcon from '@mui/icons-material/Add';
 import Newweightcrud from './weightbreadcrubs.page'
+import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
 
 const Add = () => {
 
   const{mutateAsync:addMutate} = useAddWeight();
   const[weight,setWeight] = useState('')
+  const[isloading,setLoading] = useState(true)
   
+useEffect(() => {
+setTimeout(() => {
+  setLoading(false)
+}, 2000);
+}, [])
+
+
+
+
   const handleSubmit = async(e) => {
         e.preventDefault();
        await addMutate({weight});
@@ -23,7 +34,8 @@ const Add = () => {
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
         <Box marginTop={1} marginLeft={2.5}><Newweightcrud/></Box>
-
+     {isloading ? <Circularprogress/> :(
+     <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -52,6 +64,8 @@ const Add = () => {
           </Paper>
         </form>
         </Box>
+        </Container>
+     )}
        </Box>
     </Box>
   );

@@ -1,16 +1,28 @@
 import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
-import {TextField,Container, Paper} from '@mui/material';
+import {TextField,Container, Paper, CircularProgress} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useAdddandis } from '../../../../Services/fetchApi/fetchVariantDetails/mutationDandi.api';
 import AddIcon from '@mui/icons-material/Add';
 import NewDandicrubm from './newdandicrubs.page'
+
+
 
 const Add = () => {
 
   const{mutateAsync:addMutateDandi} = useAdddandis();
   const[dandi,setDandi] = useState('')
+  const[isloading,setLoading]=useState(true)
+
+
+  useEffect(() => {
+  setTimeout(() => {
+    setLoading(false)
+  }, 2000);
+   
+  }, [])
+  
   
   const handleSubmit = async(e) => {
         e.preventDefault();
@@ -24,7 +36,8 @@ const Add = () => {
         <Navbar/>
        <Box marginLeft={2.5} marginTop={1}><NewDandicrubm/></Box>
 
-        {/* Body */}
+    {isloading ?<Box display="flex" justifyContent="center" alignItems="center" height="80vh"><CircularProgress/></Box> :(
+       
         <Container sx={{display:'flex',flexDirection:'column',marginLeft:'25%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -53,6 +66,7 @@ const Add = () => {
           </Paper>
         </form>
         </Container>
+        )}
        </Box>
     </Box>
   );

@@ -13,6 +13,21 @@ const fetchsizes = async () => {
     console.error('Error fetching sizes:', error);
     }};
  
+// Fetch dandi by ID
+const fetchSizeById = async (id) => {
+  try {
+    const response = await api.get(`/sizes/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching size by ID:', error);
+  }
+};
+
+
+
+
+
+
 ///////////////////////////// add sizes////////////////////////////////
 
 
@@ -71,6 +86,16 @@ const statussize = async (id) => {
  export const useSize = () => {
  return useQuery('sizes', fetchsizes);
  };
+
+//------------------------ fetching by Id
+ export const useSizeById = (id) => {
+  return useQuery(['sizes', id], () => fetchSizeById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
+
 
  ///////////////////////// Add Gaugesize Mutations ////////////////////////////////////////////////
 

@@ -7,12 +7,22 @@ import { useAddsize } from '../../../../Services/fetchApi/fetchVariantDetails/mu
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import NewBreadcrub from './newbreadcrubs.page'
+import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
+import { useEffect } from 'react';
 
 const Add = () => {
 
   const{mutateAsync:addMutateSize} = useAddsize();
   const[size,setSize] = useState('')
   const { id } = useParams();
+  const[isloading,setLoading] = useState(true)
+
+useEffect(() => {
+ setTimeout(() => {
+  setLoading(false)
+ }, 1000);
+}, [])
+
   
   const handleSubmit = async(e) => {
         e.preventDefault();
@@ -25,6 +35,8 @@ const Add = () => {
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
        <Box marginTop={1} marginLeft={2.5}><NewBreadcrub/></Box> 
+      {isloading ? <Circularprogress/> :(
+       <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -53,6 +65,8 @@ const Add = () => {
           </Paper>
         </form>
         </Box>
+        </Container>
+      )}
        </Box>
     </Box>
   );

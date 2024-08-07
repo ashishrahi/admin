@@ -10,6 +10,19 @@
   return response.data;
   };
    
+  
+  // Fetch color by ID
+  const fetchColorById = async (id) => {
+  try {
+    const response = await api.get(`/colors/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching dandi by ID:', error);
+  }
+};
+
+
+
 /////////////////////////////add Colors////////////////////////////////
 
 
@@ -30,8 +43,8 @@
  /////////////////////// update Colors ///////////////////////////////
 
 
-    const updateColor = async (colorData,id) => {
-    const response = await api.put(`/colors/${id}`,colorData); 
+    const updateColor = async ({color,id}) => {
+    const response = await api.put(`/colors/${id}`,{color}); 
     return response.data;
     };
 
@@ -54,10 +67,19 @@
    return useQuery('colors', fetchColors);
    };
 
-   ///////////////////////// Add Color Mutations ////////////////////////////////////////////////
+
+  // Hook to get color by ID
+
+  export const useColorById = (id) => {
+    return useQuery(['color', id], () => fetchColorById(id), {
+      enabled: !!id,  // Ensure the query is only enabled if there's an id
+    });
+  };
+
+
+///////////////////////// Add Color Mutations ////////////////////////////////////////////////
   
-   
-   
+      
    export const useAddColor = () => {
     const navigate = useNavigate();
 

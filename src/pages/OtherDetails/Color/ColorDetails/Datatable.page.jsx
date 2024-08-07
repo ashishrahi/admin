@@ -3,12 +3,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import CancelIcon from '@mui/icons-material/Close';
-import { useColor, useAddColor,useDeleteColor,useStatusColor } from '../../../../Services/fetchApi/fetchVariantDetails/mutationColor.api';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Chip, Container } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
+import Skeleton from '@mui/material/Skeleton';
+import {useColor,useStatusColor} from '../../../../Services/fetchApi/fetchVariantDetails/mutationColor.api'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Chip, Container } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+
 import {
   GridRowModes,
   DataGrid,
@@ -16,18 +23,64 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import {
+  randomCreatedDate,
+  randomTraderName,
+  randomId,
+  randomArrayItem,
+} from '@mui/x-data-grid-generator';
+import { red } from '@mui/material/colors';
+
+const roles = ['Market', 'Finance', 'Development'];
+const randomRole = () => randomArrayItem(roles);
 
 const initialRows = [
-  
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 25,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 36,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 19,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 28,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 23,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
 ];
 
-function EditToolbar({ setRows, setRowModesModel }) {
+function EditToolbar(props) {
+  const { setRows, setRowModesModel } = props;
+
   const handleClick = () => {
-    const newId = new Date().getTime().toString();
-    setRows((oldRows) => [...oldRows, { id: newId, color: '', isNew: true }]);
+    const id = randomId();
+    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [newId]: { mode: GridRowModes.Edit, fieldToFocus: 'color' },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
     }));
   };
 
@@ -43,17 +96,26 @@ function EditToolbar({ setRows, setRowModesModel }) {
 }
 
 export default function FullFeaturedCrudGrid() {
+  const{data}=useColor();
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
-  const { data } = useColor();
-  const addColorMutation = useAddColor();
-  const deleteColorMutation = useDeleteColor();
-  const statusColorMutation = useStatusColor();
+  const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
+  const [loading, setLoading] = React.useState(false);
+  const [initialLoading, setInitialLoading] = React.useState(true);
+  const [pageSize, setPageSize] = React.useState(5);
+  const [page, setPage] = React.useState(0);
+  
+  const {mutateAsync:mutateStatus} = useStatusColor()
 
-  useEffect(() => {
-    if (data) {
-      setRows(data.map(row => ({ id: row._id, color: row.color })));
+
+  React.useEffect(() => {
+    // Simulate a data fetch
+    if(data){
+      setRows(data);
     }
+    setTimeout(() => {
+      setInitialLoading(false);
+    }, 2000);
   }, [data]);
 
   const handleRowEditStop = (params, event) => {
@@ -67,35 +129,21 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const handleSaveClick = (id) => async () => {
-    const rowToSave = rows.find((row) => row.id === id);
-
-    if (!rowToSave.color) {
-      console.error("Color is empty or undefined.");
-      return;
-    }
-
-    if (rowToSave.isNew) {
-      try {
-        const newColor = await addColorMutation.mutateAsync({ color: rowToSave.color });
-        setRows((prevRows) =>
-          prevRows.map((row) =>
-            row.id === id ? { ...row, isNew: false, id: newColor._id } : row
-          )
-        );
-      } catch (error) {
-        console.error("Failed to save color:", error);
-      }
-    } else {
-      const updatedRow = { ...rowToSave, isNew: false };
-      setRows(rows.map((row) => (row.id === id ? updatedRow : row)));
-    }
-
+    setLoading(true);
+    // Simulate an async save operation
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setLoading(false);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+    setSnackbar({ open: true, message: 'Row saved successfully', severity: 'success' });
   };
 
-  const handleDeleteClick = (id) => () => {
-    deleteColorMutation.mutateAsync(id)
+  const handleDeleteClick = (id) => async () => {
+    setLoading(true);
     setRows(rows.filter((row) => row.id !== id));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setLoading(false);
+
+    setSnackbar({ open: true, message: 'Row deleted successfully', severity: 'error' });
   };
 
   const handleCancelClick = (id) => () => {
@@ -120,10 +168,10 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel(newRowModesModel);
   };
 
-  const handleCellEditCommit = (params) => {
-    const updatedRow = { ...rows.find(row => row.id === params.id), color: params.value };
-    setRows((prevRows) => prevRows.map(row => (row.id === params.id ? updatedRow : row)));
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
+
 
 //--------------- Toggle Status
 const handleStatusToggle = async (id) => {
@@ -132,7 +180,7 @@ const handleStatusToggle = async (id) => {
     const row = rows.find((row) => row._id === id);
     console.log(row)
     const updatedStatus = !row.status;
-    statusColorMutation.mutateAsync(id)
+    mutateStatus(id)
      setRows((prevRows) =>
       prevRows.map((row) =>
         row._id === id ? { ...row, status: updatedStatus } : row
@@ -143,14 +191,14 @@ const handleStatusToggle = async (id) => {
   }
 };
 
+
   const columns = [
-    {
-      field: 'color',
-      headerName: 'Color',
-      width: 180,
-     
-    },
-    { field: 'status', headerName: 'Status', width: 180,
+    { field: 'color', headerName: 'Color', width: 280, editable: true,
+       valueGetter:(params)=>{
+        return params.row.color? params.row.color:'';
+      }
+     },
+     { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <Box className={`cellWithStatus ${params.row.status}`}>
@@ -176,30 +224,48 @@ const handleStatusToggle = async (id) => {
         );
       },
     },
-
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
       width: 100,
       cellClassName: 'actions',
-      getActions: ({ id, row }) => {
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            // <GridActionsCellItem
+            //   icon={<SaveIcon />}
+            //   label="Save"
+            //   sx={{
+            //     color: 'primary.main',
+            //   }}
+            //   onClick={handleSaveClick(id)}
+            // />,
+            // <GridActionsCellItem
+            //   icon={<CancelIcon />}
+            //   label="Cancel"
+            //   className="textPrimary"
+            //   onClick={handleCancelClick(id)}
+            //   color="inherit"
+            // />,
+          ];
+        }
+
         return [
-          <Link to={`/Color/${row.id}`} key={`edit-${id}`}>
-            <GridActionsCellItem
-              icon={<EditIcon />}
-              label="Edit"
-              className="textPrimary"
-              onClick={(event) => event.stopPropagation()} // Stop propagation to prevent row click
-              color="inherit"
-            />
-          </Link>,
+          <Link to={`/Color/${id}`}>
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            color="inherit"
+          /></Link>,
           // <GridActionsCellItem
           //   icon={<DeleteIcon />}
           //   label="Delete"
-          //   onClick={() => handleDeleteClick(id)}
+          //   onClick={handleDeleteClick(id)}
           //   color="inherit"
-          //   key={`delete-${id}`}
           // />,
         ];
       },
@@ -211,8 +277,10 @@ const handleStatusToggle = async (id) => {
       sx={{
         height: 500,
         marginLeft:'20px',
+        marginRight:'40px',
         marginTop:'20px',
         width: '97%',
+        position: 'relative',
         '& .actions': {
           color: 'text.secondary',
         },
@@ -221,23 +289,65 @@ const handleStatusToggle = async (id) => {
         },
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        getRowId={(row) => row.id}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        onCellEditCommit={handleCellEditCommit}
-        processRowUpdate={processRowUpdate}
-        components={{
-          Toolbar: EditToolbar,
-        }}
-        componentsProps={{
-          toolbar: { setRows, setRowModesModel },
-        }}
-      />
+      {initialLoading ? (
+        <Skeleton variant="rectangular" width="100%" height={500} />
+      ) : (
+        <>
+          {loading && (
+            <Box
+              sx={{
+                position: 'absolute',
+                marginRight:'10px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 1,
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row._id}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
+            processRowUpdate={processRowUpdate}
+            pagination
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            page={page}
+            onPageChange={(newPage) => setPage(newPage)}
+            rowsPerPageOptions={[5, 10, 20]}
+            slots={{
+              toolbar: EditToolbar,
+            }}
+            slotProps={{
+              toolbar: { setRows, setRowModesModel },
+            }}
+          />
+        </>
+      )}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

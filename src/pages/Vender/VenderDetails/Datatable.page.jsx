@@ -11,7 +11,8 @@ import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
 import {useVenderMutation} from '../../../Services/fetchApi/fetchVender/mutationVender.api'
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Link } from 'react-router-dom';
 import {
   GridRowModes,
   DataGrid,
@@ -22,6 +23,7 @@ import {
 import {
   randomId,
 } from '@mui/x-data-grid-generator';
+import { Container } from '@mui/material';
 
 
 
@@ -40,9 +42,11 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
+      <Link to={`/Vender-List/new`}>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Vender
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
@@ -122,11 +126,10 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const columns = [
-    { field: 'name', headerName: 'Name', width: 180, editable: true },
-    { field: 'email', headerName: 'Email', width: 180, editable: true},
-    { field: 'phone', headerName: 'Phone', width: 180, editable: true},
-    { field: 'address', headerName: 'Address', width: 180, editable: true},
-    { field: 'status', headerName: 'Status', width: 180, editable: true },
+    { field: 'name', headerName: 'Name', width: 260, editable: true },
+    { field: 'phone', headerName: 'Phone', width: 260, editable: true},
+    { field: 'address', headerName: 'Address', width: 260, editable: true},
+    { field: 'status', headerName: 'Status', width: 260, editable: true },
     {
       field: 'actions',
       type: 'actions',
@@ -138,51 +141,51 @@ export default function FullFeaturedCrudGrid() {
 
         if (isInEditMode) {
           return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
+            // <GridActionsCellItem
+            //   icon={<SaveIcon />}
+            //   label="Save"
+            //   sx={{
+            //     color: 'primary.main',
+            //   }}
+            //   onClick={handleSaveClick(id)}
+            // />,
+            // <GridActionsCellItem
+            //   icon={<CancelIcon />}
+            //   label="Cancel"
+            //   className="textPrimary"
+            //   onClick={handleCancelClick(id)}
+            //   color="inherit"
+            // />,
           ];
         }
 
         return [
+          // <GridActionsCellItem
+          //   icon={<EditIcon />}
+          //   label="Edit"
+          //   className="textPrimary"
+          //   onClick={handleEditClick(id)}
+          //   color="inherit"
+          // />,
+          <Link to={`/Vendor-List/${id}`}>
           <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
+            icon={<VisibilityIcon />}
+            label="View"
             color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          /></Link>,
         ];
       },
     },
   ];
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
         marginRight:'40px',
         marginTop:'20px',
-        width: '600%',
+        width: '97%',
         position: 'relative',
         '& .actions': {
           color: 'text.secondary',
@@ -219,6 +222,14 @@ export default function FullFeaturedCrudGrid() {
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             processRowUpdate={processRowUpdate}
             pagination
             pageSize={pageSize}
@@ -244,6 +255,6 @@ export default function FullFeaturedCrudGrid() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );
 }

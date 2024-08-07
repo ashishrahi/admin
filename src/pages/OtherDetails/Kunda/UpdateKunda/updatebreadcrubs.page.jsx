@@ -37,7 +37,7 @@ export default function IconBreadcrumbs() {
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
           color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'black'}}>New Kunda</span> 
+          <span style={{color:'black'}}>Update Kunda</span> 
          </Link>
         
       </Breadcrumbs>

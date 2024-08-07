@@ -30,7 +30,7 @@ export default function IconBreadcrumbs() {
           color="inherit"
         >
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'black'}}>Karigar</span> 
+          <span style={{color:'black'}}>Karigars</span> 
          
         </Link>
         

@@ -2,18 +2,37 @@ import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
-import { useUpdatepurity } from '../../../../Services/fetchApi/fetchVariantDetails/mutationPurity.api';
+import { useState,useEffect } from 'react';
+import { useUpdatepurity,usePurityById } from '../../../../Services/fetchApi/fetchVariantDetails/mutationPurity.api';
 import { useParams } from 'react-router-dom';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import UpdateBreadcrub from './updatebreadcrubs.page'
+import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
 
-const Update = () => {
 
+  const Update = () => {
+
+  //State Management
+
+  const { id } = useParams();
+  const {data} = usePurityById(id)
   const{mutateAsync:updateMutatePurity} = useUpdatepurity();
   const[purity,setPurity] = useState('')
-  const { id } = useParams();
+  const[isloading,setLoading] = useState(true)
   
+  
+  // Fetch Purity
+  useEffect(() => {
+  if(data){
+    setPurity(data.purity)
+   }
+setTimeout(() => {
+  setLoading(false)
+}, 1000);
+}, [data])
+
+
+//Update submit
   const handleSubmit = async(e) => {
         e.preventDefault();
        await updateMutatePurity({id,purity});
@@ -24,7 +43,9 @@ const Update = () => {
       <Sidebar />
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
-       <Box marginTop={1} marginLeft={2.5}><UpdateBreadcrub /></Box> 
+       <Box marginTop={1} marginLeft={2.5}><UpdateBreadcrub/></Box>
+   {isloading ? <Circularprogress/>:(
+       <Container> 
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -53,6 +74,8 @@ const Update = () => {
           </Paper>
         </form>
         </Box>
+        </Container>
+        )}
        </Box>
     </Box>
   );

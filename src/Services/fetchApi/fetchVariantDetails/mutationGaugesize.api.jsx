@@ -13,7 +13,19 @@ const fetchGaugesizes = async () => {
   catch (error) {
     console.log('Error fetching gaugesizes:', error);
     }};
- 
+
+// -------- Fetch dandi by ID
+
+    const fetchGaugesizeById = async (id) => {
+      try {
+        const response = await api.get(`/gaugesizes/${id}`);
+        return response.data;
+      } catch (error) {
+        console.log('Error fetching dandi by ID:', error);
+      }
+    };
+
+
 /////////////////////////////add Gaugesizes////////////////////////////////
 
 
@@ -66,9 +78,6 @@ const statusGaugesize = async (id) => {
 
 
 
-
-
-
 ////////////////////////// fetching Gaugesizes mutations /////////////////////////////////////
 
  // 
@@ -76,10 +85,18 @@ const statusGaugesize = async (id) => {
  return useQuery('gaugesizes', fetchGaugesizes);
  };
 
+ 
+ //----------------------- gaugesize by Id
+
+export const useGaugeseizeById = (id) => {
+  return useQuery(['gaugesizes', id], () => fetchGaugesizeById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
  ///////////////////////// Add Gaugesize Mutations ////////////////////////////////////////////////
 
- 
- 
  export const useAddGaugesize = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient();
@@ -115,11 +132,9 @@ const statusGaugesize = async (id) => {
         }}
     );};
 
-  //////////////////////////////// update color Mutations ///////////////////////////////
+  //////////////////////////////// update Gaugesize Mutations ///////////////////////////////
   
-
-  
-  export const useUpdateGaugesize = () => {
+export const useUpdateGaugesize = () => {
     const navigate = useNavigate()
   const queryClient = useQueryClient();
   return useMutation(updateGaugesize,
@@ -134,7 +149,7 @@ const statusGaugesize = async (id) => {
         }
       });};
 
-
+//--------------------- Status Gaugesize
       export const useStatusGaugesize = () => {
         const queryClient = useQueryClient();
         return useMutation(statusGaugesize,

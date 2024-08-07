@@ -13,6 +13,7 @@ import Skeleton from '@mui/material/Skeleton';
 import {useActiveCategory} from '../../../Services/fetchApi/fetchCategory/mutationCategory.api'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 import {
   GridRowModes,
   DataGrid,
@@ -188,39 +189,21 @@ const handleStatusToggle = async (id) => {
 
 
   const columns = [
-    { field: 'categoryname', headerName: 'Category', width: 180,},
-    {
-      field: 'variantdetails',
-      headerName: 'Variant Details',
-      width: 650,
+    { field: 'categoryname', headerName: 'Category Name', width: 280,},
+    {field: 'image', headerName: 'Image',width: 280,
       renderCell: (params) => (
-        <Grid container rowSpacing={4} sx={{gap:'5px',height:'10vh'}} >
-          <strong>Color:</strong> {params.value.color},<br />
-          <strong>Dandi:</strong> {params.value.dandi},<br />
-          <strong>Gender:</strong> {params.value.gender},<br />
-          <strong>Purity:</strong> {params.value.purity},<br />
-          <strong>Kunda:</strong> {params.value.kunda},<br />
-          <strong>Size:</strong> {params.value.size},<br />
-          <strong>Weight:</strong> {params.value.weight},<br />
-          <strong>Gauge Size:</strong> {params.value.gaugesize},<br />
-          <strong>Status:</strong> {params.value.status ? <span style={{color:'green'}}>{'Available'} </span>: 'Not Available'}
-        </Grid>
+        <Avatar src={params.value} alt={params.row.name} />
       ),
     },
 
-    { field: 'status', headerName: 'Status', width: 180,
+    { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
             {params.row.status ? (
-        <Chip
-          value={params.value}
-          icon={<CheckCircleIcon style={{ color: 'green' }} />}
-          label="Active"
-          variant="outlined"
-          // onClick={() => handleStatusToggle(params.row._id)}
-
-        />
+        
+          <CheckCircleIcon style={{ color: 'green' }} />
+          
       ) :  <Chip
            value={params.value}
           icon={<CancelIcon style={{ color: 'red' }} />}
@@ -284,7 +267,7 @@ const handleStatusToggle = async (id) => {
   ];
 
   const getRowHeight = () => {
-    return 150; // Adjust the height based on your needs
+    return 70; // Adjust the height based on your needs
   };
 
 
@@ -330,6 +313,14 @@ const handleStatusToggle = async (id) => {
             editMode="row"
             getRowId={(row) => row._id}
             rowModesModel={rowModesModel}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}

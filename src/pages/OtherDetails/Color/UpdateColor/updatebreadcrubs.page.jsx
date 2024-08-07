@@ -15,7 +15,7 @@ export default function IconBreadcrumbs() {
       <Breadcrumbs aria-label="breadcrumb">
         
         {/* Dashboard */}
-        <Link to={`/Color`}
+        <Link to={`/`}
           underline="hover"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
           color="inherit"
@@ -23,24 +23,23 @@ export default function IconBreadcrumbs() {
           <HomeIcon sx={{ mr: 0.5 ,color:'black'}} fontSize="inherit" />
          <span style={{color:'black'}}>Dashboard</span> 
         </Link>
-        {/* Colors */}
-        <Link
+        {/* new */}
+        <Link to={`/Color`}
           underline="hover"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
-          color="inherit"
-        >
+          color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'black' }} fontSize="inherit" />
           <span style={{color:'black'}}>Colors</span> 
          </Link>
-        {/* update Colors */}
+          {/* Update */}
         <Link
           underline="hover"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
-          color="inherit"
-        >
+          color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
           <span style={{color:'black'}}>Update Color</span> 
          </Link>
+        
       </Breadcrumbs>
     </Box>
   );

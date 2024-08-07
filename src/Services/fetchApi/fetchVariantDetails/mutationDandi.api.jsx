@@ -3,7 +3,7 @@ import api from '../../../utilities/Api'
 import { useNavigate } from 'react-router-dom';
 
 
-//fetch dandis
+//--------------fetch dandis
 const fetchdandis = async () => {
   
   try {
@@ -25,7 +25,7 @@ const fetchDandiById = async (id) => {
   }
 };
  
-//add dandis
+//---------------------add dandis
   const adddandi = async (newdandi) => {
     try {
          const response = await api.post(`/dandis/dandi`,newdandi);
@@ -45,9 +45,8 @@ const fetchDandiById = async (id) => {
       console.log('Error deleting dandi:', error);
     }};
 
-  //update <dandis>   </dandis>
+  //-------------------update dandi
   const updatedandi = async ({id,updatedandi}) => {
-    console.log(updatedandi)
     try {
       const response = await api.put(`/dandis/${id}`,{updatedandi});
       return response.data;
@@ -65,10 +64,6 @@ const statusdandi = async (id) => {
   catch (error) {
     console.log('Error updating status dandi:', error);
   }};
-
-
-
-
 
 
 

@@ -2,7 +2,7 @@ import { useQuery,useQueryClient,useMutation} from 'react-query';
 import api from '../../../utilities/Api'
 import { useNavigate } from 'react-router-dom';
 
-////////////////////////////fetch About//////////////////
+//--------------------fetch About
 
 const fetchAbout = async () => {
 const response = await api.get(`/abouts`);
@@ -10,8 +10,18 @@ console.log(response.data)
 return response.data;
 };
  
-/////////////////////////////add About////////////////////////////////
 
+//-------------------Fetch About by ID
+ const fetchAboutById = async (id) => {
+  try {
+    const response = await api.get(`/abouts/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching about by ID:', error);
+  }
+};
+
+//-------------------- add About
 
   const addAbout = async (newAbout) => {
   const response = await api.post(`/abouts/about`,newAbout);
@@ -19,7 +29,7 @@ return response.data;
   return response.data;
   };
 
-//////////////////////// delete About /////////////////////////////////
+//---------------------delete About 
 
 
 
@@ -29,22 +39,34 @@ return response.data;
   return response.data;
   };
 
-/////////////////////// update Abouts ///////////////////////////////
+//--------------------- update Abouts 
 
 
-  const updateAbout = async (aboutData,id) => {
-  const response = await api.patch(`/abouts/${id}`,aboutData); 
+  const updateAbout = async ({values,id}) => {
+  const response = await api.put(`/abouts/${id}`,values); 
   console.log(response.data)
   return response.data;
   };
 
 
-////////////////////////// fetching Abouts /////////////////////////////////////
+//---------------- Mutation Abouts 
 
   
  export const useAbout = () => {
  return useQuery('abouts', fetchAbout);
  };
+
+//--------------- Mutation to get color by ID
+
+export const useAboutById = (id) => {
+  return useQuery(['abouts', id], () => fetchAboutById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
+
+
 
  ///////////////////////// Add About Mutations ////////////////////////////////////////////////
 

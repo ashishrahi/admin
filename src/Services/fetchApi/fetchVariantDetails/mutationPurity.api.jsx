@@ -14,6 +14,18 @@ const fetchpurities = async () => {
     console.error('Error fetching purities:', error);
     }};
  
+//----------------- Fetch dandi by ID
+
+
+const fetchPurityById = async (id) => {
+  try {
+    const response = await api.get(`/purities/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching purity by ID:', error);
+  }
+};
+
 ///////////////////////////// add Purity ////////////////////////////////
 
 
@@ -67,21 +79,24 @@ const statuspurity = async (id) => {
 
 
 
-
-
-
 ////////////////////////// fetching Purity mutations /////////////////////////////////////
-
- 
- export const usePurity = () => {
+export const usePurity = () => {
  return useQuery('purities', fetchpurities);
  };
 
+
+
+// ------------------ Purity by Id
+ export const usePurityById = (id) => {
+  return useQuery(['dandi', id], () => fetchPurityById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
  ///////////////////////// Add Purity Mutations ////////////////////////////////////////////////
 
- 
- 
- export const useAddpurity = () => {
+  export const useAddpurity = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient();
   return useMutation(addpurity,

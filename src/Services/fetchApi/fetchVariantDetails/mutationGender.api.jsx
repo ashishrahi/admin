@@ -15,6 +15,20 @@ const fetchGenders = async () => {
     throw error;
     }};
  
+
+// Fetch dandi by ID
+const fetchGenderById = async (id) => {
+  try {
+    const response = await api.get(`/genders/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching gender by ID:', error);
+  }
+};
+
+
+
+
 /////////////////////////////add Gender////////////////////////////////
 
 
@@ -68,6 +82,17 @@ const statusGender = async (id) => {
  export const useGender = () => {
  return useQuery('genders', fetchGenders);
  };
+
+
+//----------------------- gaugesize by Id
+
+export const useGenderById = (id) => {
+  return useQuery(['genders', id], () => fetchGenderById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
 
  ///////////////////////// Add user Mutations ////////////////////////////////////////////////
 

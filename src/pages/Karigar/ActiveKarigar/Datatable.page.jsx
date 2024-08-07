@@ -16,6 +16,7 @@ import {Stack} from '@mui/material';
 import {useActiveKarigar} from '../../../Services/fetchApi/fetchKarigar/mutationActiveKarigar.api'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Avatar from '@mui/material/Avatar';
+import {Grid} from '@mui/material';
 
 import {
   GridRowModes,
@@ -170,75 +171,89 @@ export default function FullFeaturedCrudGrid() {
     {
       field: 'avatar',
       headerName: 'Avatar',
-      width: 90,
+      width: 180,
       renderCell: (params) => (
         <Avatar src={params.value} alt={params.row.name} />
       ),
     },
-    { field: 'name', headerName: 'Karigar Name', width: 180, },
-    { field: 'phone', headerName: 'Phone', width: 180,},
-    { field: 'city', headerName: 'City', width: 180,  },
+    { field: 'name', headerName: 'Karigar Name', width: 300, },
+    { field: 'phone', headerName: 'Phone', width: 300,},
+    { field: 'address', headerName: 'Address', width: 300, 
+      renderCell:(params)=>{
+       const addressArray = params.value;
+       console.log(addressArray);
+       const address = addressArray[0]
+       const{house,city} = address;
+       return(
+        <Grid container rowSpacing={1} sx={{ gap: '5px', height: 'auto', overflow:'auto' }}>
+        <div><strong>House:</strong> {house}</div>
+        {/* <div><strong>Pincode:</strong> {pincode}</div> */}
+        <div><strong>City:</strong> {city}</div>
+        {/* <div><strong>Country:</strong> {country}</div> */}
+      </Grid>
+       )
+      }
+     },
     { field: 'status', headerName: 'Status', width: 180, 
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
             {params.row.status ? (
-        <Chip
-          icon={<CheckCircleIcon style={{ color: 'green' }} />}
-          label="Active"
-          variant="outlined"
-        />
+      
+          <CheckCircleIcon style={{ color: 'green' }} />
+        
+        
       ) : null}
           </div>
         );
       },
     },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 100,
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    // {
+    //   field: 'actions',
+    //   type: 'actions',
+    //   headerName: 'Actions',
+    //   width: 100,
+    //   cellClassName: 'actions',
+    //   getActions: ({ id }) => {
+    //     const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
+    //     if (isInEditMode) {
+    //       return [
+    //         // <GridActionsCellItem
+    //         //   icon={<SaveIcon />}
+    //         //   label="Save"
+    //         //   sx={{
+    //         //     color: 'primary.main',
+    //         //   }}
+    //         //   onClick={handleSaveClick(id)}
+    //         // />,
+    //         // <GridActionsCellItem
+    //         //   icon={<CancelIcon />}
+    //         //   label="Cancel"
+    //         //   className="textPrimary"
+    //         //   onClick={handleCancelClick(id)}
+    //         //   color="inherit"
+    //         // />,
+    //       ];
+    //     }
 
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
-    },
+    //     return [
+    //       <GridActionsCellItem
+    //         icon={<EditIcon />}
+    //         label="Edit"
+    //         className="textPrimary"
+    //         onClick={handleEditClick(id)}
+    //         color="inherit"
+    //       />,
+    //       <GridActionsCellItem
+    //         icon={<DeleteIcon />}
+    //         label="Delete"
+    //         onClick={handleDeleteClick(id)}
+    //         color="inherit"
+    //       />,
+    //     ];
+    //   },
+    // },
   ];
 
   return (
@@ -279,6 +294,7 @@ export default function FullFeaturedCrudGrid() {
             </Box>
           )}
           <DataGrid
+       
             rows={rows}
             columns={columns}
             editMode="row"
@@ -287,6 +303,14 @@ export default function FullFeaturedCrudGrid() {
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             pagination
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

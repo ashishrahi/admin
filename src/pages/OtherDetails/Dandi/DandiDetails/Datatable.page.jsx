@@ -56,7 +56,7 @@ function EditToolbar(props) {
 
 export default function FullFeaturedCrudGrid() {
   const {data} = useDandis();
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = React.useState();
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
@@ -70,6 +70,9 @@ export default function FullFeaturedCrudGrid() {
     if(data){
       setRows(data);
     }
+    setTimeout(() => {
+      setInitialLoading(false);
+    }, 2000);
     setTimeout(() => {
       setInitialLoading(false);
     }, 2000);
@@ -151,12 +154,12 @@ const handleStatusToggle = async (id) => {
 
 
   const columns = [
-    { field: 'dandi', headerName: 'Dandi', width: 180,
+    { field: 'dandi', headerName: 'Dandi', width: 280,
       valueGetter:(params)=>{
         return params.row.dandi ? params.row.dandi:'';
       }
      },
-    { field: 'status', headerName: 'Status', width: 180,
+    { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <Box className={`cellWithStatus ${params.row.status}`}>
@@ -186,7 +189,7 @@ const handleStatusToggle = async (id) => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 280,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -267,6 +270,14 @@ const handleStatusToggle = async (id) => {
             editMode="row"
             getRowId={(row) => row._id }
             rowModesModel={rowModesModel}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}

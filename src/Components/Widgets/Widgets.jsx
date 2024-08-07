@@ -9,17 +9,17 @@ const Widgets = ({type}) => {
 switch (type) {
     case 'user':
         data={
-            title:'users',
+            title:'USERS',
             isMoney:false,
-            link:'see all users',
-            icon:<PersonOutlineIcon className='icon' sx={{fontSize:'10px',color:'crimson',}}/>
+            link:'See all users',
+            icon:<PersonOutlineIcon className='icon' />
         };
         break;
         case 'order':
             data={
                 title:'ORDERS',
                 isMoney:false,
-                link:'see all ORDERS',
+                link:'See all orders',
                 icon:<AddShoppingCartIcon className='icon'/>
             };
             break;
@@ -40,9 +40,8 @@ switch (type) {
                         icon:<MonetizationOnIcon className='icon'/>
                     };
                     break;
-
-    default:
-        break;
+                    default:
+                    break;
 }
 
 
@@ -63,7 +62,7 @@ switch (type) {
                }}>
             <span className='title' style={{fontWeight:'bold',fontSize:'14px',color:'gray'}}>{data.title}</span>
             <span className="counter" style={{fontSize:'18px',fontWeight:300}}>{data.isMoney && '$'}</span>
-            <span className="link" style={{width:'max-content',fontSize:'28px',
+            <span className="link" style={{width:'max-content',fontSize:'16px',color:'blue',
                 borderBottom:'1px solid gray'
             }}>{data.link}</span>
          </Box>
@@ -72,8 +71,8 @@ switch (type) {
                 flexDirection: 'column',
                 justifyContent: 'space-between'
                }}>
-            <Box className='percentage positive' sx={{display:'flex',alignItems:'center',fontSize:'10px'}}>
-            <KeyboardArrowDownIcon style={{padding:'5px',backgroundColor:'rgba(128,0,128,0.541)',borderRadius:'5px'}}/>
+            <Box className='percentage positive' sx={{display:'flex',alignItems:'center',fontSize:'3px'}}>
+            <KeyboardArrowDownIcon style={{padding:'1px',backgroundColor:'black',borderRadius:'5px'}}/>
                 20%
                 </Box>
                 {data.icon}

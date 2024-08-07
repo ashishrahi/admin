@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
 import { Chip, Container } from '@mui/material';
 import {useAbout} from '../../../Services/fetchApi/fetchAbout/mutationAbout.api'
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   GridRowModes,
   DataGrid,
@@ -120,7 +120,7 @@ export default function FullFeaturedCrudGrid() {
     setTimeout(() => {
       setInitialLoading(false);
     }, 2000);
-  }, []);
+  }, [data]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -188,11 +188,15 @@ export default function FullFeaturedCrudGrid() {
 
 
 
-
+  function stripHtmlTags(html) {
+    return html.replace(/<[^>]*>/g, '');
+  }
 
   const columns = [
-    { field: 'title', headerName: 'Title', width: 180, editable: true,},
-    { field: 'description', headerName: 'Description', width: 180, editable: true,},
+    { field: 'title', headerName: 'Title', width: 300,},
+    { field: 'description', headerName: 'Description', width: 300,
+      valueGetter: (params) => stripHtmlTags(params.value),
+    },
     // { field: 'status', headerName: 'Status', width: 180,
     //   renderCell: (params) => (
     //     <Chip
@@ -210,7 +214,7 @@ export default function FullFeaturedCrudGrid() {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 300,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -236,12 +240,13 @@ export default function FullFeaturedCrudGrid() {
         }
 
         return [
+          <Link to={`/About/${id}`}>
           <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
+            icon={<VisibilityIcon />}
+            label="View"
             className="textPrimary"
             color="inherit"
-          />,
+          /></Link>,
           // <GridActionsCellItem
           //   icon={<DeleteIcon />}
           //   label="Delete"

@@ -8,15 +8,26 @@ import NewCrub from './policybreadcrubs.page';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // import styles for react-quill
+import { useEffect, useState } from 'react';
+import {CircularProgress} from '@mui/material'
+
 
 const New = () => {
   const { mutateAsync: addMutatePolicy } = useAddPolicyrMutation();
+  const[isloading,setLoading] = useState(true)
+  
+  useEffect(() => {
+    setTimeout(() => {
+    setLoading(false)
+      
+    }, 1000);
+  }, [])
 
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
-      policy: ''
+      
     },
     onSubmit: async (values, { resetForm }) => {
       await addMutatePolicy(values);
@@ -32,6 +43,9 @@ const New = () => {
         {/* breadcrubs */}
         <Box marginTop={1} marginLeft={2.5}><NewCrub/></Box>
         {/* Body */}
+        {isloading?<Box display="flex" justifyContent="center" alignItems="center" height="80vh">
+        <CircularProgress />
+      </Box>:
         <Container sx={{ marginTop: '30px', 'border-color': 'solid' }}>
           <form method='post' onSubmit={formik.handleSubmit}>
             <Paper style={{ alignItems: 'center', width: '1100px', height: 'auto', padding: '20px' }}>
@@ -45,7 +59,7 @@ const New = () => {
                   onChange={formik.handleChange}
                   sx={{ width: '100%' }}
                 />
-                <TextField
+                {/* <TextField
                   label="Description"
                   required
                   variant="outlined"
@@ -53,11 +67,12 @@ const New = () => {
                   value={formik.values.description}
                   onChange={formik.handleChange}
                   sx={{ width: '100%' }}
-                />
+                /> */}
                 <ReactQuill
-                  value={formik.values.policy}
-                  onChange={(value) => formik.setFieldValue('about', value)}
+                  value={formik.values.description}
+                  onChange={(value) => formik.setFieldValue('description', value)}
                   theme="snow"
+                   required
                   style={{ width: '100%', height: '250px' }} 
                 />
               </Box>
@@ -73,6 +88,7 @@ const New = () => {
 
           </form>
         </Container>
+         }
       </Box>
     </Box>
   );

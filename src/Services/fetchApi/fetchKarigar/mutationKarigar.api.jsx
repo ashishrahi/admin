@@ -1,51 +1,90 @@
 import { useQuery,useQueryClient,useMutation} from 'react-query';
 import api from '../../../utilities/Api'
+import { useNavigate } from 'react-router-dom';
 
 
 ////////////////////////////fetch Karigars//////////////////
 
 const fetchKarigars = async () => {
-const response = await api.get(`/karigars`);
-console.log(response.data)
-return response.data;
+  try {
+    const response = await api.get(`/karigars`);
+    return response.data;
+  } 
+  catch (error) {
+    console.log('Error fetching karigars:', error);
+    
+  }
+
 };
+//------------- Karigar by Id
+
+const fetchKarigarById = async (id) => {
+  try {
+    const response = await api.get(`/karigars/${id}`);
+    return response.data;
+     } 
+  catch (error) {
+    console.log('Error fetching Karigar by ID:', error);
+  }
+};
+
  
 ///////////////////////////// add Karigars ////////////////////////////////
 
 
-  const addKarigar = async (newKarigar) => {
-  const response = await api.post(`/karigars/karigar`,newKarigar);
-  console.log(response.data)
-  return response.data;
-  };
+  const addKarigar = async (formData) => {
+    try {
+       const response = await api.post(`/karigars/karigar`,formData);
+       console.log(response.data)
+       return response.data;
+    } 
+    catch (error) {
+      console.log('Error adding karigar:', error);
+      }};
 
-//////////////////////// delete Karigars /////////////////////////////////
+//////////////////////// fetching of delete Karigars /////////////////////////////////
 
 
 
   const deleteKarigar = async (id) => {
-  const response = await api.delete(`/karigars/${id}`);
-  console.log(response.data)
-  return response.data;
+     try {
+      const response = await api.delete(`/karigars/${id}`);
+      console.log(response.data)
+      return response.data;
+      } 
+     catch (error) {
+      console.log('Error deleting karigar:', error);
+      
+    }
+ 
   };
 
-/////////////////////// update Karigars ///////////////////////////////
+/////////////////////// fetching of update of Karigars ///////////////////////////////
 
 
-  const updateKarigar = async (karigarData,id) => {
-  const response = await api.patch(`/karigars/${id}`,karigarData); 
-  console.log(response.data)
-  return response.data;
-  };
+  const updateKarigar = async ({id,formData}) => {
+    console.log(id)
+    try {
+        const response = await api.put(`/karigars/${id}`,formData); 
+        console.log(response.data)
+        return response.data;
+       }
+   catch (error) {
+      console.log('Error updating karigar:', error);
+       }};
 
-  /////////////////////// Status Karigars ///////////////////////////////
+  /////////////////////// fetching of Status of Karigars ///////////////////////////////
 
 
   const statusKarigar = async (id) => {
-    const response = await api.put(`/karigars/${id}/status`); 
+    try {
+      const response = await api.put(`/karigars/${id}/status`); 
     console.log(response.data)
     return response.data;
-    };
+       } 
+  catch (error) {
+      console.log('Error updating karigar status:', error);
+    }};
 
 
 ////////////////////////// fetching karigars mutations /////////////////////////////////////
@@ -55,16 +94,29 @@ return response.data;
  return useQuery('karigars', fetchKarigars);
  };
 
- ///////////////////////// Add karigar Mutations ////////////////////////////////////////////////
+
+//--------------- Mutation to get Vender by ID
+
+
+export const useKarigarById = (id) => {
+  return useQuery(['karigars', id], () => fetchKarigarById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
+ //--------------- Add karigar Mutations
 
  
  
  export const useAddKarigarMutation = () => {
+  const navigate = useNavigate()
   const queryClient = useQueryClient();
   return useMutation(addKarigar,
     {
       onSuccess: () => {
         queryClient.invalidateQueries('karigars');
+        navigate('/Karigar-List');
       },
     },
     {
@@ -99,17 +151,17 @@ return response.data;
 
   
   export const useUpdateMutationKarigar = () => {
+    const navigate = useNavigate()
   const queryClient = useQueryClient();
-  return useMutation(updateKarigar,
-    {
+
+  return useMutation(updateKarigar,{
       onSuccess: () => {
         queryClient.invalidateQueries('karigars');
-      },},{
-        onError:(err) => {
-          console.error('Error updating karigar:', err);
-          alert('Failed to update karigar. Please try again later.');
-        }
-      });};
+        navigate('/Karigar-List');
+       },
+    
+      }
+    );};
 
       export const useStatusMutationKarigar = () => {
         const queryClient = useQueryClient();

@@ -87,7 +87,7 @@ function EditToolbar(props) {
   return (
     <GridToolbarContainer>
       <Link to={'/Weight/new'}>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+      <Button color="primary" startIcon={<AddIcon />} >
         Add Weight
       </Button>
       </Link>
@@ -194,14 +194,14 @@ const handleStatusToggle = async (id) => {
 
 
   const columns = [
-    { field: 'serialno', headerName: 'Serial No.', width: 180,},
+    // { field: 'serialno', headerName: 'Serial No.', width: 180,},
 
-    { field: 'weight', headerName: 'Weight', width: 180,
+    { field: 'weight', headerName: 'Weight', width: 280,
       valueGetter:(params)=>{
         return params.row.weight? params.row.weight:'';
       }
      },
-     { field: 'status', headerName: 'Status', width: 180,
+     { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
@@ -229,7 +229,7 @@ const handleStatusToggle = async (id) => {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 280,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;

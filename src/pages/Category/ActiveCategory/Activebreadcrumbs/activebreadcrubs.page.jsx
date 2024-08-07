@@ -30,8 +30,8 @@ export default function IconBreadcrumbs() {
           style={{ display: 'flex', alignItems: 'center',cursor: 'pointer',textDecoration:'none' }}
           color="inherit"
         >
-          <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit"/>
-          <span style={{color:'blue'}}>Category</span> 
+          <TableViewIcon sx={{ mr: 0.5,color:'black' }} fontSize="inherit"/>
+          <span style={{color:'black'}}>Categories</span> 
          
         </Link>
         <Link
@@ -39,8 +39,8 @@ export default function IconBreadcrumbs() {
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none'}}
           color="inherit"
         >
-          <TableViewIcon sx={{ mr: 0.5,color:'green' }} fontSize="inherit" />
-          <span style={{color:'green'}}>Active Category</span> 
+          <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
+          <span style={{color:'black'}}>Active Category</span> 
          
         </Link>
         {/* <Typography

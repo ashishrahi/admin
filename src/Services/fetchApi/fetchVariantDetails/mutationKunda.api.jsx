@@ -13,6 +13,21 @@ const fetchKundas = async () => {
     console.log('Error Fetching Kundas',error);
   }};
  
+
+// Fetch Kunda by ID
+const fetchKundaById = async (id) => {
+  try {
+    const response = await api.get(`/kundas/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching kunda by ID:', error);
+  }
+};
+
+
+
+
+
 /////////////////////////////add Kundas////////////////////////////////
 
 
@@ -78,6 +93,18 @@ const statusKunda = async (id) => {
  export const useKunda = () => {
  return useQuery('kundas', fetchKundas);
  };
+
+
+  // Hook to get kunda by ID
+
+  export const useKundaById = (id) => {
+    return useQuery(['kundas', id], () => fetchKundaById(id), {
+      enabled: !!id,  // Ensure the query is only enabled if there's an id
+    });
+  };
+
+
+
 
  ///////////////////////// Add kundas Mutations ////////////////////////////////////////////////
 

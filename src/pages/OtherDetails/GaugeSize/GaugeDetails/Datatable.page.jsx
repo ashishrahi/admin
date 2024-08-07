@@ -51,6 +51,8 @@ function EditToolbar(props) {
 }
 
 export default function FullFeaturedCrudGrid() {
+
+  //State Management
   const{data} = useGaugesize()
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
@@ -60,6 +62,8 @@ export default function FullFeaturedCrudGrid() {
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(0);
   const {mutateAsync:mutationStatus}=useStatusGaugesize();
+
+//Fetching Data
 
   React.useEffect(() => {
     // Simulate a data fetch
@@ -71,6 +75,7 @@ export default function FullFeaturedCrudGrid() {
     }, 2000);
   }, [data]);
 
+  // Row Edit function
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -127,10 +132,8 @@ export default function FullFeaturedCrudGrid() {
 
   //--------------- Toggle Status
   const handleStatusToggle = async (id) => {
-   console.log(id)
    try {
      const row = rows.find((row) => row._id === id);
-     console.log(row)
      const updatedStatus = !row.status;
      mutationStatus(id)
       setRows((prevRows) =>
@@ -152,12 +155,12 @@ export default function FullFeaturedCrudGrid() {
 
 
   const columns = [
-    { field: 'gaugesize', headerName: 'Gaugesize', width: 180, editable: true,
+    { field: 'gaugesize', headerName: 'Gaugesize', width: 280, editable: true,
       valueGetter:(params)=>{
         return params.row.gaugesize ? params.row.gaugesize:'';
       }
      },
-    { field: 'status', headerName: 'Status', width: 180,
+    { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <Box className={`cellWithStatus ${params.row.status}`}>
@@ -173,8 +176,8 @@ export default function FullFeaturedCrudGrid() {
         />
       ) :  <Chip
            value={params.value}
-          icon={<CancelIcon style={{ color: 'green' }} />}
-          label="inActive"
+          icon={<CancelIcon style={{ color: 'red' }} />}
+          label="InActive"
           variant="outlined"
           onClick={() => handleStatusToggle(params.row._id)}
 
@@ -187,7 +190,7 @@ export default function FullFeaturedCrudGrid() {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 280,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -277,6 +280,14 @@ export default function FullFeaturedCrudGrid() {
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             pagination
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

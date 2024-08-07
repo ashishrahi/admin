@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
@@ -16,6 +16,7 @@ import Chip from '@mui/material/Chip';
 import {Avatar} from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
+import {Container} from '@mui/material';
 import {
   GridRowModes,
   DataGrid,
@@ -87,9 +88,11 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
+      <Link to={`/Category-List/new`}>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Category
       </Button>
+      </Link>
     </GridToolbarContainer>
   );
 }
@@ -97,7 +100,7 @@ function EditToolbar(props) {
 export default function FullFeaturedCrudGrid() {
   const { data } = useCategory();
 
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = React.useState(data);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [snackbar, setSnackbar] = React.useState({ open: false, message: '', severity: '' });
   const [loading, setLoading] = React.useState(false);
@@ -109,11 +112,12 @@ export default function FullFeaturedCrudGrid() {
   React.useEffect(() => {
     // Simulate a data fetch
     if(data){
-      setRows(data);
+      setRows(data)
     }
+
     setTimeout(() => {
       setInitialLoading(false);
-    }, 2000);
+    }, 500);
   }, [data]);
 
   const handleRowEditStop = (params, event) => {
@@ -195,17 +199,20 @@ const handleStatusToggle = async (id) => {
     {
       field: 'image',
       headerName: 'Image',
-      width: 190,
+      width: 280,
       renderCell: (params) => (
         <Avatar src={params.value} alt={params.row.name} />
       ),
     },
-    { field: 'categoryname', headerName: 'Category', width: 180,},
+    { field: 'categoryname', headerName: 'Category Name', width: 280,},
+
     {
       field: 'variantdetails',
       headerName: 'Variant Details',
       width: 200,
       renderCell: (params) => (
+        
+        
         <Grid container rowSpacing={3} sx={{gap:'5px',height:'10vh',overflow:'scroll'}} >
           <strong>Color:</strong> {params.value.color},<br />
           <strong>Dandi:</strong> {params.value.dandi},<br />
@@ -220,7 +227,7 @@ const handleStatusToggle = async (id) => {
       ),
     },
 
-    { field: 'status', headerName: 'Status', width: 200,
+    { field: 'status', headerName: 'Status', width: 280,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
@@ -277,31 +284,31 @@ const handleStatusToggle = async (id) => {
         }
 
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
           <Link to={`/Category-List/${id}`}>
           <GridActionsCellItem
-            icon={<VisibilityIcon />}
-            label="view"
+            icon={<VisibilityTwoToneIcon />}
+            label="View"
+            className="textPrimary"
             color="inherit"
           /></Link>,
+          // <Link to={`/Category-List/${id}`}>
+          // <GridActionsCellItem
+          //   icon={<VisibilityIcon />}
+          //   label="view"
+          //   color="inherit"
+          // /></Link>,
         ];
       },
     },
   ];
 
   const getRowHeight = () => {
-    return 150; // Adjust the height based on your needs
+    return 70; // Adjust the height based on your needs
   };
 
 
   return (
-    <Box
+    <Container
       sx={{
         height: 500,
         marginLeft:'20px',
@@ -322,7 +329,7 @@ const handleStatusToggle = async (id) => {
       ) : (
         <>
           {loading && (
-            <Box
+            <Container
               sx={{
                 position: 'absolute',
                 marginRight:'10px',
@@ -333,7 +340,7 @@ const handleStatusToggle = async (id) => {
               }}
             >
               <CircularProgress />
-            </Box>
+            </Container>
           )}
           <DataGrid
             rows={rows}
@@ -341,6 +348,14 @@ const handleStatusToggle = async (id) => {
             getRowHeight={getRowHeight}
             editMode="row"
             getRowId={(row) => row._id}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
@@ -369,6 +384,6 @@ const handleStatusToggle = async (id) => {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Container>
   );
 }

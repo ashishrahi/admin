@@ -29,8 +29,8 @@ export default function IconBreadcrumbs() {
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
           color="inherit"
         >
-          <TableViewIcon sx={{ mr: 0.5,color:'blue'}} fontSize="inherit" />
-          <span style={{color:'black'}}>Color</span> 
+          <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
+          <span style={{color:'black'}}>Colors</span> 
          
         </Link>
         

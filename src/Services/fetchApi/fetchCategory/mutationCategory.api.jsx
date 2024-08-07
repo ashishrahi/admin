@@ -3,71 +3,101 @@ import api from '../../../utilities/Api'
 import { useNavigate } from 'react-router-dom';
 
 
-////////////////////////////fetch Users//////////////////
+////////////////////////////fetch Categories//////////////////
 
 const fetchCategories = async () => {
-const response = await api.get(`/categories`);
-console.log(response.data)
-return response.data;
-};
+  
+  try {
+    const response = await api.get(`/categories`);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching categories:', error);
+    }};
+    
+ 
 
-//////////////////////////// active fetch Users//////////////////
+//////////////////////////// active fetch Categories//////////////////
 
 const fetchactiveCategories = async () => {
-  const response = await api.get(`/categories/status/true`);
-  console.log(response.data)
-  return response.data;
-  };
+  try {
+    const response = await api.get(`/categories/status/true`);
+    return response.data;
+  } 
+  catch (error) {
+    console.log('Error fetching inactive categories:', error);
+    }};
 
-//////////////////////////// active fetch Users//////////////////
+//////////////////////////// active fetch Categories//////////////////
 
 const fetchinactiveCategories = async () => {
-  const response = await api.get(`/categories/status/false`);
-  console.log(response.data)
-  return response.data;
-  };
+  try {
+    const response = await api.get(`/categories/status/false`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching inactive categories:', error);
+  }};
 
 
 
-
- 
 /////////////////////////////add Categories ////////////////////////////////
 
 
-  const addCategory = async (newCategory) => {
-  const response = await api.post(`/categories/category`,newCategory);
-  console.log(response.data)
-  return response.data;
-  };
+  const addCategory = async (formData) => {
+      try {
+          const response = await api.post(`/categories/category`,formData);
+          return response.data;
+          } 
+      catch (error) {
+      console.log('Error adding category:', error);
+  }};
 
 //////////////////////// delete Categories /////////////////////////////////
 
 
 
   const deleteCategory = async (id) => {
-  const response = await api.delete(`/categories/${id}`);
-  console.log(response.data)
-  return response.data;
-  };
+    try {
+      const response = await api.delete(`/categories/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log('Error deleting category:', error);
+      }};
 
 /////////////////////// update Categories ///////////////////////////////
 
 
-  const updateCategory = async (categoryData,id) => {
-  const response = await api.patch(`/categories/${id}`,categoryData); 
-  console.log(response.data)
+  const updateCategory = async ({id,formData}) => {
+    try {
+      const response = await api.put(`/categories/${id}`,formData); 
   return response.data;
-  };
+    } catch (error) {
+      console.log('Error updating category:', error);
+      }};
 
 
   /////////////////////// update Categories ///////////////////////////////
 
 
   const updateCategoryStatus = async (id) => {
-    const response = await api.put(`/categories/${id}/status`); 
-    console.log(response.data)
+    try {
+      const response = await api.put(`/categories/${id}/status`); 
     return response.data;
-    };
+    } catch (error) {
+      console.log('Error updating category status:', error);
+      }};
+
+//-------------------Fetch Category by ID
+const fetchCategoryById = async (id) => {
+  try {
+    const response = await api.get(`/categories/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error fetching about by ID:', error);
+  }
+};
+
+
 
 
 ////////////////////////// fetching category mutations /////////////////////////////////////
@@ -76,6 +106,18 @@ const fetchinactiveCategories = async () => {
  export const useCategory = () => {
  return useQuery('categories', fetchCategories);
  };
+
+
+
+//--------------- Mutation to get Category by ID
+
+export const useCategoryById = (id) => {
+  return useQuery(['categories', id], () => fetchCategoryById(id), {
+    enabled: !!id,  // Ensure the query is only enabled if there's an id
+  });
+};
+
+
 
 ////////////////////////// fetching active category mutations /////////////////////////////////////
 

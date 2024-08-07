@@ -1,22 +1,42 @@
 import Navbar from '../../../../Components/Navbar/Navbar'
 import Sidebar from '../../../../Components/Sidebar/Sidebar'
-import {TextField,Container, Paper} from '@mui/material';
+import {TextField,Container, Paper, Snackbar} from '@mui/material';
 import {Button,Box} from '@mui/material';
-import { useState } from 'react';
-import { useUpdatesize } from '../../../../Services/fetchApi/fetchVariantDetails/mutationSize.api';
+import { useState,useEffect } from 'react';
+import { useUpdatesize,useSizeById } from '../../../../Services/fetchApi/fetchVariantDetails/mutationSize.api';
 import { useParams } from 'react-router-dom';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import UpdateBreadCrumb from './updatebreadcrubs.page'
+import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
 
 const Update = () => {
-
+  
+  // State management
+  const { id } = useParams();
+  const {data} = useSizeById(id)
   const{mutateAsync:updateMutateSize} = useUpdatesize();
   const[size,setSize] = useState('')
-  const { id } = useParams();
+  const[isloading,setLoading] = useState(true)
+  const[open,setOpen] = useState(false)
   
+useEffect(() => {
+ if(data){
+  setSize(data.size)
+ }
+ setTimeout(() => {
+  setLoading(false)
+ }, 1000);
+}, [data])
+
+
+
+
+
+  // Update Size
   const handleSubmit = async(e) => {
         e.preventDefault();
        await updateMutateSize({id,size});
+        setOpen(true)
   };
 
   return (
@@ -25,6 +45,8 @@ const Update = () => {
       <Box className="newContainer" style={{ flex: '6' }}>
         <Navbar />
         <Box marginLeft={2.5} marginTop={1}><UpdateBreadCrumb/></Box>
+        {isloading ? <Circularprogress/> :(
+        <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
@@ -53,7 +75,15 @@ const Update = () => {
           </Paper>
         </form>
         </Box>
+        </Container>
+        )}
        </Box>
+       <Snackbar
+       open={open}
+       autoHideDuration={3000}
+       message="Size has been updated successfully!"
+        
+       />
     </Box>
   );
 }

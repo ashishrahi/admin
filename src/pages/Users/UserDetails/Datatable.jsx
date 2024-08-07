@@ -14,6 +14,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Avatar from '@mui/material/Avatar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
+import {Grid} from '@mui/material';
 
 import {
   GridRowModes,
@@ -141,7 +142,23 @@ export default function FullFeaturedCrudGrid() {
      },
     { field: 'email', headerName: 'Email', width: 180,},
     { field: 'phone', headerName: 'Phone', width: 180,},
-    { field: 'address', headerName: 'Address', width: 180, },
+    {
+      field: 'address',
+      headerName: 'Address',
+      width: 180,
+      renderCell: (params) => {
+        
+       const addressArray = params.value;
+       const address = addressArray[0]
+          return (
+            <Grid container rowSpacing={1} sx={{ gap: '5px', height: 'auto', overflow: 'auto',marginTop:'1px' }}>
+              <div><strong>House:</strong> {address.house}</div>
+              <div><strong>City:</strong> {address.city}</div>
+            </Grid>
+          );
+        } 
+      
+    },
      { field: 'status', headerName: 'Status', width: 180,
       renderCell: (params) => {
         return (
@@ -196,12 +213,12 @@ export default function FullFeaturedCrudGrid() {
         // }
 
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            color="inherit"
-          />,
+          // <GridActionsCellItem
+          //   icon={<EditIcon />}
+          //   label="Edit"
+          //   className="textPrimary"
+          //   color="inherit"
+          // />,
           <Link to={`/User-List/${id}`}>
           <GridActionsCellItem
             icon={<VisibilityIcon />}
@@ -254,6 +271,14 @@ export default function FullFeaturedCrudGrid() {
             rowHeight={45}
             getRowId={(row) => row._id}
             columns={columns}
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0', // Light grey color for header
+                 fontWeight:'bold'
+            },
+              '& .MuiDataGrid-columnHeader': {
+                color: '#000', // Text color for header
+                },}}
             editMode="row"
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
