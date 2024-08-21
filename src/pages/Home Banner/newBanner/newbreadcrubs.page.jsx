@@ -24,12 +24,12 @@ export default function IconBreadcrumbs() {
          <span style={{color:'black'}}>Dashboard</span> 
         </Link>
         {/* new */}
-        <Link to={`/Category-List`}
+        <Link to={`/Home-Banner`}
           underline="none"
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
           color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'black' }} fontSize="inherit" />
-          <span style={{color:'black'}}>Categories</span> 
+          <span style={{color:'black'}}>HomeBanners</span> 
          </Link>
           {/* new */}
         <Link 
@@ -37,7 +37,7 @@ export default function IconBreadcrumbs() {
           style={{ display: 'flex', alignItems: 'center',textDecoration:'none' }}
           color="inherit">
           <TableViewIcon sx={{ mr: 0.5,color:'blue' }} fontSize="inherit" />
-          <span style={{color:'black'}}>Add Category</span> 
+          <span style={{color:'black'}}>Add HomeBanner</span> 
          </Link>
         
       </Breadcrumbs>

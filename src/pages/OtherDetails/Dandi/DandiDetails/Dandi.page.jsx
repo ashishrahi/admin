@@ -7,7 +7,7 @@ const Dandi = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:6}}>
+    <Box className="listContainer">
       <Navbar/>
      <Box className="breadcrub" marginLeft={2.5} marginTop={1}><Dandibreadcrub/></Box>
      <Datatable/>

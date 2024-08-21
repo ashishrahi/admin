@@ -32,13 +32,7 @@ const Add = () => {
 
   return (
 
-    <Box className='new' style={{ display: 'flex' }}>
-      {/* Sidebar */}
-      <Sidebar />
-      <Box className="newContainer" style={{ flex: '6' }}>
-        {/* Navbar */}
-        <Navbar />
-        {/* BreadCrub */}
+    <Box className='new' >
         <Box marginTop={1} marginLeft={2.5}><Puritycrumb/></Box>
         {isloading ? <Circularprogress/>:(
         <Container>
@@ -73,7 +67,6 @@ const Add = () => {
         </Container>
         )}
        </Box>
-    </Box>
   );
 }
 

@@ -1,123 +1,19 @@
-import Home from "./pages/Home/Home"
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import { Box } from "@mui/material"
-
-
-import Login from './pages/Auth/Login/Login'
-
-//-------------------Users
-
-import Users from './pages/Users/UserDetails/Users'
-import ActiveUser from "./pages/Users/ActiveUser/ActiveUser.page"
-import InactiveUser from "./pages/Users/InActiveUser/InactiveUser.page"
-import ViewUser from './pages/Users/ViewUser/ViewUser.page.jsx'
-
-//-------------------Category
-import Category from './pages/Category/CategoryDetails/Category.page'
-import ActiveCategory from './pages/Category/ActiveCategory/ActiveCategory.page'
-import InActiveCategory from './pages/Category/InactiveCategory/InactiveCategory.page'
-import NewCategory from './pages/Category/newCategory/newCategory.page.jsx'
-import UpdateCategory from './pages/Category/updateCategory/update.page'
-import ViewCategory from './pages/Category/ViewCategory/viewCategory.page.jsx'
-
-
-
-//-------------------Gender
-import Gender from './pages/OtherDetails/Gender/GenderDetails/Gender.page'
-import NewGender from './pages/OtherDetails/Gender/newGender/newGender.page'
-import UpdateGender from './pages/OtherDetails/Gender/updateGender/updateGender.page'
-
-
-// ------------ Product
- 
-
-//-------------------About
-
-
-//---------------------Parity
-import Purity from './pages/OtherDetails/Parity/ParityDetails/Purity.page'
-import NewPurity from './pages/OtherDetails/Parity/newPurity/newPurity.page'
-import UpdatePurity from './pages/OtherDetails/Parity/updatePurity/updatePurity.page'
-
-//----------------------Color
-import Color from './pages/OtherDetails/Color/ColorDetails/Color.page'
-import NewColor from './pages/OtherDetails/Color/newColor/newColor.page'
-import UpdateColor from './pages/OtherDetails/Color/updateColor/updateColor.page'
-
-//----------------------Dandi
-import Dandi from './pages/OtherDetails/Dandi/DandiDetails/Dandi.page'
-import NewDandi from './pages/OtherDetails/Dandi/newDandi/newDandi.page'
-import UpdateDandi from './pages/OtherDetails/Dandi/updateDandi/updateDandi.page'
-
-//----------------------Kunda
-import Kunda from './pages/OtherDetails/Kunda/KundaDetails/Kunda.page'
-import NewKunda from './pages/OtherDetails/Kunda/newKunda/newKunda.page'
-import UpdateKunda from './pages/OtherDetails/Kunda/updateKunda/updateKunda.page'
-
-//----------------------Size
-import Size from './pages/OtherDetails/Size/SizeDetails/Size.page'
-import NewSize from './pages/OtherDetails/Size/newSize/newSize.page'
-import UpdateSize from './pages/OtherDetails/Size/updateSize/updateSize.page'
-
-//---------------------Gauge Size
-import GaugeSize from './pages/OtherDetails/GaugeSize/GaugeDetails/GaugeSize.page'
-import NewGaugeSize from './pages/OtherDetails/GaugeSize/newGauge/newGaugeSize.page'
-import UpdateGaugeSize from './pages/OtherDetails/GaugeSize/updateGauge/updateGaugeSize.page'
-
-//-----------------------Weight
-import Weight from './pages/OtherDetails/Weight/WeightDetails/Weight.page'
-import NewWeight from './pages/OtherDetails/Weight/newWeight/newWeight.page'
-import UpdateWeight from './pages/OtherDetails/Weight/updateWeight/updateWeight.page'
-
-//-------------------------Karigar
-import Karigar from './pages/Karigar/KarigarDetails/Karigar.page'
-import ActiveKarigar from './pages/Karigar/ActiveKarigar/ActiveKarigar.page'
-import InactiveKarigar from './pages/Karigar/InactiveKarigar/InactiveKarigar.page'
-import NewKarigar from './pages/Karigar/addKarigar/addKarigar.page'
-import ViewKarigar from './pages/Karigar/ViewKarigar/viewKarigar.page.jsx'
-import UpdateKarigar from './pages/Karigar/updateKarigar/update.page'
-
-//---------------------------Vender
-import Vender from './pages/Vender/VenderDetails/Vender.page'
-import NewVender from './pages/Vender/addVender/addVender.page.jsx'
-import ViewVender from './pages/Vender/ViewVender/viewVender.page.jsx'
-import UpdateVender from  './pages/Vender/updateVender/update.page'
-
-// ------------------------- Product
- import Product from './pages/Products/ProductDetails/Product.page.jsx'
- import NewProduct from './pages/Products/newProduct/newProduct.page.jsx'
- import ViewProduct from './pages/Products/viewProduct/viewProduct.page.jsx'
- import UpdateProduct from './pages/Products/updateProduct/updateProduct.page.jsx'
-
- //---------------------------Cart
-
-
-//---------------------------Order
-import Order from './pages/Orders/OrderDetails/Order.page'
-import OrderView from './pages/Orders/viewOrder/view.page'
-
-//---------------------------About
- import About from './pages/About/AboutDetails/About'
- import NewAbout from './pages/About/newAbout/newAbout.page'
- import UpdateAbout from './pages/About/updateAbout/updateAbout.page'
- import ViewDetails from './pages/About/viewAbout/view.page'
-
- //---------------------HomeBanner
- import HomeBanner from './pages/Home Banner/BannerDetails/Banner.page.jsx'  
- import NewBanner from './pages/Home Banner/newBanner/newBanner.page'
- import UpdateBanner from './pages/Home Banner/updateBanner/update.page.jsx'
-
- //---------------------------Private Policy
- import PrivacyPolicy from './pages/PrivacyPolicy/policyDetails/Policy.page'
- import NewPolicy from './pages/PrivacyPolicy/newPolicy/newPolicy.page'
- import UpdatePolicy from './pages/PrivacyPolicy/updatePolicy/updatePolicy.page'
- import ViewPolicy from './pages/PrivacyPolicy/viewPolicy/view.page.jsx'
-
 import { useSelector } from "react-redux"
 import './App.css'
+import {
+  Home,Login,Users,ActiveUser,InactiveUser,ViewUser,Category,ActiveCategory,InActiveCategory,NewCategory,UpdateCategory,
+  ViewCategory,Purity,NewPurity,UpdatePurity,Gender,NewGender,UpdateGender,Color,NewColor,UpdateColor,Dandi,NewDandi,
+  UpdateDandi,Kunda,NewKunda,UpdateKunda,Size,NewSize,UpdateSize,GaugeSize,NewGaugeSize,Weight,NewWeight,UpdateWeight,Karigar,
+   ActiveKarigar,InactiveKarigar,NewKarigar,ViewKarigar,UpdateKarigar,Vender,NewVender,ViewVender,UpdateVender,Product,NewProduct,ViewProduct,
+   UpdateProduct,Order,OrderView,About,NewAbout,UpdateAbout,ViewDetails,HomeBanner,NewBanner,UpdateBanner,PrivacyPolicy,NewPolicy,UpdatePolicy,ViewPolicy
+  } from './pages/index'
+
 
 
 const App = () => {
+  
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   console.log(isAuthenticated)
   return (
@@ -215,7 +111,7 @@ const App = () => {
           <Route path="/GaugeSize">
           <Route index element={isAuthenticated?<GaugeSize/>:<Login/>} />
           <Route path="new" element={isAuthenticated?<NewGaugeSize/>:<Login/>}/>
-          <Route path=":id" element={isAuthenticated?<UpdateGaugeSize/>:<Login/>}/>
+          {/* <Route path=":id" element={isAuthenticated?<UpdateGaugeSize/>:<Login/>}/> */}
           </Route>
 
           {/* Weight */}

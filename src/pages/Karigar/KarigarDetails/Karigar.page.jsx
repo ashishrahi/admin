@@ -7,9 +7,9 @@ const Karigar = () => {
   return (
     <Box className='list' style={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-     <Box marginLeft={2.5} marginTop={1}> <Karigarbreadcrubs/></Box>
+     <Box marginLeft={3}> <Karigarbreadcrubs/></Box>
      <Datatable/>
         </Box>
       </Box>

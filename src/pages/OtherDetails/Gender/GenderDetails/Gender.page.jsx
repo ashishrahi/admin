@@ -7,9 +7,9 @@ const Gender = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:'6'}}>
+    <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-     <Box className='breadcrub' marginTop={1} marginLeft={2.5}><Genderbreadcrumb/></Box> 
+     <Box className='breadcrub' marginLeft={4}><Genderbreadcrumb/></Box> 
      <Datatable/>
         </Box>
       </Box>

@@ -7,9 +7,9 @@ const ActiveKarigar = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:'6'}}>
+    <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-    <Box sx={{marginLeft:'25px',marginTop:'20px'}}><Activebreadcrumbs/></Box>  
+    <Box marginLeft={4}><Activebreadcrumbs/></Box>  
      <Datatable/>
         </Box>
       </Box>

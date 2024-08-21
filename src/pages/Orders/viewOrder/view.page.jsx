@@ -33,7 +33,7 @@ const OrderView = () => {
   return (
 <Box className='list' style={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer">
       <Navbar/>
      <Box marginTop={1} marginLeft={2.5}><ViewCrumb/></Box> 
      {loading?<CircularProgress/>:(

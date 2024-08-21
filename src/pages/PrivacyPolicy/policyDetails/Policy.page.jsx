@@ -7,9 +7,9 @@ const Policy = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:'6'}}>
+    <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-      <Box marginTop={1} marginLeft={2.5}><PolicyCrumb/></Box>
+      <Box marginLeft={4}><PolicyCrumb/></Box>
      <Datatable/>
         </Box>
       </Box>

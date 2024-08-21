@@ -3,77 +3,78 @@ import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
 import { useState,useEffect } from 'react';
-import { useAddGaugesize } from '../../../../Services/fetchApi/fetchVariantDetails/mutationGaugesize.api';
+import { useUpdatepurity,usePurityById } from '../../../../Services/fetchApi/fetchVariantDetails/mutationPurity.api';
 import { useParams } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import NewCrumb from './newbreadcrubs.page'
-import {CircularProgress} from '@mui/material';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import UpdateBreadcrub from './updatebreadcrubs.page'
+import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
 
-const Add = () => {
 
-  const{mutateAsync:addMutateGaugesize} = useAddGaugesize();
-  const[gaugesize,setGaugesize] = useState('')
+  const Update = () => {
+
+  //State Management
+
   const { id } = useParams();
+  const {data} = usePurityById(id)
+  const{mutateAsync:updateMutatePurity} = useUpdatepurity();
+  const[purity,setPurity] = useState('')
   const[isloading,setLoading] = useState(true)
   
-useEffect(() => {
-
+  
+  // Fetch Purity
+  useEffect(() => {
+  if(data){
+    setPurity(data.purity)
+   }
 setTimeout(() => {
   setLoading(false)
 }, 1000);
-}, [])
+}, [data])
 
 
-
+//Update submit
   const handleSubmit = async(e) => {
         e.preventDefault();
-       await addMutateGaugesize({id,gaugesize});
+       await updateMutatePurity({id,purity});
   };
 
   return (
-    // sidebar
-    <Box className='new' style={{ display: 'flex' }}>
-      <Sidebar />
-      {/* Navbar */}
-      <Box className="newContainer" style={{ flex: '6' }}>
-        <Navbar />
-        {/* BreadCrumbs */}
-       <Box marginTop={2} marginLeft={3}> <NewCrumb/> </Box>
-        {/* Body */}
-
-        {isloading ?<Box display="flex" justifyContent="center" alignItems="center" height="80vh"> <CircularProgress/> </Box> : (
-        <Container sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
+    <Box className='new' >
+       <Box marginTop={1} marginLeft={2.5}><UpdateBreadcrub/></Box>
+   {isloading ? <Circularprogress/>:(
+       <Container> 
+        <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>
         <form method='post' onSubmit={handleSubmit}>
           <Paper style={{display:'flex',backgroundColor:'white', flexDirection:'column',border:'2px,3px solid',alignItems:'center',marginTop:'50%',width:'300px',height:'80%'}}>
           <Box className="formInput" style={{ display: 'flex' ,flexDirection: 'column', gap: '10px' }}>
             
             <TextField
-              label="Add Gaugesize"
+              label="Update Purity"
               required
               autoFocus
               variant="outlined"
-              value={gaugesize}
+              value={purity}
               
-              name="Gaugesize Name"
+              name="ColorName"
               sx={{width:'200px',marginTop:'30%',size:'small',border:'5px 2px solid'}}
-              onChange={(e)=>setGaugesize(e.target.value)}
+              onChange={(e)=>setPurity(e.target.value)}
             />
             
           </Box>
-          <Button type='submit' variant='contained' size='small' color='primary' endIcon={<AddIcon/>}
+          <Button type='submit' variant='contained' size='small' color='primary' endIcon={<UpgradeIcon/>}
             sx={{
               marginTop: '30px', width: '150px', padding: '10px', border: 'none',
                cursor: 'pointer', alignItems: 'center',
             }}>
-            Add GaugeSize
+            Update Purity
           </Button>
           </Paper>
         </form>
+        </Box>
         </Container>
         )}
        </Box>
-    </Box>
   );
 }
 
-export default Add;
+export default Update;

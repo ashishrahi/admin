@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '../../../Components/Circularprogress/circularprogress';
 import Skeleton from '@mui/material/Skeleton';
 import {useKarigar,useStatusMutationKarigar} from '../../../Services/fetchApi/fetchKarigar/mutationKarigar.api'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';

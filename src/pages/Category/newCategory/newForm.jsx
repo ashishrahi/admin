@@ -1,6 +1,3 @@
-import Sidebar from '../../../Components/Sidebar/Sidebar'
-import Navbar from '../../../Components/Navbar/Navbar'
-import Categorybreadcrubs from './updatebreadcrubs.page'
 import Circularprogress from '../../../Components/Circularprogress/circularprogress';
 import { useEffect,useState } from 'react';
 import { useFormik } from 'formik';
@@ -81,17 +78,12 @@ useEffect(() => {
   };
 
   return (
-    <Box className='list' sx={{display:'flex'}}>
-    <Sidebar />
-    <Box className="listContainer" sx={{flex:'6'}}>
-      <Navbar/>
-    <Box sx={{marginLeft:'20px',marginTop:'10px'}}><Categorybreadcrubs/></Box>
+    <Box className='list'>
 
     {isloading ? <Circularprogress/>:   
 
     <Container>
 
-   <Typography variant='h4' sx={{textAlign:'center'}}>Update Category</Typography>
 
     <Card
       sx={{
@@ -101,9 +93,10 @@ useEffect(() => {
         p: 3,
         border: '1px solid #ccc',
         borderRadius: 2,
-        boxShadow:'initial'
+        boxShadow:3
       }}
     >
+   <Typography variant='h5' sx={{textAlign:'center'}}>Add Category</Typography>
     
 
       <form onSubmit={formik.handleSubmit}>
@@ -168,7 +161,6 @@ useEffect(() => {
     </Card>
     </Container>
 }
-    </Box>
     </Box>
 
   );

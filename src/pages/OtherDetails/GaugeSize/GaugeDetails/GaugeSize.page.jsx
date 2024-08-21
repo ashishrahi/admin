@@ -7,7 +7,7 @@ const GaugeSize = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:6}}>
+    <Box className="listContainer">
       <Navbar/>
      <Box className='breadcrumb' marginLeft={3} marginTop={2}><Gaugesizecrumb/></Box> 
      <Datatable/>

@@ -1,49 +1,40 @@
-// src/DetailsPage.js
-
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../../Components/Navbar/Navbar';
-import Sidebar from '../../../Components/Sidebar/Sidebar';
-import { Container, Typography, Box, CircularProgress } from '@mui/material';
+import  { useEffect, useState } from 'react';
+import { Container, Typography, Box, } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import Viewcrumb from './viewbreadcrubs.page'
 import {Paper} from '@mui/material';
-import {usePolicyById} from '../../../Services/fetchApi/fetchPrivacyPolicy/mutationPrivacypolicy.api'
+import {useAboutById} from '../../../Services/fetchApi/fetchAbout/mutationAbout.api'
 import { Link } from 'react-router-dom';
 import {Button} from '@mui/material';
 import AdsClickIcon from '@mui/icons-material/AdsClick';
+import Circularprogress from '../../../Components/Circularprogress/circularprogress';
 
 const DetailsPage = () => {
   
+  //State Mangement
   const {id} = useParams()
-  const {data} = usePolicyById(id)
+  const {data} = useAboutById(id)
   const [isloading, setLoading] = useState(true);
   const [details, setDetails] = useState({ title: '', description: '' });
 
+  // Fetching Data
   useEffect(() => {
+
    if(data){
      setDetails({title: data.title, description: data.description });
-   }
-  setTimeout(() => {
-  setLoading(false);
-}, 1000);
-  
-  }, [data]);
+     setTimeout(() => {
+     setLoading(false);
+    }, 2000);
+   }}, [data]);
 
   
 
   return (
-      <Box className='list' style={{display:'flex'}}>
-      <Sidebar />
-      <Box className="listContainer" style={{flex:'6'}}>
-      <Navbar/>
+      <Box className='list' >
 
-      <Box marginTop={1} marginLeft={2.5}><Viewcrumb/></Box>
-      {isloading?<Box display="flex" justifyContent="center" alignItems="center" height="80vh">
-        <CircularProgress />
-      </Box>:(  
-            <Container maxWidth="md" sx={{marginTop:'5%'}}>
+      {isloading ? <Circularprogress/> :(
+      <Container maxWidth="md" sx={{marginTop:'5%'}}>
       <Paper my={4} sx={{width:'900px',height:'800px'}}>
-       <Link to={`/Privacy-Policy/${id}/update`}>
+       <Link to={`/About/${id}/update`}>
        <Button color='error' endIcon={<AdsClickIcon/>}>
        Update</Button></Link>
       <Typography variant="h4" component="h1" gutterBottom sx={{textAlign:'center'}}>
@@ -55,8 +46,6 @@ const DetailsPage = () => {
       </Paper>
     </Container>
     )}
-
-    </Box>
     </Box>
   );
 };

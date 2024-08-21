@@ -8,9 +8,9 @@ const Users = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:'6'}}>
-      <Navbar/>
-     <Box sx={{marginLeft:'20px',marginTop:'20px'}}><UserBreadcrubs/></Box>
+    <Box className="listContainer" sx={{flex:4}}>
+      <Navbar />
+     <Box marginLeft={4}><UserBreadcrubs/></Box>
      <Datatable/>
         </Box>
       </Box>

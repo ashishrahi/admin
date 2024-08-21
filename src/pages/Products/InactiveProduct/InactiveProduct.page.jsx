@@ -7,9 +7,9 @@ const InactiveCategory = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" sx={{flex:'6'}}>
+    <Box className="listContainer" sx={{flex:4}} >
       <Navbar/>
-     <Box sx={{marginLeft:'20px',marginTop:'15px'}}><Inactivebreadcrubs/></Box>
+     <Box marginLeft={4}><Inactivebreadcrubs/></Box>
      <Datatable/>
         </Box>
       </Box>

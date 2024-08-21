@@ -99,10 +99,7 @@ const VenderForm = () => {
 
 
   return (
-    <Box className='list' style={{ display: 'flex' }}>
-      <Sidebar />
-      <Box className="listContainer" style={{ flex: 6 }}>
-        <Navbar />
+    <Box className='list' >
         <Box marginTop={1} marginLeft={2.5}><UpdateCrumb/></Box>
         {isLoading ? <CircularProgress /> : (
           <Container sx={{ marginTop: '20px' }}>
@@ -274,7 +271,6 @@ const VenderForm = () => {
           </Container>
         )}
       </Box>
-    </Box>
   );
 };
 

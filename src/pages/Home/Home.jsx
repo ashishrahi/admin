@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <Box className='home' sx={{display:'flex'}}>
      <Sidebar/>
-    <Box className="homeContainer" sx={{flex:7}}>
+    <Box className="homeContainer">
      <Navbar/>
      <Box className="widgets" sx={{display:'flex',padding:'20px',gap:'20px'}}>
      <Widgets type="user"/>

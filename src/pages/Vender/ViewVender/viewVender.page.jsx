@@ -42,10 +42,7 @@ const VenderDetails = () => {
   }
 
   return (
-    <Box className='list' sx={{ display: 'flex' }}>
-      <Sidebar />
-      <Box className="listContainer" sx={{ flex: '6' }}>
-        <Navbar />
+    <Box className='list' >
         <Box marginTop={1} marginLeft={2.5}> <ViewCrud /> </Box>
 
         {isLoading ? (
@@ -93,7 +90,6 @@ const VenderDetails = () => {
           </Container>
         )}
       </Box>
-    </Box>
   );
 };
 

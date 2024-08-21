@@ -5,9 +5,9 @@ import BasicBreadcrumbs from './breadcrubs.page'
 import { Box } from '@mui/material'
 const Weight = () => {
   return (
-    <Box className='list' style={{display:'flex'}}>
+    <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer" >
       <Navbar/>
      <Box className='breadcrubs' marginTop={1} marginLeft={2.5}><BasicBreadcrumbs/></Box>
 

@@ -4,9 +4,9 @@ import Datatable from './Datatable.page'
 import { Box } from '@mui/material'
 const Vender = () => {
   return (
-    <Box className='list' style={{display:'flex'}}>
+    <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer" >
       <Navbar/>
      <Datatable/>
         </Box>

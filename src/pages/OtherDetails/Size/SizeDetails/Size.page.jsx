@@ -5,9 +5,9 @@ import { Box } from '@mui/material'
 import SizeBreadcrumb from './sizebreadcrubs.page'
 const Gender = () => {
   return (
-    <Box className='list' style={{display:'flex'}}>
+    <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" style={{flex:'6'}}>
+    <Box className="listContainer">
       <Navbar/>
       <Box marginTop={1} marginLeft={2.5}><SizeBreadcrumb/></Box>
      <Datatable/>

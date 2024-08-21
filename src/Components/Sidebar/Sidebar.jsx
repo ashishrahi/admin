@@ -5,37 +5,51 @@ import {
   ListItemText,
   Collapse,
   ListSubheader,
-  Divider,
   Box,
   Button,
-  Card,
   Typography,
-} from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+  Card,
+  IconButton,
+} from "@mui/material";
+import { ExpandLess, ExpandMore, Lock, LockOpen } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   ViewCarousel as ViewCarouselIcon,
-  Work as WorkIcon,
-  AttachMoney as AttachMoneyIcon,
-  Description as DescriptionIcon,
-  AdminPanelSettings as AdminPanelSettingsIcon,
   People as PeopleIcon,
   ArrowRightOutlined as ArrowRightOutlinedIcon,
   CategoryOutlined as CategoryOutlinedIcon,
   LocalMall as LocalMallIcon,
   Engineering as EngineeringIcon,
-  Person as PersonIcon,
   Details as DetailsIcon,
   Policy as PolicyIcon,
-  AdminPanelSettingsOutlined as AdminPanelSettingsOutlinedIcon,
   InfoOutlined as InfoOutlinedIcon,
   Menu as MenuIcon,
-} from '@mui/icons-material';
+  AdminPanelSettings as AdminPanelSettingsIcon,
+} from "@mui/icons-material";
 
 const Sidebar = () => {
   const [open, setOpen] = useState({});
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(() => {
+    // Load initial state from localStorage
+    const savedDrawerState = localStorage.getItem("drawerOpen");
+    return savedDrawerState === "true";
+  });
+  const [lockSidebar, setLockSidebar] = useState(() => {
+    // Load initial lock state from localStorage
+    const savedLockState = localStorage.getItem("lockSidebar");
+    return savedLockState === "true";
+  });
+
+  useEffect(() => {
+    // Save drawerOpen state to localStorage whenever it changes
+    localStorage.setItem("drawerOpen", drawerOpen);
+  }, [drawerOpen]);
+
+  useEffect(() => {
+    // Save lockSidebar state to localStorage whenever it changes
+    localStorage.setItem("lockSidebar", lockSidebar);
+  }, [lockSidebar]);
 
   const handleClick = (category) => {
     setOpen((prevOpen) => ({
@@ -45,114 +59,97 @@ const Sidebar = () => {
   };
 
   const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
+    if (!lockSidebar) {
+      setDrawerOpen((prev) => !prev);
+    }
   };
 
-  const iconColor = 'grey';
+  const toggleLock = () => {
+    setLockSidebar((prevLock) => !prevLock);
+    if (!drawerOpen && !lockSidebar) {
+      setDrawerOpen(true); // Ensure drawer is open when locked
+    }
+  };
+
+  const iconColor = "grey";
+
   const sidebarCategories = [
     {
-      category: 'Admin',
+      category: "Admin",
       items: [
         {
-          subcategoryname: 'Admin',
-          subjectnames: ['admin'],
+          subcategoryname: "Admin",
+          subjectnames: ["admin"],
           icon: <AdminPanelSettingsIcon sx={{ color: iconColor }} />,
         },
       ],
     },
     {
-      category: 'Users',
+      category: "Users",
       items: [
         {
-          subcategoryname: 'Users',
-          subjectnames: ['User-List', 'Active-User', 'Inactive-User'],
+          subcategoryname: "Users",
+          subjectnames: ["User-List", "Active-User", "Inactive-User"],
           icon: <PeopleIcon sx={{ color: iconColor }} />,
         },
       ],
     },
     {
-      category: 'Producers',
+      category: "Producers",
       items: [
-       
         {
-          subcategoryname: 'Venders',
-          subjectnames: ['Vender-List'],
-          icon: <PersonIcon sx={{ color: iconColor }} />,
-        },
-        {
-          subcategoryname: 'Karigars',
-          subjectnames: ['Karigar-List', 'Active-Karigar', 'Inactive-Karigar'],
+          subcategoryname: "Karigars",
+          subjectnames: ["Karigar-List", "Active-Karigar", "Inactive-Karigar"],
           icon: <EngineeringIcon sx={{ color: iconColor }} />,
         },
       ],
     },
     {
-      category: 'Products',
+      category: "Products",
       items: [
         {
-          subcategoryname: 'Categories',
-          subjectnames: ['Category-List', 'Active-Category', 'Inactive-Category'],
+          subcategoryname: "Categories",
+          subjectnames: ["Category-List", "Active-Category", "Inactive-Category"],
           icon: <CategoryOutlinedIcon sx={{ color: iconColor }} />,
         },
         {
-          subcategoryname: 'Variations',
-          subjectnames: [
-            'Gender',
-            'Purity',
-            'Color',
-            'Dandi',
-            'Kunda',
-            'Size',
-            'GaugeSize',
-            'Weight',
-            'Latkan',
-          ],
-          icon: <DescriptionIcon sx={{ color: iconColor }} />,
+          subcategoryname: "VariantDetails",
+          subjectnames: ["Gender", "Purity", "Color",'Dandi','Kunda','Size','GaugeSize','Weight'],
+          icon: <CategoryOutlinedIcon sx={{ color: iconColor }} />,
         },
         {
-          subcategoryname: 'Products',
-          subjectnames: ['Product-List'],
+          subcategoryname: "Products",
+          subjectnames: ["Product-List"],
           icon: <DetailsIcon sx={{ color: iconColor }} />,
         },
       ],
     },
     {
-      category: 'Payments',
+      category: "Orders",
       items: [
         {
-          subcategoryname: 'Payment',
-          subjectnames: ['Payment-List'],
-          icon: <AttachMoneyIcon sx={{ color: iconColor }} />,
-        },
-      ],
-    },
-    {
-      category: 'Orders',
-      items: [
-        {
-          subcategoryname: 'Order',
-          subjectnames: ['Order-List'],
+          subcategoryname: "Order",
+          subjectnames: ["Order-List"],
           icon: <LocalMallIcon sx={{ color: iconColor }} />,
         },
       ],
     },
     {
-      category: 'Other Details',
+      category: "Other Details",
       items: [
         {
-          subcategoryname: 'About',
-          subjectnames: ['About'],
+          subcategoryname: "About",
+          subjectnames: ["About"],
           icon: <InfoOutlinedIcon sx={{ color: iconColor }} />,
         },
         {
-          subcategoryname: 'Home Banner',
-          subjectnames: ['Home-Banner'],
+          subcategoryname: "Home Banner",
+          subjectnames: ["Home-Banner"],
           icon: <ViewCarouselIcon sx={{ color: iconColor }} />,
         },
-        
         {
-          subcategoryname: 'Privacy Policy',
-          subjectnames: ['Privacy-Policy'],
+          subcategoryname: "Privacy Policy",
+          subjectnames: ["Privacy-Policy"],
           icon: <PolicyIcon sx={{ color: iconColor }} />,
         },
       ],
@@ -160,99 +157,81 @@ const Sidebar = () => {
   ];
 
   const DrawerList = (
-    
-    <List
-      subheader={
-        <ListSubheader
-          component="div"
-          id="nested-list-subheader"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1px',
-            fontWeight: 'bold',
-            fontSize: '30px',
-          }}
-        >
-          
-        </ListSubheader>
-      }
-    ><Card>
-      {sidebarCategories.map((category, index) => (
-        <Box key={index} sx={{ display: 'flex', flexDirection: 'column', gap: '.5px' }}>
-          <ListSubheader component="div">
-            <span style={{ fontWeight: 'bold' }}>{category.category}</span>
-          </ListSubheader>
-          {category.items.map((subject, subIndex) => (
-            <Box key={subIndex} sx={{ display: 'flex', flexDirection: 'column', gap: '.005px', fontSize: '15px' }}>
-              <ListItem
-                sx={{ gap: '5px' }}
-                button
-                onClick={() => handleClick(subject.subcategoryname)}
-                aria-controls={`${subject.subcategoryname}-list`}
-                aria-expanded={open[subject.subcategoryname]}
-              >
-                {subject.icon}
-                <ListItemText primary={subject.subcategoryname} />
-                {open[subject.subcategoryname] ? (
-                  <ExpandLess  />
-                ) : (
-                  <ExpandMore  />
-                )}
-              </ListItem>
-              <Collapse in={open[subject.subcategoryname]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding id={`${subject.subcategoryname}-list`}>
-                  {subject.subjectnames.map((subjectname, subSubIndex) => (
-                    <ListItem
-                      key={subSubIndex}
-                      button
-                      sx={{ pl: 1 }}
-                      component={Link}
-                      to={`/${subjectname.replace(/\s+/g, '-')}`}
-                    >
-                      <ArrowRightOutlinedIcon style={{ color: 'black' }} />
-                      <ListItemText primary={subjectname} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-              {/* {subIndex < category.items.length - 1 && <Divider  />} */}
-            </Box>
-          ))}
-        </Box>
-      ))} </Card>
+    <List>
+      <Card sx={{ p: 1 }}>
+        {sidebarCategories.map((category, index) => (
+          <Box key={index} sx={{ mb: 2 }}>
+            <ListSubheader component="div" sx={{ fontWeight: "bold" }}>
+              {category.category}
+            </ListSubheader>
+            {category.items.map((subject, subIndex) => (
+              <Box key={subIndex}>
+                <ListItem button onClick={() => handleClick(subject.subcategoryname)}>
+                  {subject.icon}
+                  <ListItemText primary={subject.subcategoryname} />
+                  {open[subject.subcategoryname] ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={open[subject.subcategoryname]} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {subject.subjectnames.map((subjectname, subSubIndex) => (
+                      <ListItem
+                        key={subSubIndex}
+                        button
+                        component={Link}
+                        to={`/${subjectname.replace(/\s+/g, "-")}`}
+                        sx={{ pl: 4 }}
+                        onClick={() => {
+                          if (!lockSidebar) {
+                            setDrawerOpen(false);
+                          }
+                        }}
+                      >
+                        <ArrowRightOutlinedIcon sx={{ color: "black" }} />
+                        <ListItemText primary={subjectname} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              </Box>
+            ))}
+          </Box>
+        ))}
+      </Card>
     </List>
-   
   );
 
   return (
     <Box>
-      <Box sx={{display:'flex',flexDirection:'row',gap:'3px'}}>
-          <Button onClick={toggleDrawer}>
-            <MenuIcon />
-          </Button>
-            <Typography variant='h6' sx={{marginTop:'7px',color:'black',fontWeight:'bold'}}>Admin</Typography>
-            </Box>
-    <Drawer
-      variant="permanent"
-      open={drawerOpen}
-      sx={{
-        width: 240,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: '16%',
-          boxSizing: 'border-box',
-          color: 'grey',
-          height: '82%',
-          marginTop:'2%',
-          marginRight:'20%',
-          overflowX: 'hidden',
-          
-        },
-      }}
-    >
-      {DrawerList}
-    </Drawer>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Button onClick={toggleDrawer}>
+          <MenuIcon />
+        </Button>
+        <Typography variant="h6" sx={{ color: "black", fontWeight: "bold" }}>
+          Admin
+        </Typography>
+        <IconButton onClick={toggleLock}>
+          {lockSidebar ? <Lock /> : <LockOpen />}
+        </IconButton>
+      </Box>
+      <Drawer
+        variant={lockSidebar ? "permanent" : "persistent"}
+        open={drawerOpen || lockSidebar}
+        sx={{
+          width: lockSidebar || drawerOpen ? 240 : 0,
+          transition: "width 0.3s",
+          "& .MuiDrawer-paper": {
+            width: lockSidebar || drawerOpen ? "16%" : 0,
+            boxSizing: "border-box",
+            color: "grey",
+            height: "82%",
+            mt: 2,
+            overflowX: "hidden",
+            marginTop: "40px",
+          },
+        }}
+      >
+        {DrawerList}
+      </Drawer>
     </Box>
   );
 };
