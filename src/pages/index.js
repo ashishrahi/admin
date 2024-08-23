@@ -6,7 +6,7 @@ import Sidebar from "../Components/Sidebar/Sidebar.jsx"
 import Users from '../pages/Users/UserDetails/Users'
 import ActiveUser from '../pages/Users/ActiveUser/ActiveUser.page'
 import InactiveUser from "./Users/InActiveUser/InactiveUser.page";
-import ViewUser from './Users/ViewUser/viewUser.page'
+import ViewUser from './Users/ViewUser/viewUser.page.jsx'
 // Category
 import Category from '../pages/Category/CategoryDetails/CategoryDetails.page.jsx'
 import ActiveCategory from '../pages/Category/ActiveCategory/ActiveCategory.page'
