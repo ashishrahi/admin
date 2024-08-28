@@ -1,12 +1,9 @@
-import Navbar from '../../../../Components/Navbar/Navbar'
-import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
 import { useState } from 'react';
 import { useAddsize } from '../../../../Services/fetchApi/fetchVariantDetails/mutationSize.api';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import NewBreadcrub from './newbreadcrubs.page'
 import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
 import { useEffect } from 'react';
 
@@ -31,7 +28,6 @@ useEffect(() => {
 
   return (
     <Box className='new' >
-       <Box marginTop={1} marginLeft={2.5}><NewBreadcrub/></Box> 
       {isloading ? <Circularprogress/> :(
        <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>

@@ -4,7 +4,6 @@ import { useState,useEffect } from 'react';
 import { useUpdateWeight,useWeightById } from '../../../../Services/fetchApi/fetchVariantDetails/mutationWeight.api';
 import { useParams } from 'react-router-dom';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
-import UpdateCrumb from './updatebreadcrubs.page'
 import CircularProgress from '../../../../Components/Circularprogress/circularprogress';
 
 
@@ -40,7 +39,6 @@ const Update = () => {
 
   return (
     <Box className='new' >
-       <Box marginTop={1} marginLeft={2.5}><UpdateCrumb /></Box> 
        {isloading ? <CircularProgress/> :(
        <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>

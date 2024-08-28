@@ -3,7 +3,6 @@ import {Button,Box} from '@mui/material';
 import { useState,useEffect } from 'react';
 import {useAddWeight} from '../../../../Services/fetchApi/fetchVariantDetails/mutationWeight.api'
 import AddIcon from '@mui/icons-material/Add';
-import Newweightcrud from './weightbreadcrubs.page'
 import Circularprogress from '../../../../Components/Circularprogress/circularprogress';
 
 const Add = () => {
@@ -28,7 +27,6 @@ setTimeout(() => {
 
   return (
     <Box className='new' >
-        <Box marginTop={1} marginLeft={2.5}><Newweightcrud/></Box>
      {isloading ? <Circularprogress/> :(
      <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>

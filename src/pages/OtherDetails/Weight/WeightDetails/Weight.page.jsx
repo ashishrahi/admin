@@ -7,9 +7,9 @@ const Weight = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" >
+    <Box className="listContainer" sx={{flex:4}} >
       <Navbar/>
-     <Box className='breadcrubs' marginTop={1} marginLeft={2.5}><BasicBreadcrumbs/></Box>
+     <Box className='breadcrubs' marginLeft={4}><BasicBreadcrumbs/></Box>
 
      <Datatable/>
 

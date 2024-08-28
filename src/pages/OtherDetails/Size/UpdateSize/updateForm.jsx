@@ -38,7 +38,6 @@ useEffect(() => {
 
   return (
     <Box className='new' >
-        <Box marginLeft={2.5} marginTop={1}><UpdateBreadCrumb/></Box>
         {isloading ? <Circularprogress/> :(
         <Container>
         <Box sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>

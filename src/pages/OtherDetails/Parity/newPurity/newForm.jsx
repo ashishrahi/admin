@@ -9,7 +9,7 @@ const Kunda = () => {
     <Sidebar />
     <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-     <Box className='breadcrubs' marginTop={1} marginLeft={2.5}><Kundacrumb/></Box> 
+     <Box className='breadcrubs' marginLeft={4}><Kundacrumb/></Box> 
      <NewPurity/>
         </Box>
       </Box>
