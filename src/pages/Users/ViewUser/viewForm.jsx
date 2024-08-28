@@ -8,7 +8,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import HomeIcon from '@mui/icons-material/Home';
 import Circularprogress from '../../../Components/Circularprogress/circularprogress';
 import {useUserbyId} from '../../../Services/fetchApi/fetchUsers/mutationUsers.api'
-const UserDetail = () => {
+const ViewUser = () => {
   const { id } = useParams(); // Assumes you're using React Router for routing
   const{data} = useUserbyId(id)
   const [user, setUser] = useState();
@@ -64,4 +64,4 @@ const UserDetail = () => {
   );
 };
 
-export default UserDetail;
+export default ViewUser;
