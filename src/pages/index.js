@@ -5,8 +5,8 @@ import Sidebar from "../Components/Sidebar/Sidebar.jsx"
 // Users
 import Users from '../pages/Users/UserDetails/Users'
 import ActiveUser from '../pages/Users/ActiveUser/ActiveUser.page'
-import InactiveUser from "./Users/InActiveUser/InactiveUser.page";
-import ViewUser from './Users/ViewUser/viewUser.page.jsx'
+import InactiveUser from "../pages/Users/InActiveUser/InactiveUser.page.jsx";
+import ViewUser from '../pages/Users/ViewUser/viewForm.jsx'
 // Category
 import Category from '../pages/Category/CategoryDetails/CategoryDetails.page.jsx'
 import ActiveCategory from '../pages/Category/ActiveCategory/ActiveCategory.page'
