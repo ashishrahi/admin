@@ -1,12 +1,9 @@
-import Navbar from '../../../../Components/Navbar/Navbar'
-import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
 import { useState,useEffect } from 'react';
 import { useAddGenderMutation } from '../../../../Services/fetchApi/fetchVariantDetails/mutationGender.api';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import Newgenderbreadscrumb from './newbreadcrubs.page'
 import CircularProgress from '../../../../Components/Circularprogress/circularprogress';
 
 const Add = () => {
