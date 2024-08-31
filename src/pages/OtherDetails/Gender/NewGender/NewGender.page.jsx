@@ -3,7 +3,7 @@ import Navbar from '../../../../Components/Navbar/Navbar'
 import NewForm from './newForm'
 import { Box } from '@mui/material'
 import Genderbreadcrumb from './newbreadcrubs.page'
-const Gender = () => {
+const NewGender = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
@@ -16,4 +16,4 @@ const Gender = () => {
   )
 }
 
-export default Gender
+export default NewGender
