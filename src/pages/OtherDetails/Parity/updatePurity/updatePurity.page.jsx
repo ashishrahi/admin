@@ -7,9 +7,9 @@ const Purity = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" >
+    <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-      <Box marginTop={1} marginLeft={2.5}><PurityCrumb/></Box>
+      <Box marginLeft={4}><PurityCrumb/></Box>
      <UpdateForm/>
         </Box>
       </Box>

@@ -117,11 +117,11 @@ const Sidebar = () => {
           subjectnames: ["Gender", "Purity", "Color",'Dandi','Kunda','Size','GaugeSize','Weight'],
           icon: <CategoryOutlinedIcon sx={{ color: iconColor }} />,
         },
-        {
-          subcategoryname: "Products",
-          subjectnames: ["Product-List"],
-          icon: <DetailsIcon sx={{ color: iconColor }} />,
-        },
+        // {
+        //   subcategoryname: "Products",
+        //   subjectnames: ["Product-List"],
+        //   icon: <DetailsIcon sx={{ color: iconColor }} />,
+        // },
       ],
     },
     {

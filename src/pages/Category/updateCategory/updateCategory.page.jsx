@@ -2,7 +2,7 @@ import{Navbar,Sidebar} from '../../../pages/index'
 import UpdateForm from './updateForm'
 import Updatebreadcrubs from './updatebreadcrubs.page'
 import { Box } from '@mui/material'
-const ActiveCategory = () => {
+const UpdateCategory = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
@@ -15,4 +15,4 @@ const ActiveCategory = () => {
   )
 }
 
-export default ActiveCategory
+export default UpdateCategory

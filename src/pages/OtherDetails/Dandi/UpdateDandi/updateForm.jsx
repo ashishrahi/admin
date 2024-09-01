@@ -1,12 +1,9 @@
-import Navbar from '../../../../Components/Navbar/Navbar'
-import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper, CircularProgress} from '@mui/material';
 import {Button,Box} from '@mui/material';
 import { useState,useEffect } from 'react';
 import { useUpdatedandi,useDandiById} from '../../../../Services/fetchApi/fetchVariantDetails/mutationDandi.api';
 import { useParams } from 'react-router-dom';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
-import ColorBread from './updatebreadcrubs.page'
 
 
 const Update = () => {
@@ -37,7 +34,6 @@ const handleSubmit = async(e) => {
 
   return (
     <Box className='new' >
-        <Box marginLeft={2.5} marginTop={1}><ColorBread/></Box>
         {isloading ?<Box display="flex" justifyContent="center" alignItems="center" height="80vh">
           <CircularProgress/>
           </Box>:(

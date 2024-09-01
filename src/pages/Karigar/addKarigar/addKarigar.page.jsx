@@ -2,7 +2,7 @@ import Sidebar from '../../../Components/Sidebar/Sidebar'
 import Navbar from '../../../Components/Navbar/Navbar'
 import AddForm from './addForm'
 import { Box } from '@mui/material'
-import Addbreadcrubs from './addbreadcrubs.page'
+import breadcrubs from './addbreadcrubs.page'
 
 const AddKarigar = () => {
   return (
@@ -10,7 +10,7 @@ const AddKarigar = () => {
     <Sidebar />
     <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-     <Box marginLeft={4}><Addbreadcrubs/></Box> 
+     <Box marginLeft={4}><breadcrubs/></Box> 
      <AddForm/>
         </Box>
       </Box>

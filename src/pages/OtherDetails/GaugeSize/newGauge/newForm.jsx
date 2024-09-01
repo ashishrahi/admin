@@ -1,5 +1,3 @@
-import Navbar from '../../../../Components/Navbar/Navbar'
-import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper} from '@mui/material';
 import {Button,Box} from '@mui/material';
 import { useState,useEffect } from 'react';
@@ -33,10 +31,6 @@ setTimeout(() => {
   return (
     // sidebar
     <Box className='new' >
-      {/* Navbar */}
-        {/* BreadCrumbs */}
-       <Box marginTop={2} marginLeft={3}> <NewCrumb/> </Box>
-        {/* Body */}
 
         {isloading ?<Box display="flex" justifyContent="center" alignItems="center" height="80vh"> <CircularProgress/> </Box> : (
         <Container sx={{display:'flex',flexDirection:'column',marginTop:'10px',marginLeft:'20%',width:'400px',height:'400px',alignItems:'center'}}>

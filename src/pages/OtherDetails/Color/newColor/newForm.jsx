@@ -54,7 +54,7 @@ const Add = () => {
               marginTop: '30px', width: '150px', padding: '10px', border: 'none',
                cursor: 'pointer', alignItems: 'center',
             }}>
-            Add Kunda
+            Add Color
           </Button>
           </Paper>
         </form>

@@ -1,5 +1,3 @@
-import Navbar from '../../../../Components/Navbar/Navbar'
-import Sidebar from '../../../../Components/Sidebar/Sidebar'
 import {TextField,Container, Paper, CircularProgress} from '@mui/material';
 import {Button,Box} from '@mui/material';
 import { useState,useEffect } from 'react';
@@ -31,7 +29,6 @@ const Add = () => {
 
   return (
     <Box className='new' >
-       <Box marginLeft={2.5} marginTop={1}><NewDandicrubm/></Box>
 
     {isloading ?<Box display="flex" justifyContent="center" alignItems="center" height="80vh"><CircularProgress/></Box> :(
        

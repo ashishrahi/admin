@@ -3,17 +3,17 @@ import Login from '../pages/Auth/Login/Login'
 import Navbar from "../Components/Navbar/Navbar.jsx"
 import Sidebar from "../Components/Sidebar/Sidebar.jsx"
 // Users
-import Users from '../pages/Users/UserDetails/Users'
+import Users from './Users/UserDetails/Users.page.jsx'
 import ActiveUser from '../pages/Users/ActiveUser/ActiveUser.page'
 import InactiveUser from "../pages/Users/InActiveUser/InactiveUser.page.jsx";
-import ViewUser from '../pages/Users/ViewUser/viewForm.jsx'
+import ViewUser from '../pages/Users/ViewUser/viewUser.page.jsx'
 // Category
 import Category from '../pages/Category/CategoryDetails/CategoryDetails.page.jsx'
 import ActiveCategory from '../pages/Category/ActiveCategory/ActiveCategory.page'
 import InActiveCategory from '../pages/Category/InactiveCategory/InactiveCategory.page'
 import NewCategory from '../pages/Category/newCategory/newCategory.page.jsx'
 import UpdateCategory from '../pages/Category/updateCategory/updateCategory.page.jsx'
-import ViewCategory from '../pages/Category/ViewCategory/viewCategory.page.jsx'
+import ViewCategory from '../pages/Category/ViewCategory/viewPage.jsx'
 //-------------------Gender
 import Gender from '../pages/OtherDetails/Gender/GenderDetails/Gender.page'
 import NewGender from '../pages/OtherDetails/Gender/NewGender/newGender.page.jsx'

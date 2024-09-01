@@ -23,7 +23,7 @@ const App = () => {
 
         {/* Auth Router */}
         <Route path="/">
-        <Route path='/' element={isAuthenticated?<Home/>:<Login/>}/>
+        <Route path='/admin' element={isAuthenticated?<Home/>:<Login/>}/>
         <Route path="login" element={<Login/>} />
 
           {/* User-List Router */}

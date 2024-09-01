@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: `http://localhost:5400/api`,
+  baseURL: `https://jewellery-api.vercel.app/api/`,
 });
 
 export default api;

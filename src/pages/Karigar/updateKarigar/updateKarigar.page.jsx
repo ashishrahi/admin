@@ -7,9 +7,9 @@ const ActiveCategory = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer" >
+    <Box className="listContainer" sx={{flex:4}} >
       <Navbar/>
-    <Box sx={{marginLeft:'20px',marginTop:'10px'}}>  <Updatebreadcrubs/></Box>
+    <Box marginLeft={4}>  <Updatebreadcrubs/></Box>
      <UpdateForm/>
         </Box>
       </Box>

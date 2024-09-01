@@ -6,7 +6,6 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import HomeIcon from '@mui/icons-material/Home';
 import { useKarigarById } from '../../../Services/fetchApi/fetchKarigar/mutationKarigar.api.jsx';
 import CircularProgress from '../../../Components/Circularprogress/circularprogress.jsx';
-import ViewCrud from './viewbreadcrubs.page.jsx'
 const KarigarDetail = () => {
   const { id } = useParams(); // Assumes you're using React Router for routing
   const { data } = useKarigarById(id);

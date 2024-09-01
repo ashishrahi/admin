@@ -7,9 +7,9 @@ const Kunda = () => {
   return (
     <Box className='list' sx={{display:'flex'}}>
     <Sidebar />
-    <Box className="listContainer">
+    <Box className="listContainer" sx={{flex:4}}>
       <Navbar/>
-     <Box className='breadcrubs' marginTop={1} marginLeft={2.5}><Updatecrumb/></Box> 
+     <Box className='breadcrubs' marginLeft={4}><Updatecrumb/></Box> 
      <UpdateForm/>
         </Box>
       </Box>

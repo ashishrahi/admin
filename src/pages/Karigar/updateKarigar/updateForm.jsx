@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { useFormik, FieldArray, FormikProvider } from 'formik';
-import Navbar from '../../../Components/Navbar/Navbar';
-import Sidebar from '../../../Components/Sidebar/Sidebar';
 import * as Yup from 'yup';
 import UpdateCrumb from './updatebreadcrubs.page';
 import CircularProgress from '../../../Components/Circularprogress/circularprogress';
@@ -100,7 +98,6 @@ const KarigarForm = () => {
 
   return (
     <Box className='list' >
-        <Box marginTop={1} marginLeft={2.5}><UpdateCrumb/></Box>
         {isLoading ? <CircularProgress /> : (
           <Container sx={{ marginTop: '20px' }}>
             <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
